@@ -1,4 +1,5 @@
 import random
+import time
 class TelaPartida():
     def le_num_inteiro(self, mensagem=" ", ints_validos = None):
         while True:
@@ -77,7 +78,7 @@ class TelaPartida():
     def adicionar_posicao(self, barco, oceano, barcos):
         
         print('bem vindo ao sistema de posicionamento de barcos')
-        print('você vai fazer o posicionamento de um(a) {} agora'.format(barco.nome))
+        print('você vai fazer o posicionamento de um(a) {} agora'.format(barco['_BS__nome']))
         print("  ")
 
         poretorna=False
@@ -87,21 +88,23 @@ class TelaPartida():
         while poretorna==False:
 
             contx=1
-            for y in range(len(oceano.oceano[0])):
+            for y in range(len(oceano[0])):
                 if y>8:
                     print("",y+1,end='')
                 else:
                     print("",y+1,end=' ')
             print("")
 
-            for ycolunas in range(len(oceano.oceano)):
-                for xlinhas in range(len(oceano.oceano[ycolunas])):
+            for ycolunas in range(len(oceano)):
+                time.sleep(0.005)
+                for xlinhas in range(len(oceano[ycolunas])):
+                    time.sleep(0.005)
                     tembarco=False
                     for barcoxy in barcos:
-                        for casas in range(len(barcoxy.posicoes)):
-                            if barcoxy.posicoes[casas]==[ycolunas,xlinhas, True]:
-                                    if barcoxy.estado==True:
-                                        print ('[{}]'.format(barcoxy.nome[0]),end='')
+                        for casas in range(len(barcoxy['_BS__posicoes'])):
+                            if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
+                                    if barcoxy['_BS__estado']==True:
+                                        print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')
                                         tembarco=True
 
                     if tembarco==False:               
@@ -115,7 +118,7 @@ class TelaPartida():
                 try:
                     valory,valorx = map(int, input("Digite onde quer botar linha e coluna: ").split())
                 
-                    if valory>(oceano.tamanhos[0]) or valorx>(oceano.tamanhos[1]):
+                    if valory>(len(oceano)) or valorx>(len(oceano[1])):
                         valory,valorx = map(int, input("Valores muito altos. Digite novamente onde quer botar linha e coluna: ").split())
                     else:
                         break
@@ -124,7 +127,7 @@ class TelaPartida():
                     
             while True:
                 for barcoxy in barcos:
-                    for posicao in barcoxy.posicoes:
+                    for posicao in barcoxy['_BS__posicoes']:
                         if posicao[0] == valory-1 and posicao[1] == valorx-1:
                             try:
                                 valory, valorx = map(int, input("Posição já colocada. Digite onde quer botar linha e coluna: ").split())
@@ -134,21 +137,23 @@ class TelaPartida():
                     break
                                        
             contx=1
-            for y in range(len(oceano.oceano[0])):
+            for y in range(len(oceano[0])):
                 if y+1==valorx:
                     print("",valorx,end='')
                 else:
                     print("  ",end=' ')
             print("")
 
-            for ycolunas in range(len(oceano.oceano)):
-                for xlinhas in range(len(oceano.oceano[ycolunas])):
+            for ycolunas in range(len(oceano)):
+                time.sleep(0.005)
+                for xlinhas in range(len(oceano[ycolunas])):
+                    time.sleep(0.005)
                     tembarco=False
                     for barcoxy in barcos:
-                        for casas in range(len(barcoxy.posicoes)):
-                            if barcoxy.posicoes[casas]==[ycolunas,xlinhas, True]:
-                                    if barcoxy.estado==True:
-                                        print ('[{}]'.format(barcoxy.nome[0]),end='')
+                        for casas in range(len(barcoxy['_BS__posicoes'])):
+                            if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
+                                    if barcoxy['_BS__estado']==True:
+                                        print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')
                                         tembarco = True
                    
                     if tembarco==False:               
@@ -181,13 +186,13 @@ class TelaPartida():
 
 
             print("  ")
-            valory,valorx = map(int, (random.randint(1, len(oceano.oceano)),(random.randint(1, len(oceano.oceano[0])))))
+            valory,valorx = map(int, (random.randint(1, len(oceano)),(random.randint(1, len(oceano[0])))))
             while True:
-                for b in barcos:
-                    for c in b.posicoes:
+                for barcoxy in barcos:
+                    for coor in barcoxy['_BS__posicoes']:
                         
-                        if c[0]==valory-1 and c[1]==valorx-1:
-                            valory,valorx = map(int, (random.randint(1, len(oceano.oceano)),(random.randint(1, len(oceano.oceano[0])))))
+                        if coor[0]==valory-1 and coor[1]==valorx-1:
+                            valory,valorx = map(int, (random.randint(1, len(oceano)),(random.randint(1, len(oceano[0])))))
                 else:
                     break
             poretorna=True
@@ -200,7 +205,7 @@ class TelaPartida():
         
         
         print('bem vindo a continuaçao sistema de posicionamento de barcos')
-        print('você vai continuar o posicionamento de um(a) {} agora'.format(barco.nome))
+        print('você vai continuar o posicionamento de um(a) {} agora'.format(barco['_BS__nome']))
         print("  ")
 
 
@@ -208,21 +213,21 @@ class TelaPartida():
         
         
         contx=1
-        for y in range(len(oceano.oceano[0])):
+        for y in range(len(oceano[0])):
             if y>8:
                 print("",y+1,end='')
             else:
                 print("",y+1,end=' ')
         print("")
         
-        for ycolunas in range(len(oceano.oceano)):
-            for xlinhas in range(len(oceano.oceano[y])):
+        for ycolunas in range(len(oceano)):
+            for xlinhas in range(len(oceano[y])):
                 tembarco=False
                 for barcoxy in barcos:
-                    for casas in range(len(barcoxy.posicoes)):
-                            if barcoxy.posicoes[casas]==[ycolunas,xlinhas, True]:
-                                if barcoxy.estado==True:
-                                    print ('[{}]'.format(barcoxy.nome[0]),end='')
+                    for casas in range(len(barcoxy['_BS__posicoes'])):
+                            if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
+                                if barcoxy['_BS__estado']==True:
+                                    print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')
                                     tembarco=True
 
                 if tembarco==False:               
@@ -238,57 +243,58 @@ class TelaPartida():
         direita=True
         esquerda=True
        
+        bs_tamanho = barco['_BS__tamanho']
 
-        if (posicao[0] - barco.tamanho)+1 < 0:
+        if (posicao[0] - bs_tamanho)+1 < 0:
             cima=False
 
         
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]-casas:
                             cima=False
         
         
 
-        if (posicao[0] + barco.tamanho) > len(oceano.oceano[0]):
+        if (posicao[0] + bs_tamanho) > len(oceano[0]):
             baixo=False
 
         
 
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:    
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]+casas:
                             baixo=False
         
       
 
-        if (posicao[1] - barco.tamanho)+1 < 0:
+        if (posicao[1] - bs_tamanho)+1 < 0:
             esquerda=False
 
        
 
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]-casas:
                             esquerda=False
         
    
 
-        if (posicao[1] + barco.tamanho) > len(oceano.oceano[0]):
+        if (posicao[1] + bs_tamanho) > len(oceano[0]):
             direita=False
 
        
 
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]+casas:
                             direita=False
 
@@ -308,22 +314,10 @@ class TelaPartida():
             print (" direita")
         print("")
         auxescolha = input("em qual das posicçoes voce deseja botas: ")
-        print(barco.nome)
-        for casas in range(barco.tamanho-1):
-            if auxescolha=="esquerda":
-                barco.posiciona((posicao[0], posicao[1]-(casas+1)))
-        
-        
-            if auxescolha=="direita":
-                barco.posiciona((posicao[0], posicao[1]+(casas+1)))
+        print(barco['_BS__nome'])
 
+        return auxescolha
         
-            if auxescolha=="cima":
-                barco.posiciona((posicao[0]-(casas+1), posicao[1]))
-        
-        
-            if auxescolha=="baixo":
-                barco.posiciona((posicao[0]+(casas+1), posicao[1]))
 
     def continuar_posicao_comp(self, barco, oceano, barcos, posicao):
         
@@ -333,57 +327,59 @@ class TelaPartida():
         baixo=True
         direita=True
         esquerda=True
+
+        bs_tamanho = barco['_BS__tamanho']
        
-        if (posicao[0] - barco.tamanho)+1 < 0:
+        if (posicao[0] - bs_tamanho)+1 < 0:
             cima=False
 
         
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]-casas:
                             cima=False
         
         
 
-        if (posicao[0] + barco.tamanho) > len(oceano.oceano[0]):
+        if (posicao[0] + bs_tamanho) > len(oceano[0]):
             baixo=False
 
         
 
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:    
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]+casas:
                             baixo=False
         
       
 
-        if (posicao[1] - barco.tamanho)+1 < 0:
+        if (posicao[1] - bs_tamanho)+1 < 0:
             esquerda=False
 
        
 
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]-casas:
                             esquerda=False
         
    
 
-        if (posicao[1] + barco.tamanho) > len(oceano.oceano[0]):
+        if (posicao[1] + bs_tamanho) > len(oceano[0]):
             direita=False
 
        
 
-        for casas in range (barco.tamanho):
+        for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
-                    for coor in barcoxy.posicoes:
+                    for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]+casas:
                             direita=False
 
@@ -405,21 +401,7 @@ class TelaPartida():
         auxrandom = random.randint(0,len(socorromeudeus)-1)
         auxescolha = socorromeudeus[auxrandom]
         
-        for casas in range(barco.tamanho-1):
-            if auxescolha=="esquerda":
-                barco.posiciona((posicao[0], posicao[1]-(casas+1)))
-        
-        
-            if auxescolha=="direita":
-                barco.posiciona((posicao[0], posicao[1]+(casas+1)))
-
-        
-            if auxescolha=="cima":
-                barco.posiciona((posicao[0]-(casas+1), posicao[1]))
-        
-        
-            if auxescolha=="baixo":
-                barco.posiciona((posicao[0]+(casas+1), posicao[1]))
+        return auxescolha
 
 
             

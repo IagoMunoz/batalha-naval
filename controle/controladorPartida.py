@@ -81,15 +81,17 @@ class ControladorPartida():
             auxoceanopar = self.__controlador_sistema.controlador_oceano.cria_oceano()
             lista_barcos = self.__controlador_sistema.controlador_barco_super.listar_barcos()
             lista_barcos_comp = self.__controlador_sistema.controlador_barco_super.listar_barcos()
-        
             partida = Partida(auxidpar, auxtimepar, jogador, auxcomppart, auxoceanopar, lista_barcos, lista_barcos_comp)
-
             self.__partidas.append(partida)
-            self.__controlador_sistema.controlador_barco_super.adicionar_posicao(partida.oceano, partida.lista_barcos)
-            self.__controlador_sistema.controlador_barco_super.adicionar_posicao_comp(partida.oceano , partida.lista_barcos_comp)
+            
+            auxoceanopar = auxoceanopar.oceano
+            
+            self.__controlador_sistema.controlador_barco_super.adicionar_posicao(auxoceanopar, lista_barcos)
+            self.__controlador_sistema.controlador_barco_super.adicionar_posicao_comp(auxoceanopar , lista_barcos_comp)
             for cheat in partida.lista_barcos_comp:
                 for poscheat in cheat.posicoes:
                     print (poscheat)
+                    
             self.partida_total(partida)
 
             jogador.add_partida(partida)

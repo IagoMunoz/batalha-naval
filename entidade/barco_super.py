@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from entidade.oceano import Oceano
 from controle.controladorSistema import *
 
-class BarcoSuper(ABC):
+class BS(ABC):
     @abstractmethod
     def __init__(self, nome, tamanho):
         self.__posicoes = []
@@ -46,10 +46,24 @@ class BarcoSuper(ABC):
     def posiciona(self, posicao):
         auxposbarco=[posicao[0], posicao[1], True]
         self.__posicoes.append(auxposbarco)
+
+    def continuar_posicao(self, coordenada, posicao):
+
+        for casas in range(self.tamanho-1):
+            if coordenada=="esquerda":
+                self.posiciona((posicao[0], posicao[1]-(casas+1)))
         
-    def posiciona_comp(self, posicao):
-        auxposbarco=[posicao[0], posicao[1], True]
-        self.__posicoes.append(auxposbarco)
+        
+            if coordenada=="direita":
+                self.posiciona((posicao[0], posicao[1]+(casas+1)))
+
+        
+            if coordenada=="cima":
+                self.posiciona((posicao[0]-(casas+1), posicao[1]))
+        
+        
+            if coordenada=="baixo":
+                self.posiciona((posicao[0]+(casas+1), posicao[1]))
 
     def tomoutiro(self, y, x):
         for posicao in self.posicoes:

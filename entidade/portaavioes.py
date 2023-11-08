@@ -1,5 +1,5 @@
-from entidade.barco_super import BarcoSuper
+from entidade.barco_super import BS
 
-class Portaavioes(BarcoSuper):
+class Portaavioes(BS):
     def __init__(self):
         super().__init__("Porta-aviões", 4)
