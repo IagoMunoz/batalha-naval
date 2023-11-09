@@ -93,7 +93,7 @@ class TelaJogador():
     def mostra_msg(self, msg):
         print(msg)
         
-    def alterar_jogador(self):
+    def mudar_jogador(self):
         print("Escolha a opcão:")
         print("1 - Alterar Nome")
         print("2 - Alterar Data de nascimento")
