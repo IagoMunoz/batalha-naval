@@ -1,6 +1,7 @@
 from entidade.rodada import Rodada
 from limite.telaRodada import TelaRodada
 from entidade.partida import Partida
+
 class ControladorRodada():
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
@@ -24,9 +25,29 @@ class ControladorRodada():
     def lista_rodadas(self):
         for rodada in self.__rodadas:
             self.__tela_rodada.mostra_rodada({"coordenadas do jogador": rodada.jogada_jog, "coordenadas do computador": rodada.jogada_comp, "pontos do jogador": rodada.pontos_jog, "pontos do computador": rodada.pontos_comp})
-    
-    def rodada_usuario(self, oceano, barcos):
+
+    def rodada_usuario(self, partida):
         self.__controlador_sistema.controlador_partida.aux_jog = []
+        
+        list_oceano = partida.oceano.oceano
+        dic_barcos = []
+        for dic_obj in partida.lista_barcos_comp:
+            dic_barcos.append(vars(dic_obj))
+        lista_jatiro = partida.jatiro
+
+        self.controlador_sistema.controlador_barco_super.destruido(partida.lista_barcos_comp)
+
+
+
+
+
+
+
+    def rodada_usuario(self, ocean):
+        self.__controlador_sistema.controlador_partida.aux_jog = []
+
+
+
         auxs = self.__controlador_sistema.tela_rodada.atira(oceano, barcos,  jogadnv=True, acertou=0, tiros=[])
         self.__controlador_sistema.controlador_partida.aux_jog.append(auxs)
         

@@ -14,21 +14,12 @@ class ControladorPartida():
         self.__partidas = []
         self.__tela_partida = TelaPartida()
         self.__controlador_sistema = controlador_sistema
-        self.__jatiro = []
-        self.__jatiro_comp = []
         self.__aux_jog = []
         self.__aux_comp = []
 
     @property
     def partidas(self):
         return self.__partidas
-    @property
-    def jatiro(self):
-        return self.__jatiro
-    
-    @property
-    def jatiro_comp(self):
-        return self.__jatiro_comp
     
     @property
     def aux_jog(self):
@@ -45,12 +36,6 @@ class ControladorPartida():
     @aux_comp.setter
     def aux_comp(self, aux_comp):
         self.__aux_comp = aux_comp
-
-    def add_jatiro(self, jatiro):
-        self.__jatiro.append(jatiro)
-        
-    def add_jatiro_comp(self, jatiro_comp):
-        self.__jatiro_comp.append(jatiro_comp)
     
     def jogador(self):
         while True:
@@ -142,10 +127,15 @@ class ControladorPartida():
             
     def partida_total(self, partida):
 
+
         while True:
+
+           
+
             
-            ganhou=0
-            self.__controlador_sistema.controlador_rodada.rodada_usuario(partida.oceano, partida.lista_barcos_comp)
+            ganhou = 0
+
+            self.__controlador_sistema.controlador_rodada.rodada_usuario(partida)
 
             for barco in partida.lista_barcos_comp:
                 if barco.estado==False:

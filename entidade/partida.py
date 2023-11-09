@@ -11,6 +11,8 @@ class Partida():
         self.__pontos = 0
         self.__lista_barcos = lista_barcos
         self.__lista_barcos_comp = lista_barcos_commp
+        self.__jatiro = []
+        self.__jatiro_comp = []
     
 
     @property
@@ -49,6 +51,14 @@ class Partida():
     def pontos(self):
         return self.__pontos
     
+    @property
+    def jatiro(self):
+        return self.__jatiro
+    
+    @property
+    def jatiro_comp(self):
+        return self.__jatiro_comp
+    
     @vencedor.setter
     def vencedor(self, vencedor):
         self.__vencedor = vencedor
@@ -64,3 +74,9 @@ class Partida():
     @property
     def lista_barcos(self):
         return self.__lista_barcos
+    
+    def add_jatiro(self, jatiro):
+        self.__jatiro.append(jatiro)
+        
+    def add_jatiro_comp(self, jatiro_comp):
+        self.__jatiro_comp.append(jatiro_comp)
