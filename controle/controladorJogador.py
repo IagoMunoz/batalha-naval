@@ -24,16 +24,16 @@ class ControladorJogador():
         self.__controlador_sistema.controlador_super_player.players.append(jogador)
 
     def alterar_jogador(self):
-        id_jogador = TelaJogador.seleciona_jogador(self)
+        id_jogador = self.__tela_jogador.seleciona_jogador()
         jogador = self.pega_jogador_por_id(id_jogador)
         
         if (jogador is not None):
-            opcao = TelaJogador.alterar_jogador(self)
+            opcao = self.__tela_jogador.mudar_jogador()
             if opcao==1:
-                nome = TelaJogador.alterar_nome(self)
+                nome = self.__tela_jogador.alterar_nome()
                 jogador.nome = nome
             if opcao==2:
-                data = TelaJogador.alterar_nascimento(self)
+                data = self.__tela_jogador.alterar_nascimento()
                 jogador.data_nascimento = data
         else:
             self.__tela_jogador.mostra_msg('Jogador não encontrado')
