@@ -18,172 +18,153 @@ class TelaRodada():
                 print("PONTOS DO COMPUTADOR: ", dados_rodada["pontos do computador"])
                 print("\n")
     
-    def atira(self, oceano, barcos, jogadnv, acertou, tiros):
-        while jogadnv==True:
-            ControladorBarcoSuper.destruido(self, barcos)   
-
-            poretorna=False
-            valory=0
-            valorx=0
-            while poretorna==False:
+    
+            
+            #############################################################################
                 
-                 
-                contx=1
-                for y in range(len(oceano.oceano[0])):
-                    if y>8:
-                        print("",y+1,end='')
-                    else:
-                        print("",y+1,end=' ')
-                print("")
+    def rodada1(self, oceano, barcos, jatiro):
+        contx=1
+        for y in range(len(oceano[0])):
+            if y>8:
+                print("",y+1,end='')
+            else:
+                print("",y+1,end=' ')
+        print("")
 
-                for ycolunas in range(len(oceano.oceano)):
-                    for xlinha in range(len(oceano.oceano[y])):
-                        tembarco=False
-                        for barco in barcos:
-                            for posicao in barco.posicoes:
-                                if posicao[0]==ycolunas and posicao[1]==xlinha:
-                                    if barco.estado==True:
-                                        if posicao[2]==True:
-                                            print ('[~]', end='')
-                                            tembarco=True
-                                        else:
-                                            print('[%]',end='')
-                                            tembarco=True
-                                    else:
-                                        print('[{}]'.format(barco.nome[0]).lower(),end='')
-                                        tembarco=True
-
-                        if tembarco == False:
-                            marzin=True
-                            for jatiro in self.__controlador_partida.jatiro:
-                                if jatiro[0] == ycolunas+1 and jatiro[1] == xlinha+1:
-                                    print('[@]',end='')
-                                    marzin=False
-                            if marzin==True:
-                                print('[~]',end='')
-
-                    if contx==ycolunas:
-                        print(" ", contx)
-                    else:
-                        print("")
-                    contx+=1
-                
-
-
-                print(self.__controlador_partida.jatiro)
-                while True:
-                    try:
-                        valory ,valorx = map(int, input("Digite onde quer atirar linha e coluna: ").split())
-                        while True:
-                            for tiro in self.__controlador_partida.jatiro:
-                                if tiro[0]==valory and tiro[1]==valorx:
-                                    valory ,valorx = map(int, input("Valor já atirado. Digite onde quer atirar linha e coluna: ").split())
-                                if valory>(oceano.tamanhos[0]) or valorx>(oceano.tamanhos[1]) or valorx<=0 or valory<=0:
-                                    valory,valorx = map(int, input("Valores errados. Digite novamente onde quer atirar linha e coluna: ").split())
+        for ycolunas in range(len(oceano)):
+            for xlinha in range(len(oceano[ycolunas])):
+                tembarco=False
+                for barco in barcos:
+                    for posicao in barco['_BS__posicoes']:
+                        if posicao[0]==ycolunas and posicao[1]==xlinha:
+                            if barco['_BS__estado']==True:
+                                if posicao[2]==True:
+                                    print ('[~]', end='')
+                                    tembarco=True
+                                else:
+                                    print('[%]',end='')
+                                    tembarco=True
                             else:
-                                break
-                                
-                        
-                    except ValueError:
-                        print('Valores inválidos')
+                                print('[{}]'.format(barco['_BS__nome'][0]).lower(),end='')
+                                tembarco=True
+
+                if tembarco == False:
+                    marzin=True
+                    for jatiro in jatiro:
+                        if jatiro[0] == ycolunas+1 and jatiro[1] == xlinha+1:
+                            print('[@]',end='')
+                            marzin=False
+                    if marzin==True:
+                        print('[~]',end='')
+
+            if contx==ycolunas:
+                print(" ", contx)
+            else:
+                print("")
+            contx+=1
+        
+
+
+    def escolhexy_rodada(self, oceano, barcos, jatiro):
+        while True:
+            try:
+                valory ,valorx = map(int, input("Digite onde quer atirar linha e coluna: ").split())
+                while True:
+                    for tiro in jatiro:
+                        if tiro[0]==valory and tiro[1]==valorx:
+                            valory ,valorx = map(int, input("Valor já atirado. Digite onde quer atirar linha e coluna: ").split())
+                        if valory>(len(oceano)) or valorx>(len(oceano[0])) or valorx<=0 or valory<=0:
+                            valory,valorx = map(int, input("Valores errados. Digite novamente onde quer atirar linha e coluna: ").split())
                     else:
                         break
-                
-
-                contx=1
-                for y in range(len(oceano.oceano[0])):
-                    if y+1==valorx:
-                        print("   ",valorx,end='')
-                    else:
-                        print(" ",end=' ')
-                print("")
-
-                for ycolunas in range(len(oceano.oceano)):
-                    for xlinha in range(len(oceano.oceano[y])):
-                        tembarco=False
-                        for barco in barcos:
                         
-                           
-                            for posicao in barco.posicoes:
-                                if posicao[0]==ycolunas and posicao[1]==xlinha:
-
-                                    if valory-1==ycolunas and valorx-1==xlinha:
-                                        tembarco=True
-                                        print ('[X]',end='')
-                                        tembarco=True
-
-                                    elif barco.estado==True:
-                                        if posicao[2]==True:
-                                            tembarco=True
-                                            print ('[~]', end='')
-                                            tembarco=True
-                                        else:
-                                            tembarco=True
-                                            print('[%]',end='')
-                                            tembarco=True
-                                    else:
-                                        tembarco=True
-                                        print('[{}]'.format(barco.nome[0]).lower(),end='')
-                                        tembarco=True
-                                
-
-                        if tembarco == False:
-                            marzin=True
-                            for jatiro in self.__controlador_partida.jatiro:
-                                if jatiro[0] == ycolunas+1 and jatiro[1] == xlinha+1:
-                                    print('[@]',end='')
-                                    marzin=False
-                            if marzin==True:
-                                if valory-1==ycolunas and valorx-1==xlinha:
-                                    print ('[X]',end='')
-                                else:
-                                    print('[~]',end='')
-                                
-                            
-
-                    if contx==valory:
-                        print("", contx)
-                    else:
-                        print("")
-                    contx+=1
-
-
-                uauaux=input('deseja syirar ai msm esta posicao? [s/n]: ')
-                if uauaux=="s":
-                    seracertou = ControladorBarcoSuper.tomoutiro(self, barcos, valory, valorx)
-                    self.__controlador_partida.add_jatiro([valory,valorx])
-                    jogadnv=seracertou
-
-                    ControladorBarcoSuper.destruido(self,barcos)
-                    poretorna=True
                 
-                #retorna true se acerta e false se erra
-                print('')
-            
-            
-            if jogadnv==True:
-                
-                acertou+=1
-                
-                tiros.append(valorx)
-                tiros.append(valory)
-                #fazer verificação dps pra qnd acertar a embarcação toda ir +3 pontos
-                print('Parabéns! Você acertou a jogada')
-                contvic=0
-                for barco in barcos:
-                    if barco.estado==True:
-
-                        contvic+=1
-                if contvic==0:
-                    break
+            except ValueError:
+                print('Valores inválidos')
             else:
-                print('Você errou a jogada! :(')
-                tiros.append(valorx)
-                tiros.append(valory)
-        if acertou==0:
-            return valorx, valory, acertou
+                break
+        
+
+        contx=1
+        for y in range(len(oceano[0])):
+            if y+1==valorx:
+                print("   ",valorx,end='')
+            else:
+                print(" ",end=' ')
+        print("")
+
+        for ycolunas in range(len(oceano)):
+            for xlinha in range(len(oceano[ycolunas])):
+                tembarco=False
+                for barco in barcos:
+                
+                    
+                    for posicao in ['_BS__posicoes']:
+                        if posicao[0]==ycolunas and posicao[1]==xlinha:
+
+                            if valory-1==ycolunas and valorx-1==xlinha:
+                                tembarco=True
+                                print ('[X]',end='')
+                                tembarco=True
+
+                            elif barco['_BS__estado']==True:
+                                if posicao[2]==True:
+                                    tembarco=True
+                                    print ('[~]', end='')
+                                    tembarco=True
+                                else:
+                                    tembarco=True
+                                    print('[%]',end='')
+                                    tembarco=True
+                            else:
+                                tembarco=True
+                                print('[{}]'.format(barco['_BS__nome'][0]).lower(),end='')
+                                tembarco=True
+                        
+
+                if tembarco == False:
+                    marzin=True
+                    for jatiro in jatiro:
+                        if jatiro[0] == ycolunas+1 and jatiro[1] == xlinha+1:
+                            print('[@]',end='')
+                            marzin=False
+                    if marzin==True:
+                        if valory-1==ycolunas and valorx-1==xlinha:
+                            print ('[X]',end='')
+                        else:
+                            print('[~]',end='')
+                        
+                    
+
+            if contx==valory:
+                print("", contx)
+            else:
+                print("")
+            contx+=1
+
+
+        uauaux=input('deseja syirar ai msm esta posicao? [s/n]: ')
+        if uauaux=="s":
+            return (valory, valorx, True)
+        
+            
+        
+        #retorna true se acerta e false se erra
+        
+            
+        ####################################################################################
+    def conc_rodada(jogadnv, acertou):
+        if jogadnv==True:
+            
+            acertou+=1
+            
+           
+            print('Parabéns! Você acertou a jogada')
+            
         else:
-            return tiros, acertou
+            print('Você errou a jogada! :(')
+
+        return acertou
         
                     
 
@@ -196,6 +177,7 @@ class TelaRodada():
     def atira_comp(self, oceano, barcos, jogadnv, acertou, tiros):
         print(jogadnv)
         print("tubarao")
+        
         while jogadnv==True:
             print("tubarao")
 

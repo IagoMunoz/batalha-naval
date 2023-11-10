@@ -135,7 +135,7 @@ class ControladorPartida():
             
             ganhou = 0
 
-            self.__controlador_sistema.controlador_rodada.rodada_usuario(partida)
+            self.__controlador_sistema.controlador_rodada.rodada(partida)
 
             for barco in partida.lista_barcos_comp:
                 if barco.estado==False:
