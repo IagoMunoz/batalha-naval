@@ -153,7 +153,7 @@ class ControladorPartida():
                 break
 
             ganhou=0
-            self.__controlador_sistema.controlador_rodada.rodada_comp(partida.oceano, partida.lista_barcos)
+            self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
             rodada = self.__controlador_sistema.controlador_rodada.rodada_total()
             partida.rodadas.append(rodada)
 
