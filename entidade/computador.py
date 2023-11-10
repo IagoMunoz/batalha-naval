@@ -1,11 +1,9 @@
 from entidade.superplayer import Player
 
-
 #fazer versao v2 para melhorar a implementacao
 class Computador(Player):
     def __init__(self):
         super().__init__()
-        
         
         '''@property
         def acertou(self):
@@ -73,4 +71,3 @@ class Computador(Player):
                     return (jogada_acerto(self))
             else:
                 return (jogada_random(self))'''
-                
