@@ -10,8 +10,8 @@ from limite.telaPartida import TelaPartida
 from limite.telaJogador import TelaJogador
 from limite.telaRodada import TelaRodada
 
-class ControladorSistema():
 
+class ControladorSistema():
     def __init__(self):
         self.__controlador_barco_super = ControladorBarcoSuper(self)
         self.__controlador_jogador = ControladorJogador(self)
@@ -27,7 +27,7 @@ class ControladorSistema():
     @property
     def controlador_rodada(self):
         return self.__controlador_rodada
-    
+
     @property
     def controlador_jogador(self):
         return self.__controlador_jogador
@@ -35,7 +35,7 @@ class ControladorSistema():
     @property
     def controlador_barco_super(self):
         return self.__controlador_barco_super
-        
+
     @property
     def controlador_oceano(self):
         return self.__controlador_oceano
@@ -43,31 +43,31 @@ class ControladorSistema():
     @property
     def controlador_partida(self):
         return self.__controlador_partida
-    
+
     @property
     def controlador_super_player(self):
         return self.__controlador_super_player
-    
+
     @property
     def tela_partida(self):
         return self.__tela_partida
-    
+
     @property
     def tela_oceano(self):
         return self.__tela_oceano
-    
+
     @property
     def tela_sistema(self):
         return self.__tela_sistema
-    
+
     @property
     def tela_jogador(self):
         return self.__tela_jogador
-    
+
     @property
     def tela_rodada(self):
         return self.__tela_rodada
-    
+
     def inicializa_sistema(self):
         self.abre_tela()
 
@@ -84,8 +84,6 @@ class ControladorSistema():
         time.sleep(2)
         self.__tela_sistema.mostra_msg('Sistema encerrado')
         exit(0)
-        
-
 
     def abre_tela(self):
         lista_opcoes = {1: self.cadastra_jogador, 2: self.cadastra_partida,

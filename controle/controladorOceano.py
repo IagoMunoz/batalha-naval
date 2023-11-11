@@ -2,15 +2,16 @@ from entidade.oceano import Oceano
 from controle.controlador_barco_super import *
 import random
 
+
 class ControladorOceano():
     def __init__(self, controlador_sistema):
         self.__oceanos = []
         self.__controlador_sistema = controlador_sistema
-    
+
     @property
     def oceanos(self):
         return self.__oceanos
-    
+
     @property
     def controlador_sistema(self):
         return self.__controlador_sistema
@@ -18,11 +19,10 @@ class ControladorOceano():
     @oceanos.setter
     def oceanos(self, oceanos):
         self.__oceanos=oceanos
-        
-       
+
     def cria_oceano(self):
         tamanhos = self.__controlador_sistema.tela_partida.seleciona_jogo()
-        oceanoaux = Oceano(random.randint(1,1000000000000), tamanhos, self.cria_matriz_oceano(tamanhos))
+        oceanoaux = Oceano(random.randint(1, 1000000000000), tamanhos, self.cria_matriz_oceano(tamanhos))
         self.__oceanos.append(oceanoaux)
         return oceanoaux
 
@@ -34,10 +34,10 @@ class ControladorOceano():
                 aux_matriz.append(x)
             aux_matriz_oceano.append(aux_matriz)
         return(aux_matriz_oceano)
-    
+
     def cria_oceano_comp(self):
         ultimooceano=len(self.oceanos)-1
         tamanhos = self.oceanos[ultimooceano].tamanhos
-        oceanoaux = Oceano((random.randint(1,1000000000000)), tamanhos, self.cria_matriz_oceano(tamanhos))
+        oceanoaux = Oceano((random.randint(1, 1000000000000)), tamanhos, self.cria_matriz_oceano(tamanhos))
         self.__oceanos.append(oceanoaux)
         return oceanoaux
