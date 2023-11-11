@@ -127,49 +127,25 @@ class ControladorPartida():
             
     def partida_total(self, partida):
 
-
         while True:
-
-           
-
             
-            ganhou = 0
+            #ganhou = 0
 
             self.__controlador_sistema.controlador_rodada.rodada(partida)
 
-            for barco in partida.lista_barcos_comp:
-                if barco.estado==False:
-                    ganhou+=1
-                    print(ganhou)
-
-            if ganhou==len(partida.lista_barcos_comp):
-                print(ganhou)
-                for barco in partida.lista_barcos_comp:
-                    print(barco.estado)
-
+            if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.mostra_msg('Você venceu a partida! Parabéns')
-                partida.jogador.pontuacao+=4
+                partida.jogador.pontuacao += 4
                 partida.vencedor = partida.jogador.nome
                 break
 
-            ganhou=0
             self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
             rodada = self.__controlador_sistema.controlador_rodada.rodada_total()
             partida.rodadas.append(rodada)
 
-            for barco in partida.lista_barcos:
-                if barco.estado==False:
-                    ganhou+=1
-                    print(ganhou)
-
-
-            if ganhou==len(partida.lista_barcos):
-                print(ganhou)
-                for barco in partida.lista_barcos:
-                    print(barco.estado)
-                    
-                self.__tela_partida.mostra_msg('pc ganhou')
-                partida.jogador.pontuacao+=0
+            if all(not barco.estado for barco in partida.lista_barcos):
+                self.__tela_partida.mostra_msg('O computador ganhou')
+                partida.jogador.pontuacao += 0
                 partida.vencedor = 'computador'
                 break
 
