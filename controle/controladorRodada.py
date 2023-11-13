@@ -55,6 +55,8 @@ class ControladorRodada():
                 tiros.append(list_escolhexy[1])
                 self.controlador_sistema.controlador_barco_super.destruido(partida.lista_barcos_comp)
                 
+                if all(not barco.estado for barco in partida.lista_barcos_comp):
+                    jogadnv = False
                 
                 
                 dic_barcos = []
@@ -93,6 +95,8 @@ class ControladorRodada():
                 tiros.append(list_escolhexy[1])
                 self.controlador_sistema.controlador_barco_super.destruido(partida.lista_barcos)
                 
+                if all(not barco.estado for barco in partida.lista_barcos):
+                    jogadnv = False
                 
                 
                 dic_barcos = []
