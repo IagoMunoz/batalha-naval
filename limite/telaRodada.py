@@ -303,7 +303,7 @@ class TelaRodada():
             print('IH ALA O COMPIUTER ACERTOU')
             
         else:
-            print('comptudas errou! :(')
+            print('computador errou! :)')
 
         return acertou
         
