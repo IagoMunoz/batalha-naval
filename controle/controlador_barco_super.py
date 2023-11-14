@@ -20,7 +20,7 @@ class ControladorBarcoSuper():
 
     def listar_barcos(self):
         aux_lista_barcos = []
-        for i in range (1):
+        for i in range (2):
             aux_lista_barcos.append(Bote())
         for i in range (0):
             aux_lista_barcos.append(Submarino())
@@ -43,6 +43,7 @@ class ControladorBarcoSuper():
                 BS.desbarco(self, barco)
 
     def tomoutiro(self, barcos, valory, valorx):
+        self.__controlador_sistema.controlador_rodada.aux_acertos = 0
         contavivo = False
         for barco in barcos:
             for pos in barco.posicoes:
@@ -50,6 +51,9 @@ class ControladorBarcoSuper():
                     if pos[2] == True:
                         pos[2] = False
                         contavivo = True
+                        self.destruido(barcos)
+                        if barco.estado==False:
+                            self.__controlador_sistema.controlador_rodada.aux_acertos = 3
 
         if contavivo==False: 
             return False

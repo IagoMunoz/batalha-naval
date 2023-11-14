@@ -129,25 +129,42 @@ class ControladorPartida():
 
         while True:
             
-            #ganhou = 0
-
-            self.__controlador_sistema.controlador_rodada.rodada(partida)
-
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.mostra_msg('Você venceu a partida! Parabéns')
                 partida.jogador.pontuacao += 4
                 partida.vencedor = partida.jogador.nome
                 break
 
-            self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
-            rodada = self.__controlador_sistema.controlador_rodada.rodada_total()
-            partida.rodadas.append(rodada)
-
+            aux = self.__controlador_sistema.controlador_rodada.rodada(partida)
+            
+            if all(not barco.estado for barco in partida.lista_barcos_comp):
+                self.__tela_partida.mostra_msg('Você venceu a partida! Parabéns')
+                partida.jogador.pontuacao += 4
+                partida.vencedor = partida.jogador.nome
+                rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0)
+                partida.rodadas.append(rodada)
+                break
+            
             if all(not barco.estado for barco in partida.lista_barcos):
                 self.__tela_partida.mostra_msg('O computador ganhou')
                 partida.jogador.pontuacao += 0
                 partida.vencedor = 'computador'
                 break
+
+            aux_comp = self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
+            rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp)
+            print('testando')
+            partida.rodadas.append(rodada)
+            print('testando2')
+            
+            if all(not barco.estado for barco in partida.lista_barcos):
+                self.__tela_partida.mostra_msg('O computador ganhou')
+                partida.jogador.pontuacao += 0
+                partida.vencedor = 'computador'
+                rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp)
+                partida.rodadas.append(rodada)
+                break
+
 
         
             
