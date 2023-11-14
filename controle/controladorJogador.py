@@ -1,10 +1,12 @@
 from limite.telaJogador import TelaJogador
 from entidade.jogador import Jogador
+from daos.dao_jogador import dao_jogador
 
 
 class ControladorJogador():
     def __init__(self, controlador_sistema):
-        self.__jogadores = []
+        #self.__jogadores = []
+        self.__dao_jogador = dao_jogador()
         self.__tela_jogador = TelaJogador()
         self.__controlador_sistema = controlador_sistema
 
@@ -13,7 +15,8 @@ class ControladorJogador():
         return self.__controlador_sistema
 
     def pega_jogador_por_id(self, id: int):
-        for jogador in self.__jogadores:
+        #for jogador in self.__jogadores:
+        for jogador in self.__dao_jogador.get_all():
             if(jogador.id == id):
                 return jogador
         return None
@@ -21,7 +24,8 @@ class ControladorJogador():
     def incluir_jogador(self):
         dados_jogador = self.__tela_jogador.pega_dados()
         jogador = Jogador(dados_jogador["id"], dados_jogador["nome"], dados_jogador["data de nascimento"])
-        self.__jogadores.append(jogador)
+        #self.__jogadores.append(jogador)
+        self.__dao_jogador.add(jogador)
         self.__controlador_sistema.controlador_super_player.players.append(jogador)
 
     def alterar_jogador(self):
@@ -43,10 +47,10 @@ class ControladorJogador():
             self.__tela_jogador.mostra_msg('Jogador não encontrado')
 
     def lista_jogadores(self):
-        if len(self.__jogadores) == 0:
+        if len(self.__dao_jogador.get_all()) == 0:
             self.__tela_jogador.mostra_msg('Sem jogadores cadastrados')
 
-        for jogador in self.__jogadores:
+        for jogador in self.__dao_jogador.get_all():
             self.__tela_jogador.mostra_jogador({"cod": jogador.id, "nome": jogador.nome, "data de nascimento": jogador.data_nascimento, "pontuação": jogador.pontuacao})
 
     def excluir_jogador(self):
@@ -86,7 +90,7 @@ class ControladorJogador():
             self.__tela_jogador.mostra_msg('Jogador não encontrado')
 
     def ranking(self):
-        jogs = self.__jogadores
+        jogs = self.__dao_jogador.get_all()
         jogs.sort(key = lambda player: player.pontuacao, reverse = True)
 
         for player in jogs:
