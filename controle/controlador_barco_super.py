@@ -66,12 +66,18 @@ class ControladorBarcoSuper():
         dic_barcos = []
         for dic_obj in barcos:
             dic_barcos.append(vars(dic_obj))
-
+        
         relogio = len(barcos)
         for ponteiro in range(relogio):
+
+            
+
+            
+            print(dic_barcos)
             posicao = self.__controlador_sistema.tela_partida.adicionar_posicao(dic_barcos[ponteiro], oceano, dic_barcos)
             barcos[ponteiro].posiciona(posicao)
-            
+            print(dic_barcos)
+
             if barcos[ponteiro].tamanho > 1:
                 continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
                 barcos[ponteiro].continuar_posicao(continuar_pos, posicao)

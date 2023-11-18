@@ -1,5 +1,8 @@
 import random
 import time
+import PySimpleGUI as sg
+
+
 class TelaPartida():
     def le_num_inteiro(self, mensagem=" ", ints_validos = None):
         while True:
@@ -76,104 +79,95 @@ class TelaPartida():
             return [tamanho_y, tamanho_x]
 
     def adicionar_posicao(self, barco, oceano, barcos):
+
+        def faztela( matrix, barco):
+    # Função para criar um layout a partir da matriz com botões de tamanho de fonte ajustável
+            def create_layout(matrix, font_size, barco):
+                layout = [
+                    [sg.Text(f'Escolha a posiçao para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                ]
+                for i, row in enumerate(matrix):
+                    row_layout = []
+                    for j, value in enumerate(row):
+                        button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
+                        row_layout.append(button)
+                    layout.append(row_layout)
+                return layout
+
+            # Função para mostrar a caixa de diálogo de confirmação
+            def show_confirmation_dialog(row, col, barco):
+                layout = [
+                    [sg.Text(f'Deseja posicionar o/a {barco["_BS__nome"]} na linha: {row} e coluna: {col}?')],
+                    [sg.Button('Sim'), sg.Button('Cancelar')]
+                ]
+                window = sg.Window('Confirmação', layout, finalize=True)
+                while True:
+                    event, _ = window.read()
+                    if event in (sg.WIN_CLOSED, 'Cancelar'):
+                        window.close()
+                        return None
+                    elif event == 'Sim':
+                        window.close()
+                        return [row, col]
+
+            # Tamanho da fonte inicial
+            font_size = 12
+
+            # Layout inicial da janela com os botões
+            layout = create_layout(matrix, font_size, barco)
+
+            # Criação da janela
+            window = sg.Window('Matriz como Botões', layout)
+
+            # Loop para interação com a janela
+            while True:
+                event, values = window.read()
+
+                if event == sg.WIN_CLOSED:
+                    break
+                elif isinstance(event, tuple):
+                    row, col = event
+                    selection = show_confirmation_dialog(row+1, col+1, barco)
+                    if selection is not None:
+                        sg.popup(f'Posição selecionada: {selection}')
+                        break  
+
+            # Fechamento da janela ao sair do loop
+            window.close()
+            return selection
         
         print('bem vindo ao sistema de posicionamento de barcos')
         print('você vai fazer o posicionamento de um(a) {} agora'.format(barco['_BS__nome']))
         print("  ")
 
-        poretorna=False
+        
         valory=0
         valorx=0
         
-        while poretorna==False:
+       
 
-            contx=1
-            for y in range(len(oceano[0])):
-                if y>8:
-                    print("",y+1,end='')
-                else:
-                    print("",y+1,end=' ')
-            print("")
-
-            for ycolunas in range(len(oceano)):
-                time.sleep(0.005)
-                for xlinhas in range(len(oceano[ycolunas])):
-                    time.sleep(0.005)
-                    tembarco=False
-                    for barcoxy in barcos:
-                        for casas in range(len(barcoxy['_BS__posicoes'])):
-                            if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
-                                    if barcoxy['_BS__estado']==True:
-                                        print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')
-                                        tembarco=True
-
-                    if tembarco==False:               
-                        print ("[~]",end='')
-
-                print("", contx)
-                contx+=1
-
-            print("  ")
-            while True:
-                try:
-                    valory,valorx = map(int, input("Digite onde quer botar linha e coluna: ").split())
-                
-                    if valory>(len(oceano)) or valorx>(len(oceano[1])):
-                        valory,valorx = map(int, input("Valores muito altos. Digite novamente onde quer botar linha e coluna: ").split())
-                    else:
-                        break
-                except ValueError:
-                    print('Os valores digitados não são inteiros')
-                    
-            while True:
-                for barcoxy in barcos:
-                    for posicao in barcoxy['_BS__posicoes']:
-                        if posicao[0] == valory-1 and posicao[1] == valorx-1:
-                            try:
-                                valory, valorx = map(int, input("Posição já colocada. Digite onde quer botar linha e coluna: ").split())
-                            except ValueError:
-                                print('Os valores digitados não são inteiros')            
-                else:
-                    break
-                                       
-            contx=1
-            for y in range(len(oceano[0])):
-                if y+1==valorx:
-                    print("",valorx,end='')
-                else:
-                    print("  ",end=' ')
-            print("")
-
-            for ycolunas in range(len(oceano)):
-                time.sleep(0.005)
-                for xlinhas in range(len(oceano[ycolunas])):
-                    time.sleep(0.005)
-                    tembarco=False
-                    for barcoxy in barcos:
-                        for casas in range(len(barcoxy['_BS__posicoes'])):
-                            if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
-                                    if barcoxy['_BS__estado']==True:
-                                        print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')
-                                        tembarco = True
-                   
-                    if tembarco==False:               
-                        if ycolunas==valory-1 and xlinhas==valorx-1:
-                            print('[!]',end='')         
-                        else:
-                            print ("[~]",end='')
-                            
-                if contx==valory:
-                    print ("", valory)
-                else:
-                    print("")
-                contx+=1      
+        for ycolunas in range(len(oceano)):
             
-            uauaux=input('deseja botar esta posicao? [s/n]: ')
-            if uauaux=="s":
-                poretorna=True
+            for xlinhas in range(len(oceano[ycolunas])):
                 
-                
-        print("  ")
+                tembarco=False
+                for barcoxy in barcos:
+                    for casas in range(len(barcoxy['_BS__posicoes'])):
+                        if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
+                                if barcoxy['_BS__estado']==True:
+                                    oceano[ycolunas][xlinhas] = barcoxy['_BS__nome'][0]
+                                    '''print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')'''
+                                    tembarco=True
+
+                if tembarco==False:
+                    oceano[ycolunas][xlinhas] = '~~'
+        
+        selecao = faztela(oceano, barco)
+        
+        valory = selecao[0]
+        valorx = selecao[1]
+     
+         
         return [valory-1,valorx-1]
     
     def adicionar_posicao_comp(self, barco, oceano, barcos):
