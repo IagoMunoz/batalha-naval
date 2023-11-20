@@ -135,16 +135,9 @@ class TelaPartida():
             # Fechamento da janela ao sair do loop
             window.close()
             return selection
-        
-        print('bem vindo ao sistema de posicionamento de barcos')
-        print('você vai fazer o posicionamento de um(a) {} agora'.format(barco['_BS__nome']))
-        print("  ")
 
-        
         valory=0
         valorx=0
-        
-       
 
         for ycolunas in range(len(oceano)):
             
@@ -196,7 +189,92 @@ class TelaPartida():
         return [valory-1,valorx-1]
     
     def continuar_posicao(self, barco, oceano, barcos, posicao):
-        
+
+
+        def faztela(matrix, barco, posicao, lista_bool_pos ):
+            def create_layout(matrix, font_size, barco, highlighted_position=None, directions_visibility=None):
+                layout = [
+                    [sg.Text(f'Escolha a posiçao para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                ]
+                for i, row in enumerate(matrix):
+                    row_layout = []
+                    for j, cell in enumerate(row):
+                        button_color = ('black', 'yellow') if [i, j] == highlighted_position else ('black', 'white')
+                        button = sg.Button(str(cell), size=(4, 2), disabled=True, font=('Helvetica', font_size),
+                                        button_color=button_color, pad=(2, 2))
+                        row_layout.append(button)
+                    layout.append(row_layout)
+
+                # Adicionando texto para posicionar o barco
+                layout.append([sg.Text('Você deseja posicionar o barco em que direção?')])
+
+                # Adicionando botões de direção de acordo com a visibilidade
+                if directions_visibility:
+                    direction_buttons = []
+                    if directions_visibility.get('Cima', False):
+                        direction_buttons.append(sg.Button('Cima'))
+                    if directions_visibility.get('Baixo', False):
+                        direction_buttons.append(sg.Button('Baixo'))
+                    if directions_visibility.get('Esquerda', False):
+                        direction_buttons.append(sg.Button('Esquerda'))
+                    if directions_visibility.get('Direita', False):
+                        direction_buttons.append(sg.Button('Direita'))
+
+                    layout.append(direction_buttons)
+
+                return layout
+
+            # Função para criar layout da janela de confirmação da direção
+            def create_confirmation_layout(direction):
+                layout = [
+                    [sg.Text(f'Deseja posicionar na direção: {direction}?')],
+                    [sg.Button('Cancelar'), sg.Button('Confirmar')]
+                ]
+                return layout
+
+            # Tamanho da fonte inicial
+            font_size = 12
+            # Posição a ser destacada (exemplo: linha 1, coluna 2)
+            highlighted_position = posicao
+            # Dicionário com a visibilidade dos botões de direção
+            directions_visibility = {'Cima': lista_bool_pos[0], 'Baixo': lista_bool_pos[1], 'Esquerda': lista_bool_pos[2], 'Direita': lista_bool_pos[3]}
+
+            # Layout inicial da janela com destaque no botão da posição específica
+            layout = create_layout(matrix, font_size, barco, highlighted_position, directions_visibility)
+
+            # Criação da janela
+            window = sg.Window('Posicionar Barco', layout)
+
+            # Loop para interação com a janela
+            while True:
+                event, values = window.read()
+
+                if event == sg.WIN_CLOSED:
+                    break
+                elif event in ('Cima', 'Baixo', 'Esquerda', 'Direita'):
+                    selected_direction = event
+
+                    # Criando a janela de confirmação da direção
+                    confirmation_layout = create_confirmation_layout(selected_direction)
+                    confirmation_window = sg.Window('Confirmação da Direção', confirmation_layout)
+
+                    while True:
+                        confirmation_event, _ = confirmation_window.read()
+
+                        if confirmation_event == sg.WIN_CLOSED or confirmation_event == 'Cancelar':
+                            break
+                        elif confirmation_event == 'Confirmar':
+                            break
+                            
+
+                    confirmation_window.close()
+                    break
+
+            # Fechamento da janela ao sair do loop
+            window.close()
+            return selected_direction
+            
+           
         
         print('bem vindo a continuaçao sistema de posicionamento de barcos')
         print('você vai continuar o posicionamento de um(a) {} agora'.format(barco['_BS__nome']))
@@ -206,29 +284,24 @@ class TelaPartida():
 
         
         
-        contx=1
-        for y in range(len(oceano[0])):
-            if y>8:
-                print("",y+1,end='')
-            else:
-                print("",y+1,end=' ')
-        print("")
+        
         
         for ycolunas in range(len(oceano)):
-            for xlinhas in range(len(oceano[y])):
+            for xlinhas in range(len(oceano[ycolunas])):
                 tembarco=False
                 for barcoxy in barcos:
                     for casas in range(len(barcoxy['_BS__posicoes'])):
-                            if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
+                        if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
                                 if barcoxy['_BS__estado']==True:
-                                    print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')
+                                    oceano[ycolunas][xlinhas] = barcoxy['_BS__nome'][0]
+                                    '''print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')'''
                                     tembarco=True
+                if tembarco==False:
+                    oceano[ycolunas][xlinhas] = '~~'
+        
 
-                if tembarco==False:               
-                    print ("[~]",end='')
 
-            print("", contx)
-            contx+=1
+            
         print("")
         print("voce pode estender o barco nas seguintes direçoes:")
         print("")
@@ -292,22 +365,29 @@ class TelaPartida():
                         if coor[0]==posicao[0] and coor[1]==posicao[1]+casas:
                             direita=False
 
-        
+        lista_bool_pos=[]
 
         print("")
         if cima==True:
-            print (" cima")
+            lista_bool_pos.append(True)
+        else:
+            lista_bool_pos.append(False)
 
         if baixo==True:
-            print (" baixo")
-
+            lista_bool_pos.append(True)
+        else:
+            lista_bool_pos.append(False)
         if esquerda==True:
-            print (" esquerda")
-
+            lista_bool_pos.append(True)
+        else:
+            lista_bool_pos.append(False)
         if direita==True:
-            print (" direita")
-        print("")
-        auxescolha = input("em qual das posicçoes voce deseja botas: ")
+            lista_bool_pos.append(True)
+        else:
+            lista_bool_pos.append(False)
+
+        
+        auxescolha = faztela(oceano, barco, posicao, lista_bool_pos)
         print(barco['_BS__nome'])
 
         return auxescolha
