@@ -69,7 +69,7 @@ class ControladorSistema():
         return self.__tela_rodada
 
     def inicializa_sistema(self):
-        self.abre_tela()
+        self.tela_inicial()
 
     def cadastra_jogador(self):
         self.__controlador_jogador.abre_tela()
@@ -84,6 +84,14 @@ class ControladorSistema():
         time.sleep(2)
         self.__tela_sistema.mostra_msg('Sistema encerrado')
         exit(0)
+        
+    def tela_inicial(self):
+        lista_opcoes = {1: self.abre_tela, 0:self.encerra_sistema}
+        
+        while True:
+            opcao_escolhida = self.__tela_sistema.tela_inicial()
+            funcao_escolhida = lista_opcoes[opcao_escolhida]
+            funcao_escolhida()
 
     def abre_tela(self):
         lista_opcoes = {1: self.cadastra_jogador, 2: self.cadastra_partida,
