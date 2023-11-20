@@ -14,6 +14,12 @@ class ControladorJogador():
     def controlador_sistema(self):
         return self.__controlador_sistema
 
+    def jogadores(self):
+        jogadores = []
+        for jogador in self.__dao_jogador.get_all():
+            jogadores.append(jogador.id)
+        return jogadores
+    
     def pega_jogador_por_id(self, id: int):
         #for jogador in self.__jogadores:
         for jogador in self.__dao_jogador.get_all():
@@ -29,7 +35,8 @@ class ControladorJogador():
         self.__controlador_sistema.controlador_super_player.players.append(jogador)
 
     def alterar_jogador(self):
-        id_jogador = self.__tela_jogador.seleciona_jogador()
+        jogadores = self.jogadores()
+        id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
         jogador = self.pega_jogador_por_id(id_jogador)
 
         if (jogador is not None):
@@ -54,21 +61,23 @@ class ControladorJogador():
             self.__tela_jogador.mostra_jogador({"cod": jogador.id, "nome": jogador.nome, "data de nascimento": jogador.data_nascimento, "pontuação": jogador.pontuacao})
 
     def excluir_jogador(self):
-        id_jogador = TelaJogador.seleciona_jogador(self)
+        jogadores = self.jogadores()
+        id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
         jogador = self.pega_jogador_por_id(id_jogador)
 
         if (jogador is not None):
             '''for partida in self.__controlador_sistema.controlador_partida.partidas:
                 if partida.jogador==jogador:
                     self.__controlador_sistema.controlador_partida.partidas.remove(partida)'''
-            self.__jogadores.remove(jogador)
+            self.__dao_jogador.remove(jogador)
             self.__tela_jogador.mostra_msg('Jogador excluído com sucesso!')
             self.lista_jogadores()
         else:
             self.__tela_jogador.mostra_msg('Jogador não encontrado')
 
     def buscar_jogador(self):
-        id_jogador = TelaJogador.seleciona_jogador(self)
+        jogadores = self.jogadores()
+        id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
         jogador = self.pega_jogador_por_id(id_jogador)
 
         if (jogador is not None):

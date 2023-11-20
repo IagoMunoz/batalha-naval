@@ -1,22 +1,12 @@
 import random
 from datetime import datetime
+import PySimpleGUI as sg
 
 
 class TelaJogador():
-    def le_num_inteiro(self, mensagem=" ", ints_validos = None):
-        while True:
-            valor_lido = input(mensagem)
-
-            try:
-                valor_int = int(valor_lido) #tenta transformar o valor lido em inteiro.
-                if ints_validos and valor_int not in ints_validos:
-                    raise ValueError #será lançada apenas se o número não é o esperado
-                return valor_int
-
-            except ValueError: #aqui cai se não for int ou se não for valido
-                print("Valor incorreto!")
-                if ints_validos:
-                    print("Valores válidos: ", ints_validos)
+    def __init__(self):
+        # Defina o tema para darkpurple1
+        sg.theme('darkpurple1')
 
     def verifica_data(self, aux):
         if len(aux)!=10:
@@ -52,35 +42,100 @@ class TelaJogador():
         else:
             return False
 
-    def tela_opcoes(self):
-        print("-------- Jogadores ----------")
-        print("Escolha a opcão:")
-        print("1 - Incluir Jogador")
-        print("2 - Alterar Jogador")
-        print("3 - Listar Jogadores")
-        print("4 - Excluir Jogador")
-        print("5 - Buscar Jogador")
-        print('6 - Ranking de Jogadores')
-        print("0 - Retornar")
+    def le_num_inteiro(self, mensagem=" ", ints_validos=None):
+        layout = [
+            [sg.Text(mensagem)],
+            [sg.InputText()],
+            [sg.Button('OK')]
+        ]
 
-        opcao = self.le_num_inteiro("Escolha a opcão: ", [1,2,3,4,5,6,0])
-        return opcao
+        window = sg.Window('Entrada de Dados', layout)
+
+        while True:
+            event, values = window.read()
+
+            try:
+                valor_int = int(values[0])
+                if ints_validos and valor_int not in ints_validos:
+                    raise ValueError
+
+                window.close()
+                return valor_int
+
+            except ValueError:
+                sg.popup_error("Valor incorreto!")
+                if ints_validos:
+                    sg.popup("Valores válidos: ", ints_validos)
+
+    def tela_opcoes(self):
+        layout = [
+            [sg.Text('Escolha a opção:', font=("Bookman Old Style", 15))],
+            [sg.Button('Incluir Jogador', font=('Bookman Old Style', 12))],
+            [sg.Button('Alterar Jogador', font=('Bookman Old Style', 12))],
+            [sg.Button('Listar Jogadores', font=('Bookman Old Style', 12))],
+            [sg.Button('Excluir Jogador', font=('Bookman Old Style', 12))],
+            [sg.Button('Buscar Jogador', font=('Bookman Old Style', 12))],
+            [sg.Button('Ranking de Jogadores', font=('Bookman Old Style', 12))],
+            [sg.Button('Retornar', font=('Bookman Old Style', 12))]
+        ]
+
+        window = sg.Window('Opções de Jogadores', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Retornar':
+                window.close()
+                return 0
+            elif event == 'Incluir Jogador':
+                window.close()
+                return 1
+            elif event == 'Alterar Jogador':
+                window.close()
+                return 2
+            elif event == 'Listar Jogadores':
+                window.close()
+                return 3
+            elif event == 'Excluir Jogador':
+                window.close()
+                return 4
+            elif event == 'Buscar Jogador':
+                window.close()
+                return 5
+            elif event == 'Ranking de Jogadores':
+                window.close()
+                return 6
 
     def pega_dados(self):
-        print("-------- DADOS JOGADOR ----------")
-        #fazer verificação id
-        '''id = random.randint(1,200000)'''
-        id=1
-        nome = input("Nome: ")
-        #verificacao data nascimento
-        data = input("Data de nascimento: ")
-        ver = self.verifica_data(data)
-        while ver == False:
-            data = input('Data inválida! Digite a data de início da obra no formato "DD/MM/AAAA": ')
-            ver = self.verifica_data(data)
-        data_final = datetime.strptime(data, '%d/%m/%Y')
+        layout = [
+            [sg.Text('-------- DADOS JOGADOR ----------', font=('Bookman Old Style', 15))],
+            [sg.Text('Nome:'), sg.InputText(key='nome')],
+            [sg.Text('Data de nascimento (DD/MM/AAAA):'), sg.InputText(key='data')],
+            [sg.Button('Confirmar', font=('Bookman Old Style', 12))]
+        ]
 
-        return {"id": id, "nome": nome, "data de nascimento": data_final}
+        window = sg.Window('Cadastro de Jogador', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED:
+                window.close()
+                return None
+
+            elif event == 'Confirmar':
+                nome = values['nome']
+                data = values['data']
+
+                ver = self.verifica_data(data)
+
+                if ver:
+                    data_final = datetime.strptime(data, '%d/%m/%Y')
+                    window.close()
+                    return {"id": 1, "nome": nome, "data de nascimento": data_final}
+                else:
+                    sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
+
     
     def mostra_jogador(self, dados_jogador):
         print("ID DO JOGADOR: ", dados_jogador["cod"])
@@ -89,37 +144,111 @@ class TelaJogador():
         print("PONTUAÇÃO DO JOGADOR: ", dados_jogador["pontuação"])
         print("\n")
 
-    def seleciona_jogador(self):
+    '''def seleciona_jogador(self):
         try:
             id = int(input("ID do jogador que deseja selecionar: "))
             return id
         except ValueError:
-            print('O valor digitado não é inteiro')
+            print('O valor digitado não é inteiro')'''
+            
+    def seleciona_jogador(self, jogadores):
+        layout = [
+            [sg.Text('Selecione um jogador:')],
+            [sg.Combo(jogadores, key='jogador_combo')],
+            [sg.Button('Selecionar Jogador'), sg.Button('Cancelar')]
+        ]
+
+        window = sg.Window('Seleção de Jogador', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Cancelar':
+                window.close()
+                return None
+
+            elif event == 'Selecionar Jogador':
+                jogador_selecionado = values['jogador_combo']
+                window.close()
+                return jogador_selecionado
+        
 
     def mostra_msg(self, msg):
         print(msg)
 
     def mudar_jogador(self):
-        print("Escolha a opcão:")
-        print("1 - Alterar Nome")
-        print("2 - Alterar Data de nascimento")
+        layout = [
+            [sg.Text('Escolha a opção:', font=('Bookman Old Style', 15))],
+            [sg.Button('Alterar Nome', font=('Bookman Old Style', 12))],
+            [sg.Button('Alterar Data de Nascimento', font=('Bookman Old Style', 12))],
+            [sg.Button('Cancelar', font=('Bookman Old Style', 12))]
+        ]
 
-        opcao = self.le_num_inteiro("Escolha a opcão: ", [1,2])
-        return opcao
+        window = sg.Window('Alterar Jogador', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Cancelar':
+                window.close()
+                return None
+
+            elif event == 'Alterar Nome':
+                window.close()
+                return 1
+
+            elif event == 'Alterar Data de Nascimento':
+                window.close()
+                return 2
 
     def alterar_nome(self):
-        nome = input('Digite o novo nome: ')
-        return nome
+        layout = [
+            [sg.Text('Digite o novo nome:', font=('Bookman Old Style', 15))],
+            [sg.InputText(key='novo_nome', font=('Bookman Old Style', 12))],
+            [sg.Button('Confirmar', font=('Bookman Old Style', 12)), sg.Button('Cancelar', font=('Bookman Old Style', 12))]
+        ]
+
+        window = sg.Window('Alterar Nome', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Cancelar':
+                window.close()
+                return None
+
+            elif event == 'Confirmar':
+                novo_nome = values['novo_nome']
+                window.close()
+                return novo_nome
 
     def alterar_nascimento(self):
-        data = input('Digite a nova data de nascimento: ')
-        ver = self.verifica_data(data)
-        
-        while ver == False:
-            data = input('Data inválida! Digite a data de início da obra no formato "DD/MM/AAAA": ')
-            ver = self.verifica_data(data)
-        data_final = datetime.strptime(data, '%d/%m/%Y')
-        return data_final
+        layout = [
+            [sg.Text('Digite a nova data de nascimento:', font=('Bookman Old Style', 15))],
+            [sg.InputText(key='nova_data', font=('Bookman Old Style', 12))],
+            [sg.Text('', size=(30, 1), key='mensagem', font=('Bookman Old Style', 12), text_color='red')],
+            [sg.Button('Confirmar', font=('Bookman Old Style', 12)), sg.Button('Cancelar', font=('Bookman Old Style', 12))]
+        ]
+
+        window = sg.Window('Alterar Data de Nascimento', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Cancelar':
+                window.close()
+                return None
+
+            elif event == 'Confirmar':
+                nova_data = values['nova_data']
+                ver = self.verifica_data(nova_data)
+            
+                if ver:
+                    data_final = datetime.strptime(nova_data, '%d/%m/%Y')
+                    window.close()
+                    return data_final
+                else:
+                    sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
 
     def ranking(self, ranking):
         print(ranking)
