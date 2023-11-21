@@ -5,7 +5,6 @@ import PySimpleGUI as sg
 
 class TelaJogador():
     def __init__(self):
-        # Defina o tema para darkpurple1
         sg.theme('darkpurple1')
 
     def verifica_data(self, aux):
@@ -124,6 +123,7 @@ class TelaJogador():
                 return None
 
             elif event == 'Confirmar':
+                id = random.randint(0, 1000000)
                 nome = values['nome']
                 data = values['data']
 
@@ -132,25 +132,89 @@ class TelaJogador():
                 if ver:
                     data_final = datetime.strptime(data, '%d/%m/%Y')
                     window.close()
-                    return {"id": 1, "nome": nome, "data de nascimento": data_final}
+                    return {"id": id, "nome": nome, "data de nascimento": data_final}
                 else:
                     sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
 
     
     def mostra_jogador(self, dados_jogador):
-        print("ID DO JOGADOR: ", dados_jogador["cod"])
-        print("NOME DO JOGADOR: ", dados_jogador["nome"])
-        print("DATA DE NASCIMENTO DO JOGADOR: ", dados_jogador["data de nascimento"])
-        print("PONTUAÇÃO DO JOGADOR: ", dados_jogador["pontuação"])
-        print("\n")
+        if dados_jogador is None:
+            layout = [
+                [sg.Text('Sem jogadores cadastrados', font=('Bookman Old Style', 30), justification='center')],
+                [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 10))]
+            ]
+            window = sg.Window('Listar jogadores', layout)
 
-    '''def seleciona_jogador(self):
-        try:
-            id = int(input("ID do jogador que deseja selecionar: "))
-            return id
-        except ValueError:
-            print('O valor digitado não é inteiro')'''
-            
+            while True:
+                event, values = window.read()
+
+                if event == sg.WIN_CLOSED or event == "-RETORNAR-":
+                    window.close()
+                    return None
+        else:
+            layout = [
+                [sg.Table(values=dados_jogador,
+                          headings=["ID", "Nome", "Data de Nascimento", "Pontuação"],
+                          auto_size_columns=False,
+                          col_widths=[20, 20, 20, 10], 
+                          font=('Bookman Old Style', 15),
+                          justification='center',
+                          key='-TABLE-')],
+                [sg.Button("Retornar", key="-RETORNAR-")]
+            ]
+
+            window = sg.Window("Lista de Jogadores", layout, resizable=True)
+
+            while True:
+                event, values = window.read()
+
+                if event == sg.WIN_CLOSED or event == "-RETORNAR-":
+                    break
+
+            window.close()
+
+    def mostra_jogador_sozinho(self, id, nome, nascimento, pontuacao):
+        layout = [
+            [sg.Text("Id: ", font=('Bookman Old Style')), sg.Text(id, font=('Bookman Old Style'))],
+            [sg.Text("Nome: ", font=('Bookman Old Style')), sg.Text(nome, font=('Bookman Old Style'))],
+            [sg.Text("Data de nascimento: ", font=('Bookman Old Style')), sg.Text(str(nascimento), font=('Bookman Old Style'))],
+            [sg.Text("Pontos: ", font=('Bookman Old Style')), sg.Text(pontuacao, font=('Bookman Old Style'))],
+            [sg.Button("Retornar", key="-RETORNAR-")]
+        ]
+        window = sg.Window('Listar jogadores', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == "-RETORNAR-":
+                window.close()
+                return None
+                
+    def mostra_jogador_sozinho_sem_partida(self, id, nome, nascimento, pontuacao, partidas):
+        layout = [
+            [sg.Text("Id: ", font=('Bookman Old Style', 12)), sg.Text(str(id), font=('Bookman Old Style', 12))],
+            [sg.Text("Nome: ", font=('Bookman Old Style', 12)), sg.Text(nome, font=('Bookman Old Style', 12))],
+            [sg.Text("Data de nascimento: ", font=('Bookman Old Style', 12)), sg.Text(str(nascimento), font=('Bookman Old Style', 12))],
+            [sg.Text("Pontos: ", font=('Bookman Old Style', 12)), sg.Text(str(pontuacao), font=('Bookman Old Style', 12))],
+            [sg.Table(values=partidas,
+                      headings=["ID", "Nome", "Data de Nascimento", "Pontuação"],
+                      auto_size_columns=False,
+                      col_widths=[20, 20, 20, 10],
+                      font=('Bookman Old Style', 12),
+                      justification='center',
+                      key='-TABLE-')],
+            [sg.Button("Retornar", key="-RETORNAR-")]
+        ]
+
+        window = sg.Window('Listar jogadores', layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == "-RETORNAR-":
+                window.close()
+                return None
+        
     def seleciona_jogador(self, jogadores):
         layout = [
             [sg.Text('Selecione um jogador:')],
@@ -171,7 +235,6 @@ class TelaJogador():
                 jogador_selecionado = values['jogador_combo']
                 window.close()
                 return jogador_selecionado
-        
 
     def mostra_msg(self, msg):
         print(msg)

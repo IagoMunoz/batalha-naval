@@ -54,14 +54,19 @@ class ControladorJogador():
             self.__tela_jogador.mostra_msg('Jogador não encontrado')
 
     def lista_jogadores(self):
+        jogadores = []
         if len(self.__dao_jogador.get_all()) == 0:
-            self.__tela_jogador.mostra_msg('Sem jogadores cadastrados')
+            self.__tela_jogador.mostra_jogador(None)
 
         for jogador in self.__dao_jogador.get_all():
-            self.__tela_jogador.mostra_jogador({"cod": jogador.id, "nome": jogador.nome, "data de nascimento": jogador.data_nascimento, "pontuação": jogador.pontuacao})
-
+            jogadores.append([jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao])
+        self.__tela_jogador.mostra_jogador(jogadores)
+        
     def excluir_jogador(self):
-        jogadores = self.jogadores()
+        jogadores = []
+        for jogador in self.__dao_jogador.get_all():
+            jogadores.append(jogador.id)
+            
         id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
         jogador = self.pega_jogador_por_id(id_jogador)
 
@@ -69,34 +74,28 @@ class ControladorJogador():
             '''for partida in self.__controlador_sistema.controlador_partida.partidas:
                 if partida.jogador==jogador:
                     self.__controlador_sistema.controlador_partida.partidas.remove(partida)'''
-            self.__dao_jogador.remove(jogador)
+            self.__dao_jogador.remove(jogador.id)
             self.__tela_jogador.mostra_msg('Jogador excluído com sucesso!')
-            self.lista_jogadores()
         else:
             self.__tela_jogador.mostra_msg('Jogador não encontrado')
 
     def buscar_jogador(self):
-        jogadores = self.jogadores()
+        jogadores = []
+        partidas = []
+        for jogador in self.__dao_jogador.get_all():
+            jogadores.append(jogador.id)
         id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
         jogador = self.pega_jogador_por_id(id_jogador)
 
-        if (jogador is not None):
-            self.__tela_jogador.mostra_jogador({"cod": jogador.id, "nome": jogador.nome, "data de nascimento": jogador.data_nascimento, "pontuação": jogador.pontuacao})
+        if len(jogador.partidas)==0:
+            self.__tela_jogador.mostra_jogador_sozinho(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao)
 
-            while True:
-                self.__tela_jogador.mostra_msg(f'Partidas de {jogador.nome}:')
-
-                if len(self.__controlador_sistema.controlador_partida.partidas)==0:
-                    self.__tela_jogador.mostra_msg(f'{jogador.nome} não tem partidas')
-                    break
-
-                else:
-                    for partida in self.__controlador_sistema.controlador_partida.partidas:
-                        if partida.jogador == jogador:
-                            self.__controlador_sistema.tela_partida.mostra_partida({"jogador": partida.jogador, "data/hora": partida.data_hora, "número de rodadas": len(partida.rodadas), "vencedor": partida.vencedor})
-                    break
         else:
-            self.__tela_jogador.mostra_msg('Jogador não encontrado')
+            for partida in self.__controlador_sistema.controlador_partida.partidas:
+                if partida.jogador == jogador:
+                    partidas.append(partida)
+            self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partida)
+
 
     def ranking(self):
         jogs = self.__dao_jogador.get_all()
