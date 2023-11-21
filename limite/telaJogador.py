@@ -6,6 +6,7 @@ import PySimpleGUI as sg
 class TelaJogador():
     def __init__(self):
         sg.theme('darkpurple1')
+        self.__window = None
 
     def verifica_data(self, aux):
         if len(aux)!=10:
@@ -48,17 +49,17 @@ class TelaJogador():
             [sg.Button('OK')]
         ]
 
-        window = sg.Window('Entrada de Dados', layout)
+        self.__window = sg.Window('Entrada de Dados').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             try:
                 valor_int = int(values[0])
                 if ints_validos and valor_int not in ints_validos:
                     raise ValueError
 
-                window.close()
+                self.__window.close()
                 return valor_int
 
             except ValueError:
@@ -78,31 +79,31 @@ class TelaJogador():
             [sg.Button('Retornar', font=('Bookman Old Style', 12))]
         ]
 
-        window = sg.Window('Opções de Jogadores', layout)
+        self.__window = sg.Window('Opções de Jogadores').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED or event == 'Retornar':
-                window.close()
+                self.__window.close()
                 return 0
             elif event == 'Incluir Jogador':
-                window.close()
+                self.__window.close()
                 return 1
             elif event == 'Alterar Jogador':
-                window.close()
+                self.__window.close()
                 return 2
             elif event == 'Listar Jogadores':
-                window.close()
+                self.__window.close()
                 return 3
             elif event == 'Excluir Jogador':
-                window.close()
+                self.__window.close()
                 return 4
             elif event == 'Buscar Jogador':
-                window.close()
+                self.__window.close()
                 return 5
             elif event == 'Ranking de Jogadores':
-                window.close()
+                self.__window.close()
                 return 6
 
     def pega_dados(self):
@@ -113,13 +114,13 @@ class TelaJogador():
             [sg.Button('Confirmar', font=('Bookman Old Style', 12))]
         ]
 
-        window = sg.Window('Cadastro de Jogador', layout)
+        self.__window = sg.Window('Cadastro de Jogador').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED:
-                window.close()
+                self.__window.close()
                 return None
 
             elif event == 'Confirmar':
@@ -131,7 +132,7 @@ class TelaJogador():
 
                 if ver:
                     data_final = datetime.strptime(data, '%d/%m/%Y')
-                    window.close()
+                    self.__window.close()
                     return {"id": id, "nome": nome, "data de nascimento": data_final}
                 else:
                     sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
@@ -143,13 +144,13 @@ class TelaJogador():
                 [sg.Text('Sem jogadores cadastrados', font=('Bookman Old Style', 30), justification='center')],
                 [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 10))]
             ]
-            window = sg.Window('Listar jogadores', layout)
+            self.__window = sg.Window('Listar jogadores').Layout(layout)
 
             while True:
-                event, values = window.read()
+                event, values = self.__window.read()
 
                 if event == sg.WIN_CLOSED or event == "-RETORNAR-":
-                    window.close()
+                    self.__window.close()
                     return None
         else:
             layout = [
@@ -163,15 +164,15 @@ class TelaJogador():
                 [sg.Button("Retornar", key="-RETORNAR-")]
             ]
 
-            window = sg.Window("Lista de Jogadores", layout, resizable=True)
+            self.__window = sg.Window("Lista de Jogadores", resizable=True).Layout(layout)
 
             while True:
-                event, values = window.read()
+                event, values = self.__window.read()
 
                 if event == sg.WIN_CLOSED or event == "-RETORNAR-":
                     break
 
-            window.close()
+            self.__window.close()
 
     def mostra_jogador_sozinho(self, id, nome, nascimento, pontuacao):
         layout = [
@@ -181,23 +182,23 @@ class TelaJogador():
             [sg.Text("Pontos: ", font=('Bookman Old Style')), sg.Text(pontuacao, font=('Bookman Old Style'))],
             [sg.Button("Retornar", key="-RETORNAR-")]
         ]
-        window = sg.Window('Listar jogadores', layout)
+        self.__window = sg.Window('Listar jogadores').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.Read()
 
             if event == sg.WIN_CLOSED or event == "-RETORNAR-":
-                window.close()
+                self.__window.close()
                 return None
                 
     def mostra_jogador_sozinho_sem_partida(self, id, nome, nascimento, pontuacao, partidas):
         layout = [
             [sg.Text("Id: ", font=('Bookman Old Style', 12)), sg.Text(str(id), font=('Bookman Old Style', 12))],
             [sg.Text("Nome: ", font=('Bookman Old Style', 12)), sg.Text(nome, font=('Bookman Old Style', 12))],
-            [sg.Text("Data de nascimento: ", font=('Bookman Old Style', 12)), sg.Text(str(nascimento), font=('Bookman Old Style', 12))],
+            [sg.Text("Data de nascimento: ", font=('Bookman Old Style', 12)), sg.Text(nascimento, font=('Bookman Old Style', 12))],
             [sg.Text("Pontos: ", font=('Bookman Old Style', 12)), sg.Text(str(pontuacao), font=('Bookman Old Style', 12))],
             [sg.Table(values=partidas,
-                      headings=["ID", "Nome", "Data de Nascimento", "Pontuação"],
+                      headings=["ID", "ID Jogador", "Data/Hora", "Vencedor"],
                       auto_size_columns=False,
                       col_widths=[20, 20, 20, 10],
                       font=('Bookman Old Style', 12),
@@ -206,13 +207,13 @@ class TelaJogador():
             [sg.Button("Retornar", key="-RETORNAR-")]
         ]
 
-        window = sg.Window('Listar jogadores', layout)
+        self.__window = sg.Window('Listar jogadores').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED or event == "-RETORNAR-":
-                window.close()
+                self.__window.close()
                 return None
         
     def seleciona_jogador(self, jogadores):
@@ -222,18 +223,18 @@ class TelaJogador():
             [sg.Button('Selecionar Jogador'), sg.Button('Cancelar')]
         ]
 
-        window = sg.Window('Seleção de Jogador', layout)
+        self.__window = sg.Window('Seleção de Jogador').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED or event == 'Cancelar':
-                window.close()
+                self.__window.close()
                 return None
 
             elif event == 'Selecionar Jogador':
                 jogador_selecionado = values['jogador_combo']
-                window.close()
+                self.__window.close()
                 return jogador_selecionado
 
     def mostra_msg(self, msg):
@@ -247,21 +248,21 @@ class TelaJogador():
             [sg.Button('Cancelar', font=('Bookman Old Style', 12))]
         ]
 
-        window = sg.Window('Alterar Jogador', layout)
+        self.__window = sg.Window('Alterar Jogador').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED or event == 'Cancelar':
-                window.close()
+                self.__window.close()
                 return None
 
             elif event == 'Alterar Nome':
-                window.close()
+                self.__window.close()
                 return 1
 
             elif event == 'Alterar Data de Nascimento':
-                window.close()
+                self.__window.close()
                 return 2
 
     def alterar_nome(self):
@@ -271,18 +272,18 @@ class TelaJogador():
             [sg.Button('Confirmar', font=('Bookman Old Style', 12)), sg.Button('Cancelar', font=('Bookman Old Style', 12))]
         ]
 
-        window = sg.Window('Alterar Nome', layout)
+        self.__window = sg.Window('Alterar Nome').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED or event == 'Cancelar':
-                window.close()
+                self.__window.close()
                 return None
 
             elif event == 'Confirmar':
                 novo_nome = values['novo_nome']
-                window.close()
+                self.__window.close()
                 return novo_nome
 
     def alterar_nascimento(self):
@@ -293,13 +294,13 @@ class TelaJogador():
             [sg.Button('Confirmar', font=('Bookman Old Style', 12)), sg.Button('Cancelar', font=('Bookman Old Style', 12))]
         ]
 
-        window = sg.Window('Alterar Data de Nascimento', layout)
+        self.__window = sg.Window('Alterar Data de Nascimento').Layout(layout)
 
         while True:
-            event, values = window.read()
+            event, values = self.__window.read()
 
             if event == sg.WIN_CLOSED or event == 'Cancelar':
-                window.close()
+                self.__window.close()
                 return None
 
             elif event == 'Confirmar':
@@ -308,10 +309,17 @@ class TelaJogador():
             
                 if ver:
                     data_final = datetime.strptime(nova_data, '%d/%m/%Y')
-                    window.close()
+                    self.__window.close()
                     return data_final
                 else:
                     sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
 
     def ranking(self, ranking):
         print(ranking)
+        
+    def close(self):
+        self.__window.Close()
+        
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values

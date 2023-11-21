@@ -93,8 +93,8 @@ class ControladorJogador():
         else:
             for partida in self.__controlador_sistema.controlador_partida.partidas:
                 if partida.jogador == jogador:
-                    partidas.append(partida)
-            self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partida)
+                    partidas.append([partida.id, partida.jogador, partida.data_hora, partida.vencedor])
+            self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
 
 
     def ranking(self):
