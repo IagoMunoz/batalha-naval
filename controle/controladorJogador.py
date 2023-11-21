@@ -62,6 +62,13 @@ class ControladorJogador():
             jogadores.append([jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao])
         self.__tela_jogador.mostra_jogador(jogadores)
         
+    def pega_jogador(self):
+        jogadores = []
+        for jogador in self.__dao_jogador.get_all():
+            jogadores.append(jogador.id)
+        jogador = self.__tela_jogador.seleciona_jogador(jogadores)
+        return jogador
+    
     def excluir_jogador(self):
         jogadores = []
         for jogador in self.__dao_jogador.get_all():

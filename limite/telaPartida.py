@@ -61,21 +61,12 @@ class TelaPartida():
         if opcao==1:
             return [10,10]
         if opcao==2:
-            # while True:
-            #     try:
-            #         tamanho_y, tamanho_x = int(input('Digite os tamanhos da tela do oceano, coluna e depois linha(ex: 10 10):')).split()
-            #         if tamanho_y<6 or tamanho_x<6:
-            #             tamanho_y, tamanho_x = int(input('Valores muito pequenos. Digite os valores novamente um ao lado do outro: ')).split()
-            #         elif tamanho_y>30 or tamanho_x>30:
-            #             tamanho_y, tamanho_x = int(input('Valores muito grandes. Digite os valores novamente um ao lado do outro: ')).split()
-            #         else:
-            #             break
-            #     except ValueError:
-            #         print('Os valores digitados não são inteiros')
-
+           
         #o y é linha e o x coluna
+        #pra apresentaçao os limites sao 21 e 48
+        #pra os nossos notebooks, por uma questao de teste, sao tipo 11 e 24
             tamanho_y=int(input("ai que nao sei o que linha: "))
-            tamanho_x=int(input("ai que nao sei o que linha: "))
+            tamanho_x=int(input("ai que nao sei o que coluna "))
             return [tamanho_y, tamanho_x]
 
     def adicionar_posicao(self, barco, oceano, barcos):
@@ -129,7 +120,6 @@ class TelaPartida():
                     row, col = event
                     selection = show_confirmation_dialog(row+1, col+1, barco)
                     if selection is not None:
-                        sg.popup(f'Posição selecionada: {selection}')
                         break  
 
             # Fechamento da janela ao sair do loop
@@ -154,7 +144,7 @@ class TelaPartida():
 
                 if tembarco==False:
                     oceano[ycolunas][xlinhas] = '~~'
-        
+        print(oceano)
         selecao = faztela(oceano, barco)
         
         valory = selecao[0]
@@ -200,8 +190,8 @@ class TelaPartida():
                     row_layout = []
                     for j, cell in enumerate(row):
                         button_color = ('black', 'yellow') if [i, j] == highlighted_position else ('black', 'white')
-                        button = sg.Button(str(cell), size=(4, 2), disabled=True, font=('Helvetica', font_size),
-                                        button_color=button_color, pad=(2, 2))
+                        button = sg.Button(str(cell), size=(2, 1), disabled=True, font=('Helvetica', font_size),
+                                        button_color=button_color, pad=(2, 1))
                         row_layout.append(button)
                     layout.append(row_layout)
 
@@ -325,7 +315,7 @@ class TelaPartida():
         
         
 
-        if (posicao[0] + bs_tamanho) > len(oceano[0]):
+        if (posicao[0] + bs_tamanho) > len(oceano[1]):
             baixo=False
 
         

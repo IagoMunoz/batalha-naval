@@ -55,8 +55,7 @@ class ControladorPartida():
         return None
             
     def nova_partida(self):
-        id_jogador = self.__controlador_sistema.tela_jogador.seleciona_jogador()
-        jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(id_jogador)
+        jogador = self.__controlador_sistema.controlador_jogador.pega_jogador()
         
         if (jogador is not None):
 
