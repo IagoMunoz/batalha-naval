@@ -181,17 +181,20 @@ class TelaPartida():
 
             def create_layout(matrix, font_size, barco):
                 layout = [
-                    [sg.Text(f'Escolha a posiçao para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  
+                    [sg.Text(f'Escolha a posição para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, value in enumerate(row):
-                        button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
+                        if value != '~~':  # Verifica se o valor do botão não é '~~'
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True, button_color=('white', 'white'))
+                        else:
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
                         row_layout.append(button)
                     layout.append(row_layout)
                 return layout
 
-
+            # Função para mostrar a caixa de diálogo de confirmação
             def show_confirmation_dialog(row, col, barco):
                 layout = [
                     [sg.Text(f'Deseja posicionar o/a {barco["_BS__nome"]} na linha: {row} e coluna: {col}?')],
