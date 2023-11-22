@@ -176,10 +176,10 @@ class TelaJogador():
 
     def mostra_jogador_sozinho(self, id, nome, nascimento, pontuacao):
         layout = [
-            [sg.Text("Id: ", font=('Bookman Old Style')), sg.Text(id, font=('Bookman Old Style'))],
-            [sg.Text("Nome: ", font=('Bookman Old Style')), sg.Text(nome, font=('Bookman Old Style'))],
-            [sg.Text("Data de nascimento: ", font=('Bookman Old Style')), sg.Text(str(nascimento), font=('Bookman Old Style'))],
-            [sg.Text("Pontos: ", font=('Bookman Old Style')), sg.Text(pontuacao, font=('Bookman Old Style'))],
+            [sg.Text("Id: ", font=('Bookman Old Style',15)), sg.Text(id, font=('Bookman Old Style',15))],
+            [sg.Text("Nome: ", font=('Bookman Old Style',15)), sg.Text(nome, font=('Bookman Old Style',15))],
+            [sg.Text("Data de nascimento: ", font=('Bookman Old Style',15)), sg.Text(str(nascimento), font=('Bookman Old Style',15))],
+            [sg.Text("Pontos: ", font=('Bookman Old Style',15)), sg.Text(pontuacao, font=('Bookman Old Style',15))],
             [sg.Button("Retornar", key="-RETORNAR-")]
         ]
         self.__window = sg.Window('Listar jogadores').Layout(layout)

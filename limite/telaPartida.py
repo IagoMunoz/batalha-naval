@@ -4,6 +4,10 @@ import PySimpleGUI as sg
 
 
 class TelaPartida():
+    def __init__(self):
+        sg.theme('darkpurple1')
+        self.__window = None
+        
     def le_num_inteiro(self, mensagem=" ", ints_validos = None):
         while True:
             valor_lido = input(mensagem)
@@ -17,26 +21,72 @@ class TelaPartida():
                 if ints_validos:
                     print("Valores válidos: ", ints_validos)
     
+    
     def tela_opcoes(self):
-        print("-------- Partidas ----------")
-        print("Escolha a opcão:")
-        print("1 - Nova Partida")
-        print("2 - Listar Partidas")
-        print("3 - Buscar Partida")
-        print("4 - Excluir Partida")
-        print("0 - Retornar")
+        layout = [
+            [sg.Text('Escolha a opção:', font=("Bookman Old Style", 15))],
+            [sg.Button('Nova Partida', font=('Bookman Old Style', 12))],
+            [sg.Button('Listar Partidas', font=('Bookman Old Style', 12))],
+            [sg.Button('Buscar Partida', font=('Bookman Old Style', 12))],
+            [sg.Button('Excluir Partida', font=('Bookman Old Style', 12))],
+            [sg.Button('Retornar', font=('Bookman Old Style', 12))]
+        ]
 
-        opcao = self.le_num_inteiro("Escolha a opcão: ", [1,2,3,4,0])
-        return opcao
+        self.__window = sg.Window('Partidas').Layout(layout)
+
+        while True:
+            event, values = self.__window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Retornar':
+                self.__window.close()
+                return 0
+            elif event == 'Nova Partida':
+                self.__window.close()
+                return 1
+            elif event == 'Listar Partidas':
+                self.__window.close()
+                return 2
+            elif event == 'Buscar Partida':
+                self.__window.close()
+                return 3
+            elif event == 'Excluir Partida':
+                self.__window.close()
+                return 4
+
     
     def mostra_partida(self, dados_partida):
-        print("ID DA PARTIDA: ", dados_partida["id"])
-        print("JOGADOR DA PARTIDA: ", dados_partida["jogador"])
-        print("DATA DA PARTIDA: ", dados_partida["data/hora"])
-        print("NÚMERO DE RODADAS: ", dados_partida["número de rodadas"])
-        print("VENCEDOR: ", dados_partida["vencedor"])
-        print("\n")
-    
+        if dados_partida==None:
+            layout = [
+                [sg.Text('Sem partidas cadastradas', font=('Bookman Old Style', 15), justification='center')],
+                [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 10))]
+            ]
+            self.__window = sg.Window('Listar jogadores').Layout(layout)
+
+            while True:
+                event, values = self.__window.read()
+
+                if event == sg.WIN_CLOSED or event == "-RETORNAR-":
+                    self.__window.close()
+                    return None
+        else:
+            layout = [
+                    [sg.Table(values=dados_partida,
+                            headings=["ID", "Jogador", "Data", "Núm de rodadas", "Vencedor"],
+                            auto_size_columns=False,
+                            col_widths=[20, 20, 20, 20, 20], 
+                            font=('Bookman Old Style', 15),
+                            justification='center',
+                            key='-TABLE-')],
+                    [sg.Button("Retornar", key="-RETORNAR-")]
+                ]
+            self.__window = sg.Window("Lista de partidas", resizable=True).Layout(layout)
+            
+            while True:
+                event, values = self.__window.read()
+                if event == 'Retornar' or event == sg.WIN_CLOSED:
+                    break
+                self.__window.close()
+            
     def pega_jogador(self):
         try:
             id = int(input('Digite o ID do jogador da partida: '))
@@ -44,20 +94,76 @@ class TelaPartida():
         except ValueError:
             print('O valor digitado não é inteiro')
     
-    def pega_partida(self):
-        try:
-            id = int(input('Digite o ID da partida: '))
-            return id 
-        except ValueError:
-            print('O valor digitado não é inteiro')
+    def pega_partida(self, partidas):
+        layout = [
+            [sg.Text('Selecione uma partida:')],
+            [sg.Combo(partidas, key='partida_combo')],
+            [sg.Button('Selecionar partida'), sg.Button('Cancelar')]
+        ]
+
+        self.__window = sg.Window('Seleção de partida').Layout(layout)
+
+        while True:
+            event, values = self.__window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Cancelar':
+                self.__window.close()
+                return None
+
+            elif event == 'Selecionar partida':
+                partida_selecionada = values['partida_combo']
+                self.__window.close()
+                return partida_selecionada
 
     def seleciona_jogo(self):
-        print('------- SELECIONE O TIPO DE OCEANO -------')
-        print()
-        print('1) Oceano padrão (10x10)')
-        print('2) Oceano personalizado')
+        layout = [
+            [sg.Text('Selecione o tipo de oceano:', font=("Bookman Old Style", 15))],
+            [sg.Button('Oceano padrão', font=('Bookman Old Style', 12))],
+            [sg.Button('Oceano personalizado', font=('Bookman Old Style', 12))],
+            [sg.Button('Retornar', font=('Bookman Old Style', 12))]
+        ]
+        
+        self.__window = sg.Window('Opções de Jogadores').Layout(layout)
 
-        opcao = self.le_num_inteiro('Selecione a opção: ', [1,2])
+        while True:
+            event, values = self.__window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Retornar':
+                self.__window.close()
+                break
+            if event == 'Oceano padrão':
+                self.__window.close()
+                return [11,24]
+            else:
+                layout = [
+                    [sg.Text('Tamanho x:'), sg.InputText(key='x')],
+                    [sg.Text('Tamanho y:'), sg.InputText(key='y')],
+                    [sg.Button('Enviar', font=('Bookman Old Style', 12))]
+                ]
+                self.__window = sg.Window('Tamanho oceano').Layout(layout)
+                
+                
+                while True:
+                    event, values = self.__window.read()
+                    if event == sg.WIN_CLOSED :
+                        self.__window.close()
+                        
+                    elif event == 'Enviar':
+                        x = int(values['x'])
+                        y = int(values['y'])
+                        if x > 21 or y > 48:
+                            sg.popup_error('Tamanho maior do que o possível')
+                        else:
+                            self.__window.close()
+                            return [x, y]
+                        
+                    elif event == 'Enviar':
+                        x = values[x]
+                        y = values[y]
+                        self.__window.close()
+                        return[x,y]
+                
+        '''opcao = self.le_num_inteiro('Selecione a opção: ', [1,2])
         if opcao==1:
             return [10,10]
         if opcao==2:
@@ -67,15 +173,15 @@ class TelaPartida():
         #pra os nossos notebooks, por uma questao de teste, sao tipo 11 e 24
             tamanho_y=int(input("ai que nao sei o que linha: "))
             tamanho_x=int(input("ai que nao sei o que coluna "))
-            return [tamanho_y, tamanho_x]
+            return [tamanho_y, tamanho_x]'''
 
     def adicionar_posicao(self, barco, oceano, barcos):
 
         def faztela( matrix, barco):
-    # Função para criar um layout a partir da matriz com botões de tamanho de fonte ajustável
+
             def create_layout(matrix, font_size, barco):
                 layout = [
-                    [sg.Text(f'Escolha a posiçao para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'Escolha a posiçao para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
@@ -85,7 +191,7 @@ class TelaPartida():
                     layout.append(row_layout)
                 return layout
 
-            # Função para mostrar a caixa de diálogo de confirmação
+
             def show_confirmation_dialog(row, col, barco):
                 layout = [
                     [sg.Text(f'Deseja posicionar o/a {barco["_BS__nome"]} na linha: {row} e coluna: {col}?')],
@@ -101,16 +207,12 @@ class TelaPartida():
                         window.close()
                         return [row, col]
 
-            # Tamanho da fonte inicial
             font_size = 12
 
-            # Layout inicial da janela com os botões
             layout = create_layout(matrix, font_size, barco)
 
-            # Criação da janela
             window = sg.Window('Matriz como Botões', layout)
 
-            # Loop para interação com a janela
             while True:
                 event, values = window.read()
 
@@ -121,8 +223,6 @@ class TelaPartida():
                     selection = show_confirmation_dialog(row+1, col+1, barco)
                     if selection is not None:
                         break  
-
-            # Fechamento da janela ao sair do loop
             window.close()
             return selection
 

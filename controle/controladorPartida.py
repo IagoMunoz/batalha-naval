@@ -85,11 +85,14 @@ class ControladorPartida():
             self.__tela_partida.mostra_msg('Jogador não encontrado')
 
     def lista_partidas(self):
+        partidas = []
         if len(self.__partidas)==0:
-            self.__tela_partida.mostra_msg('Sem partidas cadastradas')
+            self.__tela_partida.mostra_partida(None)
         else:
             for partida in self.__partidas:
-                self.__tela_partida.mostra_partida({"id": partida.id, "data/hora": partida.data_hora, "jogador": partida.jogador.nome, "número de rodadas": len(partida.rodadas), "vencedor": partida.vencedor})
+                partidas.append([partida.id, partida.data_hora, partida.jogador, len(partida.rodadas), partida.vencedor])
+                
+            self.__tela_partida.mostra_partida(partidas)
                 
 
     def buscar_partida(self):
@@ -102,14 +105,21 @@ class ControladorPartida():
             self.__tela_partida.mostra_msg('Partida não cadastrada')
             
     def excluir_partida(self):
-        id_partida = self.__tela_partida.pega_partida()
+        if len(self.__partidas)==0:
+            pass
+        partidas = []
+        for partida in self.__partidas:
+            partidas.append(partida.id)
+            
+        id_partida = self.__tela_partida.pega_partida(partidas)
         partida = self.pega_partida_por_id(id_partida)
+        
         if partida is not None:
+            #arrumar pontuação 
             partida.jogador.pontuacao -= 16
             self.__partidas.remove(partida)
             self.__tela_partida.mostra_msg('Partida excluída com sucesso')
-        else:
-            self.__tela_partida.mostra_msg('Partida não cadastrada')
+
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()
