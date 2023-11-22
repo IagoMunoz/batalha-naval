@@ -62,12 +62,5 @@ class BS(ABC):
             if coordenada == "Baixo":
                 self.posiciona((posicao[0] + (casas+1), posicao[1]))
 
-    def tomoutiro(self, y, x):
-        for posicao in self.posicoes:
-            if posicao[0] == y and posicao[1] == x:
-                posicao[2]=False
-
-    def desbarco(self, barco):
-        barco.estado= False
         
     

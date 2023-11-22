@@ -40,7 +40,10 @@ class ControladorBarcoSuper():
                 if posicao[2] == False:
                     checades += 1
             if checades >= barco.tamanho:
-                BS.desbarco(self, barco)
+                self.desbarco(barco)
+
+    def desbarco(self, barco):
+        barco.estado= False
 
     def tomoutiro(self, barcos, valory, valorx):
         self.__controlador_sistema.controlador_rodada.aux_acertos = 0
@@ -69,14 +72,8 @@ class ControladorBarcoSuper():
         
         relogio = len(barcos)
         for ponteiro in range(relogio):
-
-            
-
-            
-            print(dic_barcos)
             posicao = self.__controlador_sistema.tela_partida.adicionar_posicao(dic_barcos[ponteiro], oceano, dic_barcos)
             barcos[ponteiro].posiciona(posicao)
-            print(dic_barcos)
 
             if barcos[ponteiro].tamanho > 1:
                 continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
@@ -94,6 +91,7 @@ class ControladorBarcoSuper():
 
             if barcos[ponteiro].tamanho > 1:
                 continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao_comp(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
+                continuar_pos = continuar_pos.title()
                 barcos[ponteiro].continuar_posicao(continuar_pos, posicao)
             
 

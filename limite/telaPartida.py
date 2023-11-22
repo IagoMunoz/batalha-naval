@@ -133,7 +133,7 @@ class TelaPartida():
                 break
             if event == 'Oceano padrão':
                 self.__window.close()
-                return [11,24]
+                return [5,5]
             else:
                 layout = [
                     [sg.Text('Tamanho x:'), sg.InputText(key='x')],

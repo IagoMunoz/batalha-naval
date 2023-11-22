@@ -50,8 +50,8 @@ class TelaRodada():
 
                 if tembarco == False:
                     marzin=True
-                    for jatiro in jatiro:
-                        if jatiro[0] == ycolunas+1 and jatiro[1] == xlinha+1:
+                    for jatiroin in jatiro:
+                        if jatiroin[0] == ycolunas+1 and jatiroin[1] == xlinha+1:
                             print('[@]',end='')
                             marzin=False
                     if marzin==True:
@@ -124,8 +124,8 @@ class TelaRodada():
 
                 if tembarco == False:
                     marzin=True
-                    for jatiro in jatiro:
-                        if jatiro[0] == ycolunas+1 and jatiro[1] == xlinha+1:
+                    for jatiroin in jatiro:
+                        if jatiroin[0] == ycolunas+1 and jatiroin[1] == xlinha+1:
                             print('[@]',end='')
                             marzin=False
                     if marzin==True:

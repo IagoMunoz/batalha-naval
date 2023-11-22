@@ -63,6 +63,8 @@ class ControladorRodada():
 
                 jogadnv = seracertou
                 
+                partida.jatiro.append([list_escolhexy[0],list_escolhexy[1]])
+
                 tiros = []
                 tiros.append(list_escolhexy[0])
                 tiros.append(list_escolhexy[1])
