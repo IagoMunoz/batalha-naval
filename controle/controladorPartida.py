@@ -74,7 +74,7 @@ class ControladorPartida():
             self.__controlador_sistema.controlador_barco_super.adicionar_posicao_comp(auxoceanopar , lista_barcos_comp)
             for cheat in partida.lista_barcos_comp:
                 for poscheat in cheat.posicoes:
-                    print (poscheat)
+                    print ('linha:', poscheat[0]+1, 'coluna', poscheat[1]+1)
                     
             self.partida_total(partida)
 
@@ -162,9 +162,9 @@ class ControladorPartida():
 
             aux_comp = self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
             rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp)
-            print('testando')
+            
             partida.rodadas.append(rodada)
-            print('testando2')
+            
             
             if all(not barco.estado for barco in partida.lista_barcos):
                 self.__tela_partida.mostra_msg('O computador ganhou')

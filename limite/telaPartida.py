@@ -247,7 +247,6 @@ class TelaPartida():
 
                 if tembarco==False:
                     oceano[ycolunas][xlinhas] = '~~'
-        print(oceano)
         selecao = faztela(oceano, barco)
         
         valory = selecao[0]
