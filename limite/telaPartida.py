@@ -54,38 +54,58 @@ class TelaPartida():
                 return 4
 
     
-    def mostra_partida(self, dados_partida):
-        if dados_partida==None:
-            layout = [
+    def sem_partidas(self):
+        layout = [
                 [sg.Text('Sem partidas cadastradas', font=('Bookman Old Style', 15), justification='center')],
                 [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 10))]
             ]
-            self.__window = sg.Window('Listar jogadores').Layout(layout)
-
-            while True:
+        self.__window = sg.Window('sem partidas').Layout(layout)
+        
+        while True:
                 event, values = self.__window.read()
 
                 if event == sg.WIN_CLOSED or event == "-RETORNAR-":
                     self.__window.close()
                     return None
-        else:
-            layout = [
-                    [sg.Table(values=dados_partida,
-                            headings=["ID", "Jogador", "Data", "Núm de rodadas", "Vencedor"],
-                            auto_size_columns=False,
-                            col_widths=[20, 20, 20, 20, 20], 
-                            font=('Bookman Old Style', 15),
-                            justification='center',
-                            key='-TABLE-')],
-                    [sg.Button("Retornar", key="-RETORNAR-")]
-                ]
-            self.__window = sg.Window("Lista de partidas", resizable=True).Layout(layout)
+        
+    
+    def mostra_partidas(self, dados_partida):
+        layout = [
+                [sg.Table(values=dados_partida,
+                        headings=["ID", "Jogador", "Data", "Núm de rodadas", "Vencedor"],
+                        auto_size_columns=False,
+                        col_widths=[20, 20, 20, 20, 20], 
+                        font=('Bookman Old Style', 15),
+                        justification='center',
+                        key='-TABLE-')],
+                [sg.Button("Retornar", key="-RETORNAR-")]
+            ]
+        self.__window = sg.Window("Lista de partidas", resizable=True).Layout(layout)
+        
+        while True:
+            event, values = self.__window.read()
+            if event == 'Retornar' or event == sg.WIN_CLOSED:
+                break
+        self.__window.close()
             
-            while True:
-                event, values = self.__window.read()
-                if event == 'Retornar' or event == sg.WIN_CLOSED:
-                    break
-                self.__window.close()
+    def mostra_partida_sozinha(self, id, jogador, data, num_rodadas, vencedor, rodadas):
+        layout = [
+            [sg.Text("Id: ", font=('Bookman Old Style',15)), sg.Text(id, font=('Bookman Old Style',15))],
+            [sg.Text("Jogador: ", font=('Bookman Old Style',15)), sg.Text(jogador, font=('Bookman Old Style',15))],
+            [sg.Text("Data/hora: ", font=('Bookman Old Style',15)), sg.Text(str(data), font=('Bookman Old Style',15))],
+            [sg.Text("Número de rodadas: ", font=('Bookman Old Style',15)), sg.Text(num_rodadas, font=('Bookman Old Style',15))],
+            [sg.Text("Vencedor: ", font=('Bookman Old Style',15)), sg.Text(vencedor, font=('Bookman Old Style',15))],
+            [sg.Button("Retornar", key="-RETORNAR-"), sg.Button("Ver rodadas", key="-RODADAS-") ]
+        ]
+        self.__window = sg.Window('partida').Layout(layout)
+        
+        while True:
+            event, values = self.__window.read()
+            if event == '-RETORNAR-' or event == sg.WIN_CLOSED:
+                break
+            if event == '-RODADAS-':
+                return 0
+        self.__window.close()
             
     def pega_jogador(self):
         try:
@@ -162,18 +182,8 @@ class TelaPartida():
                         y = values[y]
                         self.__window.close()
                         return[x,y]
-                
-        '''opcao = self.le_num_inteiro('Selecione a opção: ', [1,2])
-        if opcao==1:
-            return [10,10]
-        if opcao==2:
-           
-        #o y é linha e o x coluna
-        #pra apresentaçao os limites sao 21 e 48
-        #pra os nossos notebooks, por uma questao de teste, sao tipo 11 e 24
-            tamanho_y=int(input("ai que nao sei o que linha: "))
-            tamanho_x=int(input("ai que nao sei o que coluna "))
-            return [tamanho_y, tamanho_x]'''
+                    
+        self.__window.close()
 
     def adicionar_posicao(self, barco, oceano, barcos):
 
@@ -194,7 +204,6 @@ class TelaPartida():
                     layout.append(row_layout)
                 return layout
 
-            # Função para mostrar a caixa de diálogo de confirmação
             def show_confirmation_dialog(row, col, barco):
                 layout = [
                     [sg.Text(f'Deseja posicionar o/a {barco["_BS__nome"]} na linha: {row} e coluna: {col}?')],

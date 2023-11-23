@@ -76,5 +76,19 @@ class TelaSistema:
                 window.close()
                 return 2
             
+    def finaliza(self):
+        layout = [
+            [sg.Text('Sistema Encerrado!', font=("Bookman Old Style", 20), justification='center')],
+            [sg.Button('Fechar', size=(15, 2), font=('Bookman Old Style', 10), pad=(100, 0))]
+        ]
+        window = sg.Window('Finaliza', layout)
+        
+        while True:
+            event, values = window.read()
+
+            if event == sg.WIN_CLOSED or event == 'Fechar':
+                window.close()
+                break
+            
     def mostra_msg(self, msg):
         print(msg)

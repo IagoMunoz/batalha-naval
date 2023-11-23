@@ -314,8 +314,20 @@ class TelaJogador():
                 else:
                     sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
 
-    def ranking(self, ranking):
-        print(ranking)
+    def ranking(self, jogadores):
+        layout = [
+            [sg.Text('Ranking de Jogadores', font=('Bookman Old Style', 15))],
+            [sg.Listbox(values=jogadores, size=(30, 10), key='list', enable_events=True, font=('Bookman Old Style', 10))],
+            [sg.Button('Voltar', font=('Bookman Old Style', 10))]
+        ]
+        self.__window = sg.Window('ranking').Layout(layout) 
+
+        while True:
+            event, values = self.__window.read()
+
+            if event == sg.WINDOW_CLOSED or event == 'Voltar':
+                break
+        self.__window.close()
         
     def close(self):
         self.__window.Close()
