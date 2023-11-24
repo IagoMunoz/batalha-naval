@@ -105,13 +105,15 @@ class ControladorRodada():
                 for dic_obj in partida.lista_barcos:
                     dic_barcos.append(vars(dic_obj))
                 lista_jatiro = partida.jatiro_comp
-
-
-                self.controlador_sistema.tela_rodada.rodada1_comp(list_oceano, dic_barcos, lista_jatiro)
-                list_escolhexy = self.controlador_sistema.tela_rodada.escolhexy_rodada_comp(list_oceano, dic_barcos,  lista_jatiro)
+                
+                list_escolhexy = self.controlador_sistema.tela_rodada.rodada1_comp(list_oceano, dic_barcos, lista_jatiro, partida.computador.joga(partida.oceano.oceano, partida.jatiro_comp))
                 poretorna = list_escolhexy[2]
                 seracertou = self.controlador_sistema.controlador_barco_super.tomoutiro(partida.lista_barcos,list_escolhexy[0], list_escolhexy[1] )
+                
                 jogadnv = seracertou
+
+                partida.jatiro_comp.append([list_escolhexy[0],list_escolhexy[1]])
+
                 tiros = []
                 tiros.append(list_escolhexy[0])
                 tiros.append(list_escolhexy[1])
@@ -124,11 +126,15 @@ class ControladorRodada():
                     jogadnv = False
                 
                 
+                list_oceano = partida.oceano.oceano
                 dic_barcos = []
-                for dic_obj in partida.lista_barcos:
+                for dic_obj in partida.lista_barcos_comp:
                     dic_barcos.append(vars(dic_obj))
+                lista_jatiro = partida.jatiro
 
-                aux_ace = self.controlador_sistema.tela_rodada.conc_rodada_comp(jogadnv, acertou)
+                self.controlador_sistema.tela_rodada.tela_acerto_comp(list_oceano, dic_barcos, lista_jatiro, list_escolhexy)
+
+                aux_ace = self.controlador_sistema.tela_rodada.conc_rodada(jogadnv, acertou)
                 self.controlador_sistema.controlador_partida.aux_comp.append([tiros, aux_ace])
         return acertos
         

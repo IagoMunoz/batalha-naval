@@ -174,6 +174,26 @@ class TelaPartida():
             tamanho_y=int(input("ai que nao sei o que linha: "))
             tamanho_x=int(input("ai que nao sei o que coluna "))
             return [tamanho_y, tamanho_x]'''
+    def mostrar_ordem_posicionamento(self):
+        layout = [
+            [sg.Text('Você irá posicionar seus barcos na seguinte ordem:')],
+            [sg.Text('Quatro Botes')],
+            [sg.Text('Três Submarinos')],
+            [sg.Text('Três Fragatas')],
+            [sg.Text('Um porta-aviões')],
+            [sg.Button('OK')]
+        ]
+
+        window = sg.Window('Posicionamento de Barcos', layout)
+
+        while True:
+            event, _ = window.read()
+
+            if event == sg.WINDOW_CLOSED or event == 'OK':
+                break
+
+        window.close()
+
 
     def adicionar_posicao(self, barco, oceano, barcos):
 
@@ -286,7 +306,7 @@ class TelaPartida():
         def faztela(matrix, barco, posicao, lista_bool_pos ):
             def create_layout(matrix, font_size, barco, highlighted_position=None, directions_visibility=None):
                 layout = [
-                    [sg.Text(f'Escolha a posiçao para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'Escolha uma posição inicial para o/a {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
@@ -298,7 +318,7 @@ class TelaPartida():
                     layout.append(row_layout)
 
                 # Adicionando texto para posicionar o barco
-                layout.append([sg.Text('Você deseja posicionar o barco em que direção?')])
+                layout.append([sg.Text(f'Você deseja estender o/a {barco["_BS__nome"]} em que direção?')])
 
                 # Adicionando botões de direção de acordo com a visibilidade
                 if directions_visibility:
@@ -319,7 +339,7 @@ class TelaPartida():
             # Função para criar layout da janela de confirmação da direção
             def create_confirmation_layout(direction):
                 layout = [
-                    [sg.Text(f'Deseja posicionar na direção: {direction}?')],
+                    [sg.Text(f'Deseja estender na direção: {direction}?')],
                     [sg.Button('Cancelar'), sg.Button('Confirmar')]
                 ]
                 return layout
@@ -365,18 +385,6 @@ class TelaPartida():
             # Fechamento da janela ao sair do loop
             window.close()
             return selected_direction
-            
-           
-        
-        print('bem vindo a continuaçao sistema de posicionamento de barcos')
-        print('você vai continuar o posicionamento de um(a) {} agora'.format(barco['_BS__nome']))
-        print("  ")
-
-
-
-        
-        
-        
         
         for ycolunas in range(len(oceano)):
             for xlinhas in range(len(oceano[ycolunas])):
@@ -392,11 +400,6 @@ class TelaPartida():
                     oceano[ycolunas][xlinhas] = '~~'
         
 
-
-            
-        print("")
-        print("voce pode estender o barco nas seguintes direçoes:")
-        print("")
         cima=True
         baixo=True
         direita=True
@@ -480,7 +483,7 @@ class TelaPartida():
 
         
         auxescolha = faztela(oceano, barco, posicao, lista_bool_pos)
-        print(barco['_BS__nome'])
+       
 
         return auxescolha
         
@@ -568,16 +571,6 @@ class TelaPartida():
         auxescolha = socorromeudeus[auxrandom]
         
         return auxescolha
-
-
-            
-
-                    
-                                
-            
-
-
-            
     def mostra_msg(self, msg):
         print(msg)
     

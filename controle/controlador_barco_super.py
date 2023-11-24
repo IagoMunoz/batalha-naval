@@ -20,9 +20,9 @@ class ControladorBarcoSuper():
 
     def listar_barcos(self):
         aux_lista_barcos = []
-        for i in range (0):
-            aux_lista_barcos.append(Bote())
         for i in range (2):
+            aux_lista_barcos.append(Bote())
+        for i in range (0):
             aux_lista_barcos.append(Submarino())
         for i in range (0):
             aux_lista_barcos.append(Fragata())

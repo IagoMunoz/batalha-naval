@@ -70,6 +70,7 @@ class ControladorPartida():
             
             auxoceanopar = auxoceanopar.oceano
             
+            self.__controlador_sistema.tela_partida.mostrar_ordem_posicionamento()
             self.__controlador_sistema.controlador_barco_super.adicionar_posicao(auxoceanopar, lista_barcos)
             self.__controlador_sistema.controlador_barco_super.adicionar_posicao_comp(auxoceanopar , lista_barcos_comp)
             for cheat in partida.lista_barcos_comp:
