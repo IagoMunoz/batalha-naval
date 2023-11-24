@@ -103,19 +103,23 @@ class ControladorJogador():
                     partidas.append([partida.id, partida.jogador, partida.data_hora, partida.vencedor])
             self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
 
+            
+    def atualizar_ranking(self):
+        jogs = []
+        for jogador in self.__dao_jogador.get_all():
+            jogs.append(jogador)
+        
+        jogs.sort(key=lambda player: player.pontuacao, reverse=True)
 
-    def ranking(self):
-        jogs = self.__dao_jogador.get_all()
-        jogs.sort(key = lambda player: player.pontuacao, reverse = True)
+        jogadores = [f'{i+1}. {player.nome} - Pontuação: {player.pontuacao}' for i, player in enumerate(jogs)]
 
-        for player in jogs:
-            self.__tela_jogador.ranking(f'{player.nome} Pontuação: {player.pontuacao}')
+        self.__tela_jogador.ranking(jogadores)
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {1: self.incluir_jogador, 2: self.alterar_jogador, 3: self.lista_jogadores, 4: self.excluir_jogador, 5: self.buscar_jogador, 6:self.ranking, 0: self.retornar}
+        lista_opcoes = {1: self.incluir_jogador, 2: self.alterar_jogador, 3: self.lista_jogadores, 4: self.excluir_jogador, 5: self.buscar_jogador, 6:self.atualizar_ranking, 0: self.retornar}
         continua = True
         while continua:
             lista_opcoes[self.__tela_jogador.tela_opcoes()]()

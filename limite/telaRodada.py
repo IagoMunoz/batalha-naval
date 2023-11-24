@@ -6,18 +6,31 @@ import time
 class TelaRodada():
     def __init__(self):
         self.__controlador_partida = ControladorPartida(self)
+        self.__window = None
+        sg.theme('darkpurple1')
 
     @property
     def controlador_partida(self):
         return self.__controlador_partida
     
     def mostra_rodada(self, dados_rodada):
-                print("RODADA")
-                print("JOGADA DO JOGADOR: ", dados_rodada["coordenadas do jogador"])
-                print("JOGADA DO COMPUTADOR: ", dados_rodada["coordenadas do computador"])
-                print("PONTOS DO JOGADOR: ", dados_rodada["pontos do jogador"])
-                print("PONTOS DO COMPUTADOR: ", dados_rodada["pontos do computador"])
-                print("\n")
+        layout = [
+                [sg.Table(values=dados_rodada,
+                        headings=["Jogada jogador", "Jogada computador", "Pontos jogador", "Pontos computador"],
+                        auto_size_columns=False,
+                        col_widths=[22, 22, 22, 22], 
+                        font=('Bookman Old Style', 15),
+                        justification='center',
+                        key='-TABLE-')],
+                [sg.Button("Retornar", key="-RETORNAR-")]
+            ]
+        self.__window = sg.Window("Lista de rodadas", resizable=True).Layout(layout)
+        
+        while True:
+            event, values = self.__window.read()
+            if event == 'Retornar' or event == sg.WIN_CLOSED:
+                break
+        self.__window.close()
     
     
             

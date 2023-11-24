@@ -31,9 +31,8 @@ class ControladorRodada():
         self.__aux_acertos = aux_acertos
     
     
-    def lista_rodadas(self):
-        for rodada in self.__rodadas:
-            self.__tela_rodada.mostra_rodada({"coordenadas do jogador": rodada.jogada_jog, "coordenadas do computador": rodada.jogada_comp, "pontos do jogador": rodada.pontos_jog, "pontos do computador": rodada.pontos_comp})
+    def lista_rodadas(self, rodadas):
+        self.__tela_rodada.mostra_rodada(rodadas)
             
 
 

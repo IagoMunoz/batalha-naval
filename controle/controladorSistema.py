@@ -78,11 +78,7 @@ class ControladorSistema():
         self.__controlador_partida.abre_tela()
 
     def encerra_sistema(self):
-        self.__tela_sistema.mostra_msg('Encerrando sistema')
-        time.sleep(2)
-        self.__tela_sistema.mostra_msg('...')
-        time.sleep(2)
-        self.__tela_sistema.mostra_msg('Sistema encerrado')
+        self.__tela_sistema.finaliza()
         exit(0)
         
     def tela_inicial(self):
