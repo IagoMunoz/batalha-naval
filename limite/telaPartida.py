@@ -20,6 +20,26 @@ class TelaPartida():
                 print("Valor incorreto!")
                 if ints_validos:
                     print("Valores válidos: ", ints_validos)
+
+    def mostrar_ordem_posicionamento(self):
+        layout = [
+            [sg.Text('Você irá posicionar seus barcos na seguinte ordem:')],
+            [sg.Text('Quatro Botes')],
+            [sg.Text('Três Submarinos')],
+            [sg.Text('Três Fragatas')],
+            [sg.Text('Um porta-aviões')],
+            [sg.Button('OK')]
+        ]
+
+        window = sg.Window('Posicionamento de Barcos', layout)
+
+        while True:
+            event, _ = window.read()
+
+            if event == sg.WINDOW_CLOSED or event == 'OK':
+                break
+
+        window.close()
     
     
     def tela_opcoes(self):
