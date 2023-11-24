@@ -23,6 +23,8 @@ class ControladorJogador():
     def pega_jogador_por_id(self, id: int):
         #for jogador in self.__jogadores:
         for jogador in self.__dao_jogador.get_all():
+            print(jogador.id)
+            print(id)
             if(jogador.id == id):
                 return jogador
         return None
@@ -67,7 +69,10 @@ class ControladorJogador():
         for jogador in self.__dao_jogador.get_all():
             jogadores.append(jogador.id)
         jogador = self.__tela_jogador.seleciona_jogador(jogadores)
-        return jogador
+        for aux in self.__dao_jogador.get_all():
+            if aux.id == jogador:
+                
+                return aux
     
     def excluir_jogador(self):
         jogadores = []
