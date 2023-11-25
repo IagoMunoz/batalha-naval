@@ -45,6 +45,7 @@ class BS(ABC):
 
     def posiciona(self, posicao):
         auxposbarco = [posicao[0], posicao[1], True]
+        print(posicao)
         self.__posicoes.append(auxposbarco)
 
     def continuar_posicao(self, coordenada, posicao):

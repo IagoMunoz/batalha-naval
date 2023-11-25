@@ -127,7 +127,7 @@ class ControladorRodada():
                 
                 list_oceano = partida.oceano.oceano
                 dic_barcos = []
-                for dic_obj in partida.lista_barcos_comp:
+                for dic_obj in partida.lista_barcos:
                     dic_barcos.append(vars(dic_obj))
                 lista_jatiro = partida.jatiro
 

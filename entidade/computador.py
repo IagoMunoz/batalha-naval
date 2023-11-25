@@ -8,6 +8,7 @@ class Computador(Player):
         pass
 
     def joga(self, oceano, jatiro):
+        print(jatiro)
         valory = (random.randint(1, (len(oceano))))
         valorx = (random.randint(1, (len(oceano[0]))))
         if len(jatiro)!= 0:

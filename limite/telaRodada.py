@@ -284,6 +284,7 @@ class TelaRodada():
         return (valory, valorx, True)
     
     def tela_acerto_comp(self, oceano, barcos, jatiro, tiro):
+        print(barcos)
 
         def faztela(mostra):
             if mostra == 'mar':
@@ -323,7 +324,13 @@ class TelaRodada():
                     if marzin==True:
                         oceano[ycolunas][xlinha] = 'mar'
         
+        print(oceano)
         prateleira = oceano[tiro[0]-1][tiro[1]-1]
+        print(tiro)
+        for i in range (len(oceano)):
+            print(oceano[i])
+            print('')
         print(prateleira)
+        
 
         faztela(prateleira)

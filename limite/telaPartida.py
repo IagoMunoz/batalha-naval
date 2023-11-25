@@ -227,7 +227,7 @@ class TelaPartida():
                     row_layout = []
                     for j, value in enumerate(row):
                         if value != '~~':  # Verifica se o valor do botão não é '~~'
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True, button_color=('white', 'white'))
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True)
                         else:
                             button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
                         row_layout.append(button)
@@ -290,7 +290,7 @@ class TelaPartida():
         
         valory = selecao[0]
         valorx = selecao[1]
-     
+        print(selecao)
          
         return [valory-1,valorx-1]
     
