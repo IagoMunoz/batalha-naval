@@ -5,7 +5,7 @@ import random
 class Computador(Player):
     def __init__(self):
         super().__init__()
-        pass
+        
 
     def joga(self, oceano, jatiro):
         print(jatiro)
@@ -17,5 +17,3 @@ class Computador(Player):
                     valory = (random.randint(1, (len(oceano))))
                     valorx = (random.randint(1, (len(oceano[0]))))
         return (valory, valorx)
-                
-        
