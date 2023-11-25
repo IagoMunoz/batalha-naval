@@ -138,13 +138,18 @@ class ControladorRodada():
         return acertos
         
     def rodada_total(self, acertos_jog, acertos_comp):
-        
-        aux_comp = self.__controlador_sistema.controlador_partida.aux_comp[0]
+        if self.__controlador_sistema.controlador_partida.aux_comp != []:
+            aux_comp = self.__controlador_sistema.controlador_partida.aux_comp[0]
+        else:
+            aux_comp = self.__controlador_sistema.controlador_partida.aux_comp
+
         aux_jog = self.__controlador_sistema.controlador_partida.aux_jog[0]
         if len(aux_comp)==2 and len(aux_jog)==2:
             rodada = Rodada(self.__controlador_sistema.controlador_partida.aux_jog[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][1], self.__controlador_sistema.controlador_partida.aux_comp[0][1])
         elif len(aux_comp)==2:
             rodada = Rodada([self.__controlador_sistema.controlador_partida.aux_jog[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][1]], self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][2], self.__controlador_sistema.controlador_partida.aux_comp[0][1])
+        elif len(aux_jog)==2 and aux_comp==[]:
+            rodada = Rodada(self.__controlador_sistema.controlador_partida.aux_jog[0][0], [self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][1]], self.__controlador_sistema.controlador_partida.aux_jog[0][1], self.__controlador_sistema.controlador_partida.aux_comp[0][2])
         elif len(aux_jog)==2:
             rodada = Rodada(self.__controlador_sistema.controlador_partida.aux_jog[0][0], [self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][1]], self.__controlador_sistema.controlador_partida.aux_jog[0][1], self.__controlador_sistema.controlador_partida.aux_comp[0][2])
         else:

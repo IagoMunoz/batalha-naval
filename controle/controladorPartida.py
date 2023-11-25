@@ -160,18 +160,18 @@ class ControladorPartida():
             
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.mostra_msg('Você venceu a partida! Parabéns')
-                partida.jogador.pontuacao += 4
-                partida.vencedor = partida.jogador.nome
+                jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
+                jogador.pontuacao += 4 #alterar dps
+                partida.vencedor = jogador.nome
                 break
 
             aux = self.__controlador_sistema.controlador_rodada.rodada(partida)
             
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.mostra_msg('Você venceu a partida! Parabéns')
-                for jogador_pont in self.__controlador_sistema.controlador_jogador.dao_jogador.get_all():
-                    if jogador_pont == partida.jogador:
-                        jogador_pont.pontuacao += 4
-                partida.vencedor = partida.jogador.nome
+                jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
+                jogador.pontuacao += 4 #alterar dps
+                partida.vencedor = jogador.nome
                 rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0)
                 partida.rodadas.append(rodada)
                 break
