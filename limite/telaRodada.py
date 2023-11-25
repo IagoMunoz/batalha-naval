@@ -59,7 +59,7 @@ class TelaRodada():
             # Função para mostrar a caixa de diálogo de confirmação
             def show_confirmation_dialog(row, col, barco):
                 layout = [
-                    [sg.Text(f'Deseja atirar na posição')],
+                    [sg.Text(f'Deseja atirar na posição {row, col }')],
                     [sg.Button('Sim'), sg.Button('Cancelar')]
                 ]
                 window = sg.Window('Confirmação', layout, finalize=True)
