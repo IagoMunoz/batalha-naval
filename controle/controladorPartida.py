@@ -76,7 +76,8 @@ class ControladorPartida():
             for cheat in partida.lista_barcos_comp:
                 for poscheat in cheat.posicoes:
                     print ('linha:', poscheat[0]+1, 'coluna', poscheat[1]+1)
-                    
+            
+            self.__controlador_sistema.tela_partida.compos()
             self.partida_total(partida)
 
             jogador.add_partida(partida)
