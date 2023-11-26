@@ -12,11 +12,11 @@ class TelaPartida():
         while True:
             valor_lido = input(mensagem)
             try:
-                valor_int = int(valor_lido) #tenta transformar o valor lido em inteiro.
+                valor_int = int(valor_lido) 
                 if ints_validos and valor_int not in ints_validos:
-                    raise ValueError #será lançada apenas se o número não é o esperado
+                    raise ValueError 
                 return valor_int
-            except ValueError: #aqui cai se não for int ou se não for valido
+            except ValueError: 
                 print("Valor incorreto!")
                 if ints_validos:
                     print("Valores válidos: ", ints_validos)
@@ -558,7 +558,7 @@ class TelaPartida():
         
         return auxescolha
 
-    def fimpartida( winjog):
+    def fimpartida(self, winjog):
         sg.theme('darkpurple1')
 
         if winjog:

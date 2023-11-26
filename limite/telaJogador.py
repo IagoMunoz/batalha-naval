@@ -198,7 +198,7 @@ class TelaJogador():
             [sg.Text("Data de nascimento: ", font=('Bookman Old Style', 12)), sg.Text(nascimento, font=('Bookman Old Style', 12))],
             [sg.Text("Pontos: ", font=('Bookman Old Style', 12)), sg.Text(str(pontuacao), font=('Bookman Old Style', 12))],
             [sg.Table(values=partidas,
-                      headings=["ID", "ID Jogador", "Data/Hora", "Vencedor"],
+                      headings=["ID", "Jogador", "Data/Hora", "Vencedor"],
                       auto_size_columns=False,
                       col_widths=[20, 20, 20, 10],
                       font=('Bookman Old Style', 12),

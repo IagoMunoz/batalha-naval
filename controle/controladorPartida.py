@@ -138,7 +138,7 @@ class ControladorPartida():
             
             if partida is not None:
                 #arrumar pontuação 
-                partida.jogador.pontuacao -= 16
+                partida.jogador.pontuacao -= 55
                 self.__partidas.remove(partida)
                 self.__tela_partida.mostra_msg('Partida excluída com sucesso')
 
@@ -163,16 +163,16 @@ class ControladorPartida():
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.fimpartida(True)
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
-                jogador.pontuacao += 4 #alterar dps
+                jogador.pontuacao += 55 #alterar dps
                 partida.vencedor = jogador.nome
                 break
 
             aux = self.__controlador_sistema.controlador_rodada.rodada(partida)
             
             if all(not barco.estado for barco in partida.lista_barcos_comp):
-                self.__tela_partida.mfimpartida(True)
+                self.__tela_partida.fimpartida(True)
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
-                jogador.pontuacao += 4 #alterar dps
+                jogador.pontuacao += 55 #alterar dps
                 partida.vencedor = jogador.nome
                 rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0)
                 partida.rodadas.append(rodada)
