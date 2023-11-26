@@ -45,8 +45,9 @@ class BS(ABC):
 
     def posiciona(self, posicao):
         auxposbarco = [posicao[0], posicao[1], True]
-        print(posicao)
+        
         self.__posicoes.append(auxposbarco)
+        
 
     def continuar_posicao(self, coordenada, posicao):
 
@@ -62,6 +63,9 @@ class BS(ABC):
 
             if coordenada == "Baixo":
                 self.posiciona((posicao[0] + (casas+1), posicao[1]))
+    
+    def desposiciona(self):
+        self.__posicoes.clear()
 
         
     

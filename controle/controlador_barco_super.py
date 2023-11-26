@@ -72,12 +72,26 @@ class ControladorBarcoSuper():
         
         relogio = len(barcos)
         for ponteiro in range(relogio):
-            posicao = self.__controlador_sistema.tela_partida.adicionar_posicao(dic_barcos[ponteiro], oceano, dic_barcos)
-            barcos[ponteiro].posiciona(posicao)
+            meajuda= True
+            while meajuda == True:
 
-            if barcos[ponteiro].tamanho > 1:
-                continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
-                barcos[ponteiro].continuar_posicao(continuar_pos, posicao)
+                posicao = self.__controlador_sistema.tela_partida.adicionar_posicao(dic_barcos[ponteiro], oceano, dic_barcos)
+                barcos[ponteiro].posiciona(posicao)
+                
+
+                if barcos[ponteiro].tamanho > 1:
+                    continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
+                    meajuda=continuar_pos
+                    if meajuda ==True:
+                        self.__controlador_sistema.tela_partida.repos()
+                        barcos[ponteiro].desposiciona()
+                    else:
+
+
+                        continuar_pos = continuar_pos.title()
+                        barcos[ponteiro].continuar_posicao(continuar_pos, posicao)
+                else:
+                    meajuda = posicao
 
     def adicionar_posicao_comp(self, oceano, barcos):
         dic_barcos = []
@@ -86,12 +100,20 @@ class ControladorBarcoSuper():
 
         relogio = len(barcos)
         for ponteiro in range(relogio):
-            posicao = self.__controlador_sistema.tela_partida.adicionar_posicao_comp(dic_barcos[ponteiro], oceano, dic_barcos)
-            barcos[ponteiro].posiciona(posicao)
+            meajuda= True
+            while meajuda == True:
 
-            if barcos[ponteiro].tamanho > 1:
-                continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao_comp(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
-                continuar_pos = continuar_pos.title()
-                barcos[ponteiro].continuar_posicao(continuar_pos, posicao)
-            
+                posicao = self.__controlador_sistema.tela_partida.adicionar_posicao_comp(dic_barcos[ponteiro], oceano, dic_barcos)
+                barcos[ponteiro].posiciona(posicao)
 
+                if barcos[ponteiro].tamanho > 1:
+                    continuar_pos = self.__controlador_sistema.tela_partida.continuar_posicao_comp(dic_barcos[ponteiro], oceano, dic_barcos, posicao)
+                    meajuda=continuar_pos
+                    if meajuda !=True:
+
+                        continuar_pos = continuar_pos.title()
+                        barcos[ponteiro].continuar_posicao(continuar_pos, posicao)
+
+                    
+                else:
+                    meajuda = posicao

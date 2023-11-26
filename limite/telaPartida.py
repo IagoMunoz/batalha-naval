@@ -192,6 +192,7 @@ class TelaPartida():
                     elif event == 'Enviar':
                         x = int(values['x'])
                         y = int(values['y'])
+                        
                         if x > 21 or y > 48:
                             sg.popup_error('Tamanho maior do que o possível')
                         elif x < 10 or y < 10:
@@ -199,7 +200,7 @@ class TelaPartida():
                         else:
                             self.__window.close()
                             return [x, y]
-                        
+                    
                     elif event == 'Enviar':
                         x = values[x]
                         y = values[y]
@@ -287,7 +288,6 @@ class TelaPartida():
                         if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
                                 if barcoxy['_BS__estado']==True:
                                     oceano[ycolunas][xlinhas] = barcoxy['_BS__nome'][0]
-                                    '''print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')'''
                                     tembarco=True
 
                 if tembarco==False:
@@ -296,8 +296,7 @@ class TelaPartida():
         
         valory = selecao[0]
         valorx = selecao[1]
-        print(selecao)
-         
+       
         return [valory-1,valorx-1]
     
     def adicionar_posicao_comp(self, barco, oceano, barcos):
@@ -309,7 +308,7 @@ class TelaPartida():
         while poretorna==False:
 
 
-            print("  ")
+   
             valory,valorx = map(int, (random.randint(1, len(oceano)),(random.randint(1, len(oceano[0])))))
             while True:
                 for barcoxy in barcos:
@@ -322,7 +321,7 @@ class TelaPartida():
             poretorna=True
                 
                 
-        print("  ")
+    
         return [valory-1,valorx-1]
     
     def continuar_posicao(self, barco, oceano, barcos, posicao):
@@ -422,7 +421,7 @@ class TelaPartida():
                         if barcoxy['_BS__posicoes'][casas]==[ycolunas,xlinhas, True]:
                                 if barcoxy['_BS__estado']==True:
                                     oceano[ycolunas][xlinhas] = barcoxy['_BS__nome'][0]
-                                    '''print ('[{}]'.format(barcoxy['_BS__nome'][0]),end='')'''
+                           
                                     tembarco=True
                 if tembarco==False:
                     oceano[ycolunas][xlinhas] = '~~'
@@ -474,25 +473,36 @@ class TelaPartida():
                         if coor[0]==posicao[0] and coor[1]==posicao[1]+casas:
                             direita=False
         lista_bool_pos=[]
-
-        print("")
+      
+        meajuda = 0
         if cima==True:
             lista_bool_pos.append(True)
         else:
             lista_bool_pos.append(False)
-
+            meajuda +=1
+            
         if baixo==True:
             lista_bool_pos.append(True)
         else:
             lista_bool_pos.append(False)
+            meajuda+=1
+
         if esquerda==True:
             lista_bool_pos.append(True)
+           
         else:
             lista_bool_pos.append(False)
+            meajuda +=1
+
         if direita==True:
             lista_bool_pos.append(True)
+         
         else:
             lista_bool_pos.append(False)
+            meajuda +=1
+
+        if meajuda ==4:
+            return True
 
         auxescolha = faztela(oceano, barco, posicao, lista_bool_pos)
 
@@ -563,10 +573,13 @@ class TelaPartida():
         if direita==True:
             socorromeudeus.append("direita")
         
-        auxrandom = random.randint(0,len(socorromeudeus)-1)
-        auxescolha = socorromeudeus[auxrandom]
-        
-        return auxescolha
+        if len(socorromeudeus) == 0:
+            return True
+        else: 
+            auxrandom = random.randint(0,len(socorromeudeus)-1)
+            auxescolha = socorromeudeus[auxrandom]
+            
+            return auxescolha
 
     def fimpartida(self, winjog):
         sg.theme('darkpurple1')
@@ -615,6 +628,22 @@ class TelaPartida():
                 break
 
    
+        window.close()
+    
+    def repos(self):
+        layout = [
+            [sg.Text('Você selecionou uma posição inválida')],
+            [sg.Text('Por favor, selecione novamente')],
+            [sg.Button('OK')]
+        ]
+
+        window = sg.Window('Mensagem de Erro', layout, finalize=True)
+
+        while True:
+            event, _ = window.read()
+            if event == sg.WINDOW_CLOSED or event == 'OK':
+                break
+
         window.close()
 
     def mostra_msg(self, msg):
