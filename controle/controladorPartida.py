@@ -112,7 +112,7 @@ class ControladorPartida():
                 print(partidaa.id)
                 print(partida)
                 if partidaa.id == partida.id:
-                    aux = self.__tela_partida.mostra_partida_sozinha(partida.id, partida.jogador, partida.data_hora, len(partida.rodadas), partida.vencedor, partida.rodadas)
+                    aux = self.__tela_partida.mostra_partida_sozinha(partida.id, partida.jogador.nome, partida.data_hora, len(partida.rodadas), partida.vencedor, partida.rodadas)
                     
             if aux == 0:
                 rodadas = []
