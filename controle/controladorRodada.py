@@ -32,8 +32,10 @@ class ControladorRodada():
     
     
     def lista_rodadas(self, rodadas):
-        self.__tela_rodada.mostra_rodada(rodadas)
-            
+        aux = []
+        for rodada in rodadas:
+            aux.append([rodada.jogada_jog, rodada.jogada_comp, rodada.pontos_jog, rodada.pontos_comp])
+        self.__tela_rodada.mostra_rodada(aux)       
 
 
     def rodada(self, partida):

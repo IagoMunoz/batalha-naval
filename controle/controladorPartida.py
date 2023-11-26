@@ -59,7 +59,7 @@ class ControladorPartida():
         
         if (jogador is not None):
 
-            auxidpar = random.randint(1,200000)
+            auxidpar = random.randint(1,2000000)
             auxtimepar = date.today()
             auxcomppart = self.__controlador_sistema.controlador_super_player.cria_computador()
             auxoceanopar = self.__controlador_sistema.controlador_oceano.cria_oceano()
@@ -91,7 +91,7 @@ class ControladorPartida():
             self.__tela_partida.sem_partidas()
         else:
             for partida in self.__partidas:
-                partidas.append([partida.id, partida.data_hora, partida.jogador, len(partida.rodadas), partida.vencedor])
+                partidas.append([partida.id, partida.jogador.nome, partida.data_hora, len(partida.rodadas), partida.vencedor])
                 
             self.__tela_partida.mostra_partidas(partidas)
                 
@@ -108,7 +108,9 @@ class ControladorPartida():
             partida = self.pega_partida_por_id(id_partida)
             
             for partidaa in self.__partidas:
-                if partidaa.id == partida:
+                print(partidaa.id)
+                print(partida)
+                if partidaa.id == partida.id:
                     aux = self.__tela_partida.mostra_partida_sozinha(partida.id, partida.jogador, partida.data_hora, len(partida.rodadas), partida.vencedor, partida.rodadas)
                     
             if aux == 0:
