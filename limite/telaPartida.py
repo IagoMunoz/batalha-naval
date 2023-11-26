@@ -216,18 +216,21 @@ class TelaPartida():
             return [tamanho_y, tamanho_x]'''
 
     def adicionar_posicao(self, barco, oceano, barcos):
+        sg.theme('darkpurple1')
 
         def faztela( matrix, barco):
+            sg.theme('darkpurple1')
 
             def create_layout(matrix, font_size, barco):
+                sg.theme('darkpurple1')
                 layout = [
-                    [sg.Text(f'Escolha a posição para seu/sua {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'Escolha a posição para o/a proximo/a {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, value in enumerate(row):
                         if value != '~~':  # Verifica se o valor do botão não é '~~'
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True)
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
                         else:
                             button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
                         row_layout.append(button)
@@ -320,19 +323,26 @@ class TelaPartida():
         return [valory-1,valorx-1]
     
     def continuar_posicao(self, barco, oceano, barcos, posicao):
+        sg.theme('darkpurple1')
 
 
         def faztela(matrix, barco, posicao, lista_bool_pos ):
+            sg.theme('darkpurple1')
             def create_layout(matrix, font_size, barco, highlighted_position=None, directions_visibility=None):
+                sg.theme('darkpurple1')
                 layout = [
                     [sg.Text(f'Escolha uma posição inicial para o/a {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, cell in enumerate(row):
-                        button_color = ('black', 'yellow') if [i, j] == highlighted_position else ('black', 'white')
-                        button = sg.Button(str(cell), size=(2, 1), disabled=True, font=('Helvetica', font_size),
-                                        button_color=button_color, pad=(2, 1))
+
+                        if [i, j] == highlighted_position:
+                            button = sg.Button(str(cell), size=(2, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, font=('Helvetica', font_size), button_color=('black', 'yellow'), pad=(2, 1))
+                        else: 
+
+                        
+                            button = sg.Button(str(cell), size=(2, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, font=('Helvetica', font_size), pad=(2, 1))
                         row_layout.append(button)
                     layout.append(row_layout)
 
@@ -575,6 +585,33 @@ class TelaPartida():
             if event == sg.WINDOW_CLOSED or event == 'OK':
                 break
 
+        window.close()
+    
+    def compos(self):
+        layout = [
+            [sg.Text('Os barcos do computador também foram posicionados.')],
+            [sg.Text('Lembre-se: Os oceanos de vocês são diferentes então ele pode ter ')],
+            [sg.Text('posicionado tanto nos mesmos lugares quanto em lugares diferentes do seus.')],
+            [sg.Text('Quanto a batalha:')],
+            [sg.Text('@ siginifica um lugar do oceano que foi acertado, % siginica um bar barco que foi acertado mas nao destruido.')],
+            [sg.Text('Barcos ao serem destruidos sao revelados e suas inciais aparecerão em letra minuscula.')],
+            [sg.Text('Você poderá ver seus barcos em tempo real enquanto o computador atira neles.')],
+
+            [sg.Button('Entendi')]
+        ]
+
+      
+        window = sg.Window('Aviso', layout, finalize=True)
+
+       
+        while True:
+            event, values = window.read()
+
+         
+            if event == sg.WINDOW_CLOSED or event == 'Entendi':
+                break
+
+   
         window.close()
 
     def mostra_msg(self, msg):

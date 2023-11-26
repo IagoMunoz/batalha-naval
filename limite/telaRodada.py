@@ -49,7 +49,7 @@ class TelaRodada():
                     row_layout = []
                     for j, value in enumerate(row):
                         if value != '~~':  # Verifica se o valor do botão não é '~~'
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True, button_color=('white', 'white'))
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
                         else:
                             button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
                         row_layout.append(button)
@@ -59,7 +59,7 @@ class TelaRodada():
             # Função para mostrar a caixa de diálogo de confirmação
             def show_confirmation_dialog(row, col, barco):
                 layout = [
-                    [sg.Text(f'Deseja atirar na posição {row, col }')],
+                    [sg.Text(f'Deseja atirar na linha:{row} e coluna:{ col }')],
                     [sg.Button('Sim'), sg.Button('Cancelar')]
                 ]
                 window = sg.Window('Confirmação', layout, finalize=True)
@@ -201,11 +201,13 @@ class TelaRodada():
 
             # Função para criar a janela com a matriz de botões desabilitados
             def show_matrix(matrix):
-                layout = []
+                layout = [
+                    [sg.Text(f'O computador esta selecionando onde vai atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                ]
                 for row in matrix:
                     row_layout = []
                     for col in row:
-                        button = sg.Button(col, disabled=True, size=(2, 1), pad=(1,1))
+                        button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad=(1,1))
                         row_layout.append(button)
                     layout.append(row_layout)
 
@@ -218,15 +220,17 @@ class TelaRodada():
                 sg.popup(message)
 
             def show_matrix2(matrix, highlight_coords):
-                layout = []
+                layout = [
+                    [sg.Text(f'O computador ira atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, col in enumerate(row):
-                        button = sg.Button(col, disabled=True, size=(2, 1), pad = (1,1))
+                        button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1))
                         if [i, j] == highlight_coords:  # Destaca as coordenadas fornecidas
-                            button = sg.Button(col, disabled=True, size=(2, 1), pad = (1,1), button_color=('white', 'red'))  # Destaca a posição em vermelho
+                            button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1), button_color=('white', 'red'))  # Destaca a posição em vermelho
                         else:
-                            button = sg.Button(col, disabled=True, size=(2, 1), pad = (1,1))
+                            button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1))
                         row_layout.append(button)
                     layout.append(row_layout)
 
@@ -239,7 +243,7 @@ class TelaRodada():
 
 
           
-            show_popup(f"O computador vai atirar em {[tiroyx[0], tiroyx[1]]}")
+            show_popup(f"O computador vai atirar em na linha {tiroyx[0]} e coluna { tiroyx[1]}")
 
             # Exibindo a matriz na janela com posições destacadas
             show_matrix2(oceano, [tiroyx[0]-1, tiroyx[1]-1])
