@@ -557,6 +557,29 @@ class TelaPartida():
         auxescolha = socorromeudeus[auxrandom]
         
         return auxescolha
+
+    def fimpartida( winjog):
+        sg.theme('darkpurple1')
+
+        if winjog:
+            mensagem = "Você venceu!! Parabéns!!"
+        else:
+            mensagem = "Você perdeu :( Mais sorte na próxima!"
+
+        layout = [
+            [sg.Text(mensagem)],
+            [sg.Button('OK')]
+        ]
+
+        window = sg.Window('Resultado', layout)
+
+        while True:
+            event, values = window.read()
+            if event == sg.WINDOW_CLOSED or event == 'OK':
+                break
+
+        window.close()
+
     def mostra_msg(self, msg):
         print(msg)
     
