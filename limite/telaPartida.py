@@ -98,13 +98,13 @@ class TelaPartida():
                         font=('Bookman Old Style', 15),
                         justification='center',
                         key='-TABLE-')],
-                [sg.Button("Retornar", key="-RETORNAR-")]
+                [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 15))]
             ]
         self.__window = sg.Window("Lista de partidas", resizable=True).Layout(layout)
         
         while True:
             event, values = self.__window.read()
-            if event == 'Retornar' or event == sg.WIN_CLOSED:
+            if event == '-RETORNAR-' or event == sg.WIN_CLOSED:
                 break
         self.__window.close()
             

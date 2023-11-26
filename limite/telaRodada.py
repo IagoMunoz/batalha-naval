@@ -28,7 +28,7 @@ class TelaRodada():
         
         while True:
             event, values = self.__window.read()
-            if event == 'Retornar' or event == sg.WIN_CLOSED:
+            if event == '-RETORNAR-' or event == sg.WIN_CLOSED:
                 break
         self.__window.close()
     
