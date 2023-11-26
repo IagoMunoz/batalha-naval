@@ -108,7 +108,7 @@ class TelaJogador():
 
     def pega_dados(self):
         layout = [
-            [sg.Text('-------- DADOS JOGADOR ----------', font=('Bookman Old Style', 15))],
+            [sg.Text('DADOS JOGADOR', font=('Bookman Old Style', 15))],
             [sg.Text('Nome:'), sg.InputText(key='nome')],
             [sg.Text('Data de nascimento (DD/MM/AAAA):'), sg.InputText(key='data')],
             [sg.Button('Confirmar', font=('Bookman Old Style', 12))]
@@ -180,7 +180,7 @@ class TelaJogador():
             [sg.Text("Nome: ", font=('Bookman Old Style',15)), sg.Text(nome, font=('Bookman Old Style',15))],
             [sg.Text("Data de nascimento: ", font=('Bookman Old Style',15)), sg.Text(str(nascimento), font=('Bookman Old Style',15))],
             [sg.Text("Pontos: ", font=('Bookman Old Style',15)), sg.Text(pontuacao, font=('Bookman Old Style',15))],
-            [sg.Button("Retornar", key="-RETORNAR-")]
+            [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 12))]
         ]
         self.__window = sg.Window('Listar jogadores').Layout(layout)
 
@@ -218,9 +218,9 @@ class TelaJogador():
         
     def seleciona_jogador(self, jogadores):
         layout = [
-            [sg.Text('Selecione um jogador:')],
-            [sg.Combo(jogadores, key='jogador_combo')],
-            [sg.Button('Selecionar Jogador'), sg.Button('Cancelar')]
+            [sg.Text('Selecione um jogador:', font=('Bookman Old Style', 15))],
+            [sg.Combo(jogadores, key='jogador_combo', font=('Bookman Old Style', 12))],
+            [sg.Button('Selecionar Jogador', font=('Bookman Old Style', 11)), sg.Button('Cancelar', font=('Bookman Old Style', 11))]
         ]
 
         self.__window = sg.Window('Seleção de Jogador').Layout(layout)

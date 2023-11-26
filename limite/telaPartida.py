@@ -115,7 +115,7 @@ class TelaPartida():
             [sg.Text("Data/hora: ", font=('Bookman Old Style',15)), sg.Text(str(data), font=('Bookman Old Style',15))],
             [sg.Text("Número de rodadas: ", font=('Bookman Old Style',15)), sg.Text(num_rodadas, font=('Bookman Old Style',15))],
             [sg.Text("Vencedor: ", font=('Bookman Old Style',15)), sg.Text(vencedor, font=('Bookman Old Style',15))],
-            [sg.Button("Retornar", key="-RETORNAR-"), sg.Button("Ver rodadas", key="-RODADAS-") ]
+            [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style',11)), sg.Button("Ver rodadas", key="-RODADAS-", font=('Bookman Old Style',11)) ]
         ]
         self.__window = sg.Window('partida').Layout(layout)
         
@@ -124,6 +124,7 @@ class TelaPartida():
             if event == '-RETORNAR-' or event == sg.WIN_CLOSED:
                 break
             if event == '-RODADAS-':
+                self.__window.close()
                 return 0
         self.__window.close()
             
@@ -173,7 +174,7 @@ class TelaPartida():
                 break
             if event == 'Oceano padrão':
                 self.__window.close()
-                return [5,5]
+                return [10,10]
             else:
                 layout = [
                     [sg.Text('Tamanho x:'), sg.InputText(key='x')],
@@ -193,6 +194,8 @@ class TelaPartida():
                         y = int(values['y'])
                         if x > 21 or y > 48:
                             sg.popup_error('Tamanho maior do que o possível')
+                        elif x < 10 or y < 10:
+                            sg.popup_error('Tamanho menor do que o possível')
                         else:
                             self.__window.close()
                             return [x, y]
