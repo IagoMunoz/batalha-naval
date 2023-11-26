@@ -227,7 +227,7 @@ class TelaPartida():
                     row_layout = []
                     for j, value in enumerate(row):
                         if value != '~~':  # Verifica se o valor do botão não é '~~'
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True, button_color=('white', 'white'))
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=True)
                         else:
                             button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
                         row_layout.append(button)
@@ -290,7 +290,7 @@ class TelaPartida():
         
         valory = selecao[0]
         valorx = selecao[1]
-     
+        print(selecao)
          
         return [valory-1,valorx-1]
     
@@ -352,9 +352,7 @@ class TelaPartida():
                         direction_buttons.append(sg.Button('Direita'))
 
                     layout.append(direction_buttons)
-
                 return layout
-
             # Função para criar layout da janela de confirmação da direção
             def create_confirmation_layout(direction):
                 layout = [
@@ -396,15 +394,13 @@ class TelaPartida():
                             break
                         elif confirmation_event == 'Confirmar':
                             break
-                            
 
                     confirmation_window.close()
                     break
-
             # Fechamento da janela ao sair do loop
             window.close()
             return selected_direction
-        
+
         for ycolunas in range(len(oceano)):
             for xlinhas in range(len(oceano[ycolunas])):
                 tembarco=False
@@ -417,7 +413,6 @@ class TelaPartida():
                                     tembarco=True
                 if tembarco==False:
                     oceano[ycolunas][xlinhas] = '~~'
-        
 
         cima=True
         baixo=True
@@ -429,20 +424,15 @@ class TelaPartida():
         if (posicao[0] - bs_tamanho)+1 < 0:
             cima=False
 
-        
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]-casas:
                             cima=False
-        
-        
 
         if (posicao[0] + bs_tamanho) > len(oceano[1]):
             baixo=False
-
-        
 
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
@@ -450,13 +440,9 @@ class TelaPartida():
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]+casas:
                             baixo=False
-        
-      
 
         if (posicao[1] - bs_tamanho)+1 < 0:
             esquerda=False
-
-       
 
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
@@ -464,13 +450,9 @@ class TelaPartida():
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]-casas:
                             esquerda=False
-        
-   
 
         if (posicao[1] + bs_tamanho) > len(oceano[0]):
             direita=False
-
-       
 
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
@@ -478,7 +460,6 @@ class TelaPartida():
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]+casas:
                             direita=False
-
         lista_bool_pos=[]
 
         print("")
@@ -500,16 +481,11 @@ class TelaPartida():
         else:
             lista_bool_pos.append(False)
 
-        
         auxescolha = faztela(oceano, barco, posicao, lista_bool_pos)
-       
 
         return auxescolha
-        
 
     def continuar_posicao_comp(self, barco, oceano, barcos, posicao):
-        
-        
         
         cima=True
         baixo=True
@@ -520,7 +496,6 @@ class TelaPartida():
        
         if (posicao[0] - bs_tamanho)+1 < 0:
             cima=False
-
         
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
@@ -528,13 +503,9 @@ class TelaPartida():
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]-casas:
                             cima=False
-        
-        
 
         if (posicao[0] + bs_tamanho) > len(oceano[0]):
             baixo=False
-
-        
 
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
@@ -542,13 +513,9 @@ class TelaPartida():
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[1]==posicao[1] and coor[0]==posicao[0]+casas:
                             baixo=False
-        
-      
 
         if (posicao[1] - bs_tamanho)+1 < 0:
             esquerda=False
-
-       
 
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
@@ -556,14 +523,11 @@ class TelaPartida():
                     for coor in barcoxy['_BS__posicoes']:
                         if coor[0]==posicao[0] and coor[1]==posicao[1]-casas:
                             esquerda=False
-        
-   
 
         if (posicao[1] + bs_tamanho) > len(oceano[0]):
             direita=False
 
        
-
         for casas in range (bs_tamanho):
             for barcoxy in barcos:
                 if barcoxy!=barco:
