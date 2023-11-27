@@ -22,11 +22,11 @@ class ControladorBarcoSuper():
         aux_lista_barcos = []
         for i in range (4):
             aux_lista_barcos.append(Bote())
-        for i in range (3):
+        for i in range (0):
             aux_lista_barcos.append(Submarino())
-        for i in range (3):
+        for i in range (0):
             aux_lista_barcos.append(Fragata())
-        for i in range (1):
+        for i in range (0):
             aux_lista_barcos.append(Portaavioes())
 
         self.__lista_barco_historia.append(aux_lista_barcos)

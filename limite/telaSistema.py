@@ -79,7 +79,7 @@ class TelaSistema:
     def finaliza(self):
         layout = [
             [sg.Text('Sistema Encerrado!', font=("Bookman Old Style", 20), justification='center')],
-            [sg.Button('Fechar', size=(15, 2), font=('Bookman Old Style', 10), pad=(100, 0))]
+            [sg.Button('Fechar', size=(10, 2), font=('Bookman Old Style', 10), pad=(100, 0))]
         ]
         window = sg.Window('Finaliza', layout)
         

@@ -48,7 +48,7 @@ class TelaRodada():
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, value in enumerate(row):
-                        if value != '~~':  # Verifica se o valor do botão não é '~~'
+                        if value != '~~':  
                             button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
                         else:
                             button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
@@ -56,7 +56,6 @@ class TelaRodada():
                     layout.append(row_layout)
                 return layout
 
-            # Função para mostrar a caixa de diálogo de confirmação
             def show_confirmation_dialog(row, col, barco):
                 layout = [
                     [sg.Text(f'Deseja atirar na linha:{row} e coluna:{ col }')],
@@ -72,16 +71,12 @@ class TelaRodada():
                         window.close()
                         return [row, col]
 
-            # Tamanho da fonte inicial
             font_size = 12
 
-            # Layout inicial da janela com os botões
             layout = create_layout(matrix, font_size)
 
-            # Criação da janela
             window = sg.Window('Matriz como Botões', layout)
 
-            # Loop para interação com a janela
             while True:
                 event, values = window.read()
 
@@ -90,12 +85,11 @@ class TelaRodada():
                 elif isinstance(event, tuple):
                     row, col = event
                     if matrix[row][col] != '~~':
-                        continue  # Se o botão pressionado não for '~~', continue no loop
+                        continue  
                     selection = show_confirmation_dialog(row+1, col+1, barco)
                     if selection is not None:
                         break  
 
-            # Fechamento da janela ao sair do loop
             window.close()
             return selection
         
@@ -148,11 +142,11 @@ class TelaRodada():
 
         def faztela(mostra):
             if mostra == 'mar':
-                sg.popup('Voce acertou o mar :()')
+                sg.popup('Você acertou o mar :(')
             elif mostra == 'barco':
-                sg.popup('Voce acertou um barco :) mas ainda nao destriu ele :()')
+                sg.popup('Você acertou um barco :) mas ainda nao destriu ele :(')
             else:
-                sg.popup(f'Voce acertou e destriu um barco do tipo {mostra} :)')
+                sg.popup(f'Voce acertou e destruiu um barco do tipo {mostra} :)')
 
         for ycolunas in range(len(oceano)):
             for xlinha in range(len(oceano[ycolunas])):
@@ -196,13 +190,13 @@ class TelaRodada():
             
     def rodada1_comp(self, oceano, barcos, jatiro, tiroyx):
         
-        def faztela( oceano, tiroyx):
+        def faztela(oceano, tiroyx):
 
 
             # Função para criar a janela com a matriz de botões desabilitados
             def show_matrix(matrix):
                 layout = [
-                    [sg.Text(f'O computador esta selecionando onde vai atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'O computador está selecionando onde vai atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
                 ]
                 for row in matrix:
                     row_layout = []
@@ -221,7 +215,7 @@ class TelaRodada():
 
             def show_matrix2(matrix, highlight_coords):
                 layout = [
-                    [sg.Text(f'O computador ira atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'O computador irá atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
@@ -235,7 +229,7 @@ class TelaRodada():
                     layout.append(row_layout)
 
                 window = sg.Window('Matriz de Botões', layout, finalize=True)
-                window.read(timeout=2000)  # Mantém a janela aberta por 2 segundos
+                window.read(timeout=2000)  
                 window.close()
 
 
@@ -245,7 +239,6 @@ class TelaRodada():
           
             show_popup(f"O computador vai atirar em na linha {tiroyx[0]} e coluna { tiroyx[1]}")
 
-            # Exibindo a matriz na janela com posições destacadas
             show_matrix2(oceano, [tiroyx[0]-1, tiroyx[1]-1])
         
         
@@ -293,7 +286,7 @@ class TelaRodada():
             if mostra == 'mar':
                 sg.popup('O Computador acertou o mar :)')
             elif mostra == 'barco':
-                sg.popup('O Computador acertou seu barco :( mas ainda nao destriu ele :)')
+                sg.popup('O Computador acertou seu barco :( mas ainda não destriu ele :)')
             else:
                 sg.popup(f'O Computador destriu seu barco do tipo {mostra} :(')
 

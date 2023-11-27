@@ -23,8 +23,6 @@ class ControladorJogador():
     def pega_jogador_por_id(self, id: int):
         #for jogador in self.__jogadores:
         for jogador in self.__dao_jogador.get_all():
-            print(jogador.id)
-            print(id)
             if(jogador.id == id):
                 return jogador
         return None
@@ -37,32 +35,39 @@ class ControladorJogador():
         self.__controlador_sistema.controlador_super_player.players.append(jogador)
 
     def alterar_jogador(self):
-        jogadores = self.jogadores()
-        id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
-        jogador = self.pega_jogador_por_id(id_jogador)
-
-        if (jogador is not None):
-            opcao = self.__tela_jogador.mudar_jogador()
-
-            if opcao == 1:
-                nome = self.__tela_jogador.alterar_nome()
-                jogador.nome = nome
-
-            if opcao == 2:
-                data = self.__tela_jogador.alterar_nascimento()
-                jogador.data_nascimento = data
-
+        jogs = self.__dao_jogador.get_all()
+        if not jogs:
+            self.__tela_jogador.sem_jogadores()
         else:
-            self.__tela_jogador.mostra_msg('Jogador não encontrado')
+            jogadores = self.jogadores()
+            id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
+            jogador = self.pega_jogador_por_id(id_jogador)
+
+            if (jogador is not None):
+                opcao = self.__tela_jogador.mudar_jogador()
+
+                if opcao == 1:
+                    nome = self.__tela_jogador.alterar_nome()
+                    jogador.nome = nome
+                    self.__tela_jogador.pop_up('Jogador alterado com sucesso')
+
+                if opcao == 2:
+                    data = self.__tela_jogador.pop_up('Jogador alterado com sucesso')
+                    jogador.data_nascimento = data
+
 
     def lista_jogadores(self):
-        jogadores = []
-        if len(self.__dao_jogador.get_all()) == 0:
-            self.__tela_jogador.mostra_jogador(None)
+        jogs = self.__dao_jogador.get_all()
+        if not jogs:
+            self.__tela_jogador.sem_jogadores()
+        else:
+            jogadores = []
+            if len(self.__dao_jogador.get_all()) == 0:
+                self.__tela_jogador.mostra_jogador(None)
 
-        for jogador in self.__dao_jogador.get_all():
-            jogadores.append([jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao])
-        self.__tela_jogador.mostra_jogador(jogadores)
+            for jogador in self.__dao_jogador.get_all():
+                jogadores.append([jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao])
+            self.__tela_jogador.mostra_jogador(jogadores)
         
     def pega_jogador(self):
         jogadores = []
@@ -75,38 +80,42 @@ class ControladorJogador():
                 return aux
     
     def excluir_jogador(self):
-        jogadores = []
-        for jogador in self.__dao_jogador.get_all():
-            jogadores.append(jogador.id)
-            
-        id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
-        jogador = self.pega_jogador_por_id(id_jogador)
-
-        if (jogador is not None):
-            '''for partida in self.__controlador_sistema.controlador_partida.partidas:
-                if partida.jogador==jogador:
-                    self.__controlador_sistema.controlador_partida.partidas.remove(partida)'''
-            self.__dao_jogador.remove(jogador.id)
-            self.__tela_jogador.mostra_msg('Jogador excluído com sucesso!')
+        jogs = self.__dao_jogador.get_all()
+        if not jogs:
+            self.__tela_jogador.sem_jogadores()
         else:
-            self.__tela_jogador.mostra_msg('Jogador não encontrado')
+            jogadores = []
+            for jogador in jogs:
+                jogadores.append(jogador.id)
+                
+            id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
+            jogador = self.pega_jogador_por_id(id_jogador)
+
+            if (jogador is not None):
+                self.__dao_jogador.remove(jogador.id)
+                self.__tela_jogador.pop_up('Jogador excluído com sucesso')
+
 
     def buscar_jogador(self):
-        jogadores = []
-        partidas = []
-        for jogador in self.__dao_jogador.get_all():
-            jogadores.append(jogador.id)
-        id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
-        jogador = self.pega_jogador_por_id(id_jogador)
-
-        if len(jogador.partidas)==0:
-            self.__tela_jogador.mostra_jogador_sozinho(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao)
-
+        jogs = self.__dao_jogador.get_all()
+        if not jogs:
+            self.__tela_jogador.sem_jogadores()
         else:
-            for partida in self.__controlador_sistema.controlador_partida.partidas:
-                if partida.jogador == jogador:
-                    partidas.append([partida.id, partida.jogador, partida.data_hora, partida.vencedor])
-            self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
+            jogadores = []
+            partidas = []
+            for jogador in self.__dao_jogador.get_all():
+                jogadores.append(jogador.id)
+            id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
+            jogador = self.pega_jogador_por_id(id_jogador)
+
+            if len(jogador.partidas)==0:
+                self.__tela_jogador.mostra_jogador_sozinho(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao)
+
+            else:
+                for partida in self.__controlador_sistema.controlador_partida.partidas():
+                    if partida.jogador == jogador:
+                        partidas.append([partida.id, partida.jogador, partida.data_hora, partida.vencedor])
+                self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
 
             
     def atualizar_ranking(self):

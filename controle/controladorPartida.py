@@ -2,6 +2,7 @@ from entidade.partida import Partida
 from controle.controlador_barco_super import ControladorBarcoSuper
 import random
 from datetime import date
+from daos.dao_partida import dao_partida
 from entidade.bote import Bote
 from entidade.submarino import Submarino
 from entidade.fragata import Fragata
@@ -11,15 +12,11 @@ from entidade.computador import Computador
 
 class ControladorPartida():
     def __init__(self, controlador_sistema):
-        self.__partidas = []
+        self.__dao_partida = dao_partida()
         self.__tela_partida = TelaPartida()
         self.__controlador_sistema = controlador_sistema
         self.__aux_jog = []
         self.__aux_comp = []
-
-    @property
-    def partidas(self):
-        return self.__partidas
     
     @property
     def aux_jog(self):
@@ -37,19 +34,14 @@ class ControladorPartida():
     def aux_comp(self, aux_comp):
         self.__aux_comp = aux_comp
     
-    def jogador(self):
-        while True:
-            conf = TelaPartida.pega_jogador()
-            conf2 = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(conf)
-            if conf2==None:
-                self.__tela_partida.mostra_msg("Jogador não encontrado")
-                TelaPartida.pega_jogador
-            else:
-                return conf2
-                break
+    def partidas(self):
+        partidas = []
+        for partida in self.__dao_partida.get_all():
+            partidas.append(partida)
+        return partidas
 
     def pega_partida_por_id(self, id:int):
-        for partida in self.__partidas:
+        for partida in self.partidas():
             if partida.id == id:
                 return partida
         return None
@@ -66,7 +58,7 @@ class ControladorPartida():
             lista_barcos = self.__controlador_sistema.controlador_barco_super.listar_barcos()
             lista_barcos_comp = self.__controlador_sistema.controlador_barco_super.listar_barcos()
             partida = Partida(auxidpar, auxtimepar, jogador, auxcomppart, auxoceanopar, lista_barcos, lista_barcos_comp)
-            self.__partidas.append(partida)
+            self.__dao_partida.add(partida)
             
             auxoceanopar = auxoceanopar.oceano
             
@@ -94,10 +86,10 @@ class ControladorPartida():
 
     def lista_partidas(self):
         partidas = []
-        if len(self.__partidas)==0:
+        if len(self.partidas())==0:
             self.__tela_partida.sem_partidas()
         else:
-            for partida in self.__partidas:
+            for partida in self.partidas():
                 partidas.append([partida.id, partida.jogador.nome, partida.data_hora, len(partida.rodadas), partida.vencedor])
                 
             self.__tela_partida.mostra_partidas(partidas)
@@ -105,16 +97,16 @@ class ControladorPartida():
 
     def buscar_partida(self):
         partidas = []
-        if len(self.__partidas)==0:
+        if len(self.partidas())==0:
             self.__tela_partida.sem_partidas()
         else:
-            for partida in self.__partidas:
+            for partida in self.partidas():
                 partidas.append(partida.id)
                 
             id_partida = self.__tela_partida.pega_partida(partidas)
             partida = self.pega_partida_por_id(id_partida)
             
-            for partidaa in self.__partidas:
+            for partidaa in self.partidas():
                 print(partidaa.id)
                 print(partida)
                 if partidaa.id == partida.id:
@@ -133,11 +125,11 @@ class ControladorPartida():
             
     def excluir_partida(self):
         partidas = []
-        if len(self.__partidas)==0:
+        if len(self.partidas())==0:
             self.__tela_partida.sem_partidas()
         else:
             partidas = []
-            for partida in self.__partidas:
+            for partida in self.partidas():
                 partidas.append(partida.id)
                 
             id_partida = self.__tela_partida.pega_partida(partidas)
@@ -145,9 +137,9 @@ class ControladorPartida():
             
             if partida is not None:
                 #arrumar pontuação 
-                partida.jogador.pontuacao -= 55
-                self.__partidas.remove(partida)
-                self.__tela_partida.mostra_msg('Partida excluída com sucesso')
+                partida.jogador.pontuacao -= 56
+                self.__dao_partida.remove(partida.id)
+                self.__tela_partida.pop_up('Partida excluída com sucesso')
 
 
     def retornar(self):
@@ -170,7 +162,7 @@ class ControladorPartida():
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.fimpartida(True)
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
-                jogador.pontuacao += 55 #alterar dps
+                jogador.pontuacao += 56 #alterar dps
                 partida.vencedor = jogador.nome
                 break
 
@@ -179,7 +171,7 @@ class ControladorPartida():
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.fimpartida(True)
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
-                jogador.pontuacao += 55 #alterar dps
+                jogador.pontuacao += 56 #alterar dps
                 partida.vencedor = jogador.nome
                 rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0)
                 partida.rodadas.append(rodada)
