@@ -26,6 +26,10 @@ class ControladorPartida():
     def aux_comp(self):
         return self.__aux_comp
     
+    @property
+    def dao_partida(self):
+        return self.__dao_partida
+    
     @aux_jog.setter
     def aux_jog(self, aux_jog):
         self.__aux_jog = aux_jog
@@ -145,7 +149,13 @@ class ControladorPartida():
             
             if partida is not None:
                 #arrumar pontuação 
-                partida.jogador.pontuacao -= 56
+                pontos = 0
+                for rodada in partida.rodadas:
+                    pontos += rodada.pontos_jog
+                
+                jogador = partida.jogador
+                jogador.pontuacao = jogador.pontuacao - pontos
+                self.__controlador_sistema.controlador_jogador.dao_jogador.update(jogador)
                 self.__dao_partida.remove(partida.id)
                 self.__tela_partida.pop_up('Partida excluída com sucesso')
 
@@ -172,6 +182,7 @@ class ControladorPartida():
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
                 #jogador.pontuacao += 56 #alterar dps
                 partida.vencedor = jogador.nome
+                self.__dao_partida.update(partida)
                 break
 
             aux = self.__controlador_sistema.controlador_rodada.rodada(partida)
@@ -183,12 +194,13 @@ class ControladorPartida():
                 partida.vencedor = jogador.nome
                 rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0, partida.jogador)
                 partida.rodadas.append(rodada)
+                self.__dao_partida.update(partida)
                 break
             
             if all(not barco.estado for barco in partida.lista_barcos):
                 self.__tela_partida.fimpartida(False)
-                partida.jogador.pontuacao += 0
                 partida.vencedor = 'computador'
+                self.__dao_partida.update(partida)
                 break
 
             aux_comp = self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
@@ -199,10 +211,10 @@ class ControladorPartida():
             
             if all(not barco.estado for barco in partida.lista_barcos):
                 self.__tela_partida.fimpartida(False)
-                partida.jogador.pontuacao += 0
                 partida.vencedor = 'computador'
                 rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp, partida.jogador)
                 partida.rodadas.append(rodada)
+                self.__dao_partida.update(partida)
                 break
 
 

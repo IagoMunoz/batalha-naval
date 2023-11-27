@@ -5,13 +5,13 @@ class dao_jogador(DAO):
     def __init__(self):
         super().__init__('jogadores.pkl')
 
-    def add(self, jogador):
+    def add(self, jogador:Jogador):
         if((jogador is not None) and isinstance(jogador, Jogador) and isinstance(jogador.id, int)):
             super().add(jogador.id, jogador)
 
-    def update(self, jogador):
+    def update(self, jogador:Jogador):
         if((jogador is not None) and isinstance(jogador, Jogador) and isinstance(jogador.id, int)):
-            super().update(jogador.id, Jogador)
+            super().update(jogador.id, jogador)
 
     def get(self, key:int):
         if isinstance(key, int):

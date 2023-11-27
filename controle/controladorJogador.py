@@ -8,13 +8,16 @@ class ControladorJogador():
     def __init__(self, controlador_sistema):
         #self.__jogadores = []
         self.__dao_jogador = dao_jogador()
-        self.__dao_partida = dao_partida()
         self.__tela_jogador = TelaJogador()
         self.__controlador_sistema = controlador_sistema
 
     @property
     def controlador_sistema(self):
         return self.__controlador_sistema
+    
+    @property
+    def dao_jogador(self):
+        return self.__dao_jogador
 
     def jogadores(self):
         jogadores = []
@@ -31,10 +34,13 @@ class ControladorJogador():
 
     def incluir_jogador(self):
         dados_jogador = self.__tela_jogador.pega_dados()
-        jogador = Jogador(dados_jogador["id"], dados_jogador["nome"], dados_jogador["data de nascimento"])
-        #self.__jogadores.append(jogador)
-        self.__dao_jogador.add(jogador)
-        self.__controlador_sistema.controlador_super_player.players.append(jogador)
+        if dados_jogador == None:
+            return
+        else:
+            jogador = Jogador(dados_jogador["id"], dados_jogador["nome"], dados_jogador["data de nascimento"])
+            #self.__jogadores.append(jogador)
+            self.__dao_jogador.add(jogador)
+            self.__controlador_sistema.controlador_super_player.players.append(jogador)
 
     def alterar_jogador(self):
         jogs = self.__dao_jogador.get_all()
@@ -51,11 +57,21 @@ class ControladorJogador():
                 if opcao == 1:
                     nome = self.__tela_jogador.alterar_nome()
                     jogador.nome = nome
+                    jogador.id = jogador.id
+                    jogador.data_nascimento = jogador.data_nascimento
+                    jogador.pontuacao = jogador.pontuacao
+                    jogador.partidas = jogador.partidas
+                    self.__dao_jogador.update(jogador)
                     self.__tela_jogador.pop_up('Jogador alterado com sucesso')
 
                 if opcao == 2:
                     data = self.__tela_jogador.alterar_nascimento()
                     jogador.data_nascimento = data
+                    jogador.nome = jogador.nome
+                    jogador.id = jogador.id
+                    jogador.pontuacao = jogador.pontuacao
+                    jogador.partidas = jogador.partidas
+                    self.__dao_jogador.update(jogador)
                     data = self.__tela_jogador.pop_up('Jogador alterado com sucesso')
 
 
@@ -98,7 +114,7 @@ class ControladorJogador():
                 partidas = self.__controlador_sistema.controlador_partida.partidas()
                 for partida in partidas:
                     if jogador.id == partida.jogador.id:
-                        self.__dao_partida.remove(partida.id)
+                        self.__controlador_sistema.controlador_partida.dao_partida.remove(partida.id)
                         
                 self.__dao_jogador.remove(jogador.id)
                 self.__tela_jogador.pop_up('Jogador excluído com sucesso')
@@ -114,16 +130,19 @@ class ControladorJogador():
             for jogador in self.__dao_jogador.get_all():
                 jogadores.append(jogador.id)
             id_jogador = self.__tela_jogador.seleciona_jogador(jogadores)
-            jogador = self.pega_jogador_por_id(id_jogador)
-
-            if len(jogador.partidas)==0:
-                self.__tela_jogador.mostra_jogador_sozinho(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao)
-
+            if id_jogador == None:
+                return
             else:
-                for partida in self.__controlador_sistema.controlador_partida.partidas():
-                    if partida.jogador == jogador:
-                        partidas.append([partida.id, partida.data_hora, partida.vencedor])
-                self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
+                jogador = self.pega_jogador_por_id(id_jogador)
+
+                if len(jogador.partidas)==0:
+                    self.__tela_jogador.mostra_jogador_sozinho(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao)
+
+                else:
+                    for partida in self.__controlador_sistema.controlador_partida.partidas():
+                        if partida.jogador == jogador:
+                            partidas.append([partida.id, partida.data_hora, partida.vencedor])
+                    self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
 
             
     def atualizar_ranking(self):

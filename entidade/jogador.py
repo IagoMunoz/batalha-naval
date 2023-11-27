@@ -21,6 +21,10 @@ class Jogador(Player):
     @property
     def data_nascimento(self):
         return self.__data_nascimento
+    
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @nome.setter
     def nome(self, nome):
@@ -41,6 +45,10 @@ class Jogador(Player):
     @property
     def partidas(self):
         return self.__partidas
+    
+    @partidas.setter
+    def partidas(self, partidas):
+        self.__partidas = partidas
 
     def add_partida(self, partida):
         auxpont = partida.pontos

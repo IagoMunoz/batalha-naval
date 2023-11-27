@@ -64,6 +64,10 @@ class Partida():
     @vencedor.setter
     def vencedor(self, vencedor):
         self.__vencedor = vencedor
+        
+    @rodadas.setter
+    def rodadas(self, rodadas):
+        self.__rodadas = rodadas
 
     @property
     def id_jogador(self):

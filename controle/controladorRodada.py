@@ -142,6 +142,11 @@ class ControladorRodada():
     def rodada_total(self, acertos_jog, acertos_comp, jogador):
         rodada = Rodada(acertos_jog, acertos_comp)
         jogador.pontuacao = acertos_jog
+        jogador.nome = jogador.nome
+        jogador.id = jogador.id
+        jogador.data_nascimento = jogador.data_nascimento
+        jogador.partidas = jogador.partidas
+        self.__controlador_sistema.controlador_jogador.dao_jogador.update(jogador)
         self.__rodadas.append(rodada)
         
         return rodada
