@@ -109,8 +109,8 @@ class TelaJogador():
     def pega_dados(self):
         layout = [
             [sg.Text('DADOS JOGADOR', font=('Bookman Old Style', 15))],
-            [sg.Text('Nome:'), sg.InputText(key='nome')],
-            [sg.CalendarButton('Escolher Data', target='date_input', key='-CALENDAR-', format='%d/%m/%Y'),
+            [sg.Text('Nome:', font=('Bookman Old Style', 11)), sg.InputText(key='nome')],
+            [sg.CalendarButton('Data de nascimento: ', font=('Bookman Old Style', 11), target='date_input', key='-CALENDAR-', format='%d/%m/%Y'),
              sg.InputText(default_text='', size=(20, 1), key='date_input', enable_events=True)],
             [sg.Button('Confirmar', font=('Bookman Old Style', 12))]
         ]
@@ -308,8 +308,8 @@ class TelaJogador():
     def alterar_nascimento(self):
         layout = [
             [sg.Text('Digite a nova data de nascimento:', font=('Bookman Old Style', 15))],
-            [sg.InputText(key='nova_data', font=('Bookman Old Style', 12))],
-            [sg.Text('', size=(30, 1), key='mensagem', font=('Bookman Old Style', 12), text_color='red')],
+            [sg.CalendarButton('Selecionar data: ', font=('Bookman Old Style', 11), target='date_input', key='-CALENDAR-', format='%d/%m/%Y'),
+             sg.InputText(default_text='', size=(20, 1), key='date_input', enable_events=True)],
             [sg.Button('Confirmar', font=('Bookman Old Style', 12)), sg.Button('Cancelar', font=('Bookman Old Style', 12))]
         ]
 
@@ -323,15 +323,16 @@ class TelaJogador():
                 return None
 
             elif event == 'Confirmar':
-                nova_data = values['nova_data']
-                ver = self.verifica_data(nova_data)
-            
-                if ver:
-                    data_final = datetime.strptime(nova_data, '%d/%m/%Y')
-                    self.__window.close()
-                    return data_final
-                else:
-                    sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
+                data = values['date_input']  
+
+                try:
+                    data_final = datetime.strptime(data, '%d/%m/%Y')
+                except ValueError:
+                    sg.popup_error('Por favor, selecione uma data válida.')
+                    continue
+
+                self.__window.close()
+                return data_final
 
     def ranking(self, jogadores):
         layout = [

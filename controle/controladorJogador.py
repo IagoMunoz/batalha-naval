@@ -54,8 +54,9 @@ class ControladorJogador():
                     self.__tela_jogador.pop_up('Jogador alterado com sucesso')
 
                 if opcao == 2:
-                    data = self.__tela_jogador.pop_up('Jogador alterado com sucesso')
+                    data = self.__tela_jogador.alterar_nascimento()
                     jogador.data_nascimento = data
+                    data = self.__tela_jogador.pop_up('Jogador alterado com sucesso')
 
 
     def lista_jogadores(self):
