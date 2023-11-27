@@ -1,7 +1,7 @@
 import random
 import time
 import PySimpleGUI as sg
-import pygame
+import pygame 
 
 
 class TelaPartida():
