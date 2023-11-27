@@ -53,10 +53,14 @@ class ControladorPartida():
 
             auxidpar = random.randint(1,2000000)
             auxtimepar = date.today()
-            auxcomppart = self.__controlador_sistema.controlador_super_player.cria_computador()
             auxoceanopar = self.__controlador_sistema.controlador_oceano.cria_oceano()
             lista_barcos = self.__controlador_sistema.controlador_barco_super.listar_barcos()
             lista_barcos_comp = self.__controlador_sistema.controlador_barco_super.listar_barcos()
+
+            pcoceano = auxoceanopar.oceano.copy()
+            pcbarcos = lista_barcos.copy()
+            auxcomppart = self.__controlador_sistema.controlador_super_player.cria_computador(pcoceano, pcbarcos)
+
             partida = Partida(auxidpar, auxtimepar, jogador, auxcomppart, auxoceanopar, lista_barcos, lista_barcos_comp)
             self.__dao_partida.add(partida)
             
@@ -74,11 +78,7 @@ class ControladorPartida():
                     print ('linha:', poscheat[0]+1, 'coluna', poscheat[1]+1)
             
             ###################################################################################
-            pcoceano = auxoceanopar.copy()
-            pcbarcos = lista_barcos.copy()
-
-            partida.computador.oceano(pcoceano)
-            partida.computador.barcos(pcbarcos)
+           
 
             ###################################################################################
             self.__controlador_sistema.tela_partida.compos()

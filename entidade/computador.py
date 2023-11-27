@@ -1,13 +1,13 @@
 from entidade.superplayer import Player
 import random
 from entidade.barco_super import BS
-
+from controle.controlador_barco_super import ControladorBarcoSuper
 #fazer versao v2 para melhorar a implementacao
 class Computador(Player):
     def __init__(self, oceano , barcos):
         super().__init__()
-        self.__oceano = 'compuador'
-        self.__barcos = 'inteligente'
+        self.__oceano = oceano
+        self.__barcos = barcos
         self.__jatiro = []
         #################################3
         self.__abar = []
@@ -76,15 +76,15 @@ class Computador(Player):
     def limpabar(self):
         for barco in self.__abar:
             if barco.estado==False:
-                del self.__abar(barco)
+                del barco
         
         if len(self.__abar)==0:
-            self.atbar(False)
+            self.atbar=False
         else:
-            self.atbar(self.__abar[0])
+            self.atbar=self.__abar[0]
             for ultiro in self.__abar[0].posicoes:
                 if ultiro[2]==False:
-                    self.ultimacerto(ultiro[0], ultiro[1])
+                    self.ultimacerto=ultiro[0], ultiro[1]
     
     def addabar(self,barco):
         self.__abar.append(barco)
@@ -102,33 +102,35 @@ class Computador(Player):
         self.ultacerto(False)
 ################################################################
     def pegbarco(self, tiro):
-        for barcin in self.barcos:
-            for posicao in barcin:
-                if posicao[0] == tiro[0] and posicao[1] == tiro[1]:
+        for barcin in self.__barcos:
+            for posicao in barcin.posicoes:
+                if posicao[0] == tiro[0]-1 and posicao[1] == tiro[1]-1:
                     return barcin
         return False
     ##########################################################
     def joga(self, oceano, jatiro):
         valory = (random.randint(1, (len(oceano))))
         valorx = (random.randint(1, (len(oceano[0]))))
+        tiro = (valory, valorx)
         if len(jatiro)!= 0:
-            for tiro in jatiro:
-                if tiro[0]==valory and tiro[1]==valorx:
-                    valory = (random.randint(1, (len(oceano))))
-                    valorx = (random.randint(1, (len(oceano[0]))))
+            while tiro in jatiro:
+                valory = (random.randint(1, (len(oceano))))
+                valorx = (random.randint(1, (len(oceano[0]))))
+                tiro = (valory, valorx)
+
         return (valory, valorx)
 
     ############################################################
     def achasen(self):
         decide=[]
 
-        if self.ultimacerto[0]-self.atbar.tamanho > 0:
+        if self.__ultimacerto[0]-self.__atbar.tamanho > 0:
             decide.append(0)
-        if self.ultimacerto[0]+self.atbar.tamanho < len(self.oceano):
+        if self.__ultimacerto[0]+self.__atbar.tamanho < len(self.oceano):
             decide.append(1)
-        if self.ultimacerto[1]-self.atbar.tamanhi > 0:
+        if self.__ultimacerto[1]-self.__atbar.tamanhi > 0:
             decide.append(2)
-        if self.ultimacerto[1]+self.atbar.tamanho < len(self.oceano[0]):
+        if self.__ultimacerto[1]+self.__atbar.tamanho < len(self.oceano[0]):
             decide.append(3)
 
         decide2 = []
@@ -139,39 +141,46 @@ class Computador(Player):
         chute = self.popos(random.randint(0,len(decide2)-1))
 
         if chute == 0:
-            return ( self.ultimacerto[0]-1, self.ultimacerto[1])
+            return ( self.__ultimacerto[0]-1, self.__ultimacerto[1])
         
         if chute == 1:
-            return ( self.ultimacerto[0]+1, self.ultimacerto[1])
+            return ( self.__ultimacerto[0]+1, self.__ultimacerto[1])
         
         if chute == 2:
-            return ( self.ultimacerto[0], self.ultimacerto[1]-1)
+            return ( self.__ultimacerto[0], self.__ultimacerto[1]-1)
         
         if chute == 3:
-            return ( self.ultimacerto[0]-1, self.ultimacerto[1]+1)
+            return ( self.__ultimacerto[0]-1, self.__ultimacerto[1]+1)
 
     def joga2(self):
-        pass
-        if self.atbar == False:
+        print(self.__jatiro)
+        print(self.__ultimacerto)
+        print(self.__atbar)
 
-            tiro = self.joga()
+        pass
+        if self.__atbar == False:
+
+            tiro = self.joga(self.__oceano, self.__jatiro)
             self.addjatiro(tiro)
             tembar = self.pegbarco(tiro)
 
             if tembar !=False:
                 if tembar.tamanho == 1:
-                    tembar.tomoutiro(self.barcos, tiro[0], tiro[1])
-                    tembar.destruido(self.barcos)
+                    ControladorBarcoSuper.tomoutiro(self, self.__barcos, tiro[0], tiro[1])
+                    ControladorBarcoSuper.destruido(self.__barcos)
                     self.limpabar()
-                    self.ultimacerto(tiro)
+                    self.__ultimacerto=tiro
                     return (tiro[0], tiro[1])
             
                 else:
-                    tembar.tomoutiro(self.barcos, tiro[0], tiro[1])
+                    print(tiro)
+                    print(self.barcos)
+                    print(self.__barcos)
+                    ControladorBarcoSuper.tomoutiro(self, self.__barcos, tiro[0], tiro[1])
                     self.addabar(tembar)
-                    self.atbar(tembar)
+                    self.atbar=tembar
                     self.limpabar()
-                    self.ultimacerto(tiro)
+                    self.ultimacerto=tiro
                     return (tiro[0], tiro[1])
             else:
                 self.limpabar()
@@ -183,8 +192,8 @@ class Computador(Player):
             tembar = self.pegbarco(tiro)
 
             if tembar !=False:
-                tembar.tomoutiro(self.barcos, tiro[0], tiro[1])
-                tembar.destruido(self.barcos)
+                ControladorBarcoSuper.tomoutiro(self, self.barcos, tiro[0], tiro[1])
+                ControladorBarcoSuper.destruido(self.barcos)
                 self.limpabar()
 
                 return (tiro[0], tiro[1])

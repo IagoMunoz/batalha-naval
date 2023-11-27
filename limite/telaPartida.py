@@ -1,7 +1,7 @@
 import random
 import time
 import PySimpleGUI as sg
-import pygame 
+import pygame as pygame
 
 
 class TelaPartida():
@@ -196,13 +196,9 @@ class TelaPartida():
                         x = int(values['x'])
                         y = int(values['y'])
                         
-                        if x > 21 or y > 48:
-                            sg.popup_error('Tamanho maior do que o possível', font=('Bookman Old Style', 11))
-                        elif x < 10 or y < 10:
-                            sg.popup_error('Tamanho menor do que o possível', font=('Bookman Old Style', 11))
-                        else:
-                            self.__window.close()
-                            return [x, y]
+                       
+                        self.__window.close()
+                        return [x, y]
                     
                     elif event == 'Enviar':
                         x = values[x]
