@@ -110,11 +110,12 @@ class TelaJogador():
         layout = [
             [sg.Text('DADOS JOGADOR', font=('Bookman Old Style', 15))],
             [sg.Text('Nome:'), sg.InputText(key='nome')],
-            [sg.Text('Data de nascimento (DD/MM/AAAA):'), sg.InputText(key='data')],
+            [sg.CalendarButton('Escolher Data', target='date_input', key='-CALENDAR-', format='%d/%m/%Y'),
+             sg.InputText(default_text='', size=(20, 1), key='date_input', enable_events=True)],
             [sg.Button('Confirmar', font=('Bookman Old Style', 12))]
         ]
 
-        self.__window = sg.Window('Cadastro de Jogador').Layout(layout)
+        self.__window = sg.Window('Cadastro de Jogador', layout, finalize=True)
 
         while True:
             event, values = self.__window.read()
@@ -126,16 +127,16 @@ class TelaJogador():
             elif event == 'Confirmar':
                 id = random.randint(0, 1000000)
                 nome = values['nome']
-                data = values['data']
+                data = values['date_input']  
 
-                ver = self.verifica_data(data)
-
-                if ver:
+                try:
                     data_final = datetime.strptime(data, '%d/%m/%Y')
-                    self.__window.close()
-                    return {"id": id, "nome": nome, "data de nascimento": data_final}
-                else:
-                    sg.popup_error('Data inválida! Digite a data no formato "DD/MM/AAAA".')
+                except ValueError:
+                    sg.popup_error('Por favor, selecione uma data válida.')
+                    continue
+
+                self.__window.close()
+                return {"id": id, "nome": nome, "data de nascimento": data_final}
 
     
     def mostra_jogador(self, dados_jogador):
@@ -161,7 +162,7 @@ class TelaJogador():
                           font=('Bookman Old Style', 15),
                           justification='center',
                           key='-TABLE-')],
-                [sg.Button("Retornar", key="-RETORNAR-")]
+                [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 11))]
             ]
 
             self.__window = sg.Window("Lista de Jogadores", resizable=True).Layout(layout)
@@ -197,14 +198,15 @@ class TelaJogador():
             [sg.Text("Nome: ", font=('Bookman Old Style', 12)), sg.Text(nome, font=('Bookman Old Style', 12))],
             [sg.Text("Data de nascimento: ", font=('Bookman Old Style', 12)), sg.Text(nascimento, font=('Bookman Old Style', 12))],
             [sg.Text("Pontos: ", font=('Bookman Old Style', 12)), sg.Text(str(pontuacao), font=('Bookman Old Style', 12))],
+            [sg.Text("Partidas: ", font=('Bookman Old Style', 12))],
             [sg.Table(values=partidas,
-                      headings=["ID", "Jogador", "Data/Hora", "Vencedor"],
+                      headings=["ID", "Data", "Vencedor"],
                       auto_size_columns=False,
-                      col_widths=[20, 20, 20, 10],
+                      col_widths=[20, 20, 10],
                       font=('Bookman Old Style', 12),
                       justification='center',
                       key='-TABLE-')],
-            [sg.Button("Retornar", key="-RETORNAR-")]
+            [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 12))]
         ]
 
         self.__window = sg.Window('Listar jogadores').Layout(layout)

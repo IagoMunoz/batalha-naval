@@ -43,7 +43,7 @@ class DAO(ABC):
             self.__cache.pop(key)
             self.__dump() #atualiza o arquivo depois de remover um objeto
         except KeyError:
-            pass #implementar aqui o tratamento da exceção
+            print('teste') #implementar aqui o tratamento da exceção
 
     def get_all(self):
         return self.__cache.values()
