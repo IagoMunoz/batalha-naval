@@ -117,6 +117,8 @@ class Computador(Player):
                 valory = (random.randint(1, (len(oceano))))
                 valorx = (random.randint(1, (len(oceano[0]))))
                 tiro = (valory, valorx)
+        
+        self.jatiro.append(tiro)
 
         return (valory, valorx)
 
