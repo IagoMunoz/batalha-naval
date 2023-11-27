@@ -215,6 +215,23 @@ class TelaJogador():
             if event == sg.WIN_CLOSED or event == "-RETORNAR-":
                 self.__window.close()
                 return None
+            
+    def sem_jogadores(self):
+        layout = [
+                [sg.Text('Sem jogadores cadastrados', font=('Bookman Old Style', 15), justification='center')],
+                [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 10))]
+            ]
+        self.__window = sg.Window('sem jogadores').Layout(layout)
+        
+        while True:
+                event, values = self.__window.read()
+
+                if event == sg.WIN_CLOSED or event == "-RETORNAR-":
+                    self.__window.close()
+                    return None
+                
+    def pop_up(self, mensagem):
+        sg.popup(mensagem, font=('Bookman Old Style', 11))
         
     def seleciona_jogador(self, jogadores):
         layout = [

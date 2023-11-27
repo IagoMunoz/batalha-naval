@@ -1,12 +1,21 @@
 import random
 import time
 import PySimpleGUI as sg
+import pygame
 
 
 class TelaPartida():
     def __init__(self):
         sg.theme('darkpurple1')
         self.__window = None
+        
+    def pop_up(self, mensagem):
+        sg.popup(mensagem, font=('Bookman Old Style', 11))
+        
+    def play_sound(self, file_path):
+        pygame.mixer.init()
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.play()
         
     def le_num_inteiro(self, mensagem=" ", ints_validos = None):
         while True:
@@ -586,8 +595,12 @@ class TelaPartida():
 
         if winjog:
             mensagem = "Você venceu!! Parabéns!!"
+            sound_file_path = 'C:/trabalho-dsoo-final/limite/venceu.mp3'  
+            self.play_sound(sound_file_path)
         else:
             mensagem = "Você perdeu :( Mais sorte na próxima!"
+            sound_file_path = 'C:/trabalho-dsoo-final/limite/perdeu.mp3'  
+            self.play_sound(sound_file_path)
 
         layout = [
             [sg.Text(mensagem)],
