@@ -82,7 +82,13 @@ class ControladorPartida():
                     print ('linha:', poscheat[0]+1, 'coluna', poscheat[1]+1)
             
             ###################################################################################
+            pcoceano = auxoceanopar.copy()
+            pcbarcos = lista_barcos.copy()
 
+            partida.computador.oceano(pcoceano)
+            partida.computador.barcos(pcbarcos)
+
+            ###################################################################################
             self.__controlador_sistema.tela_partida.compos()
             self.partida_total(partida)
 
