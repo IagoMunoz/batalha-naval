@@ -51,48 +51,53 @@ class ControladorPartida():
         return None
             
     def nova_partida(self):
-        jogador = self.__controlador_sistema.controlador_jogador.pega_jogador()
-        
-        if (jogador is not None):
-
-            auxidpar = random.randint(1,2000000)
-            auxtimepar = date.today()
-            auxoceanopar = self.__controlador_sistema.controlador_oceano.cria_oceano()
-            lista_barcos = self.__controlador_sistema.controlador_barco_super.listar_barcos()
-            lista_barcos_comp = self.__controlador_sistema.controlador_barco_super.listar_barcos()
-
-            pcoceano = auxoceanopar.oceano.copy()
-            pcbarcos = lista_barcos.copy()
-            auxcomppart = self.__controlador_sistema.controlador_super_player.cria_computador(pcoceano, pcbarcos)
-
-            partida = Partida(auxidpar, auxtimepar, jogador, auxcomppart, auxoceanopar, lista_barcos, lista_barcos_comp)
-            self.__dao_partida.add(partida)
-            
-            auxoceanopar = auxoceanopar.oceano
-            
-            
-            self.__controlador_sistema.tela_partida.mostrar_ordem_posicionamento()
-            self.__controlador_sistema.controlador_barco_super.adicionar_posicao(auxoceanopar, lista_barcos)
-            self.__controlador_sistema.controlador_barco_super.adicionar_posicao_comp(auxoceanopar , lista_barcos_comp)
-
-            ############# HACK DAS POSIÇOES #######################################
-
-            for cheat in partida.lista_barcos_comp:
-                for poscheat in cheat.posicoes:
-                    print ('linha:', poscheat[0]+1, 'coluna', poscheat[1]+1)
-            
-            ###################################################################################
-           
-
-            ###################################################################################
-            self.__controlador_sistema.tela_partida.compos()
-            self.partida_total(partida)
-
-            jogador.add_partida(partida)
-
-            
+        if self.__controlador_sistema.controlador_jogador.jogadores()==[]:
+            self.__tela_partida.pop_up('Sem jogadores cadastrados')
         else:
-            self.__tela_partida.mostra_msg('Jogador não encontrado')
+            jogador = self.__controlador_sistema.controlador_jogador.pega_jogador()
+            
+            if (jogador is not None):
+
+                auxidpar = random.randint(1,2000000)
+                auxtimepar = date.today()
+                auxoceanopar = self.__controlador_sistema.controlador_oceano.cria_oceano()
+                if auxoceanopar == None:
+                    return
+                lista_barcos = self.__controlador_sistema.controlador_barco_super.listar_barcos()
+                lista_barcos_comp = self.__controlador_sistema.controlador_barco_super.listar_barcos()
+
+                pcoceano = auxoceanopar.oceano.copy()
+                pcbarcos = lista_barcos.copy()
+                auxcomppart = self.__controlador_sistema.controlador_super_player.cria_computador(pcoceano, pcbarcos)
+
+                partida = Partida(auxidpar, auxtimepar, jogador, auxcomppart, auxoceanopar, lista_barcos, lista_barcos_comp)
+                self.__dao_partida.add(partida)
+                
+                auxoceanopar = auxoceanopar.oceano
+                
+                
+                self.__controlador_sistema.tela_partida.mostrar_ordem_posicionamento()
+                self.__controlador_sistema.controlador_barco_super.adicionar_posicao(auxoceanopar, lista_barcos)
+                self.__controlador_sistema.controlador_barco_super.adicionar_posicao_comp(auxoceanopar , lista_barcos_comp)
+
+                ############# HACK DAS POSIÇOES #######################################
+
+                for cheat in partida.lista_barcos_comp:
+                    for poscheat in cheat.posicoes:
+                        print ('linha:', poscheat[0]+1, 'coluna', poscheat[1]+1)
+                
+                ###################################################################################
+            
+
+                ###################################################################################
+                self.__controlador_sistema.tela_partida.compos()
+                self.partida_total(partida)
+
+                jogador.add_partida(partida)
+
+                
+            else:
+                return
 
     def lista_partidas(self):
         partidas = []

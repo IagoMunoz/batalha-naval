@@ -175,7 +175,7 @@ class TelaPartida():
 
             if event == sg.WIN_CLOSED or event == 'Retornar':
                 self.__window.close()
-                break
+                return None
             if event == 'Oceano padrão':
                 self.__window.close()
                 return [10,10]
