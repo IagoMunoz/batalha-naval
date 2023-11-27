@@ -14,7 +14,7 @@ class ControladorSuperPlayer():
     def controlador_sistema(self):
         return self.__controlador_sistema
 
-    def cria_computador(self):
-        computador = Computador()
+    def cria_computador(self, oceano, barcos):
+        computador = Computador(oceano, barcos)
         self.__players.append(computador)
         return computador
