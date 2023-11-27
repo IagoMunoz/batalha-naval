@@ -139,8 +139,9 @@ class ControladorRodada():
                 self.controlador_sistema.controlador_partida.aux_comp.append([tiros, aux_ace])
         return acertos
         
-    def rodada_total(self, acertos_jog, acertos_comp):
+    def rodada_total(self, acertos_jog, acertos_comp, jogador):
         rodada = Rodada(acertos_jog, acertos_comp)
+        jogador.pontuacao = acertos_jog
         self.__rodadas.append(rodada)
         
         return rodada

@@ -2,7 +2,8 @@ import random
 import time
 import PySimpleGUI as sg
 import pygame as pygame
-
+from exception.oceano_pequeno_exception import OceanoPequenoException
+from exception.oceano_grande_exception import OceanoGrandeException
 
 class TelaPartida():
     def __init__(self):
@@ -195,13 +196,22 @@ class TelaPartida():
                         return None
                         
                     elif event == 'Enviar':
-                        x = int(values['x'])
-                        y = int(values['y'])
-                        
-                       
-                        self.__window.close()
-                        return [x, y]
-                    
+                        try:
+                            x = int(values['x'])
+                            y = int(values['y'])
+                            if x<10 or y<10:
+                                raise OceanoPequenoException([x, y])
+                            elif x>30 or y>30:
+                                raise OceanoGrandeException([x, y])
+                            else:
+                                self.__window.close()
+                                return [x, y]
+                        except OceanoPequenoException as e:
+                            sg.popup_error(e, font=('Bookman Old Style', 11))
+                        except OceanoGrandeException as e:
+                            sg.popup_error(e, font=('Bookman Old Style', 11))
+                        except ValueError:
+                            sg.popup_error('Valor inválido! Os valores devem ser número inteiros', font=('Bookman Old Style', 11))
                     elif event == 'Enviar':
                         x = values[x]
                         y = values[y]

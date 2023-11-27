@@ -170,7 +170,7 @@ class ControladorPartida():
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.fimpartida(True)
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
-                jogador.pontuacao += 56 #alterar dps
+                #jogador.pontuacao += 56 #alterar dps
                 partida.vencedor = jogador.nome
                 break
 
@@ -179,9 +179,9 @@ class ControladorPartida():
             if all(not barco.estado for barco in partida.lista_barcos_comp):
                 self.__tela_partida.fimpartida(True)
                 jogador = self.__controlador_sistema.controlador_jogador.pega_jogador_por_id(partida.jogador.id)
-                jogador.pontuacao += 56 #alterar dps
+                #jogador.pontuacao += 56 #alterar dps
                 partida.vencedor = jogador.nome
-                rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0)
+                rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, 0, partida.jogador)
                 partida.rodadas.append(rodada)
                 break
             
@@ -192,7 +192,7 @@ class ControladorPartida():
                 break
 
             aux_comp = self.__controlador_sistema.controlador_rodada.rodada_comp(partida)
-            rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp)
+            rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp, partida.jogador)
             
             partida.rodadas.append(rodada)
             
@@ -201,7 +201,7 @@ class ControladorPartida():
                 self.__tela_partida.fimpartida(False)
                 partida.jogador.pontuacao += 0
                 partida.vencedor = 'computador'
-                rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp)
+                rodada = self.__controlador_sistema.controlador_rodada.rodada_total(aux, aux_comp, partida.jogador)
                 partida.rodadas.append(rodada)
                 break
 
