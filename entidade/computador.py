@@ -95,4 +95,5 @@ class Computador(Player):
     ############################################################
 
     def joga2(self):
+        pass
         
