@@ -179,18 +179,20 @@ class TelaPartida():
                 self.__window.close()
                 return [10,10]
             else:
+                self.__window.close()
                 layout = [
                     [sg.Text('Tamanho x:', font=('Bookman Old Style', 11)), sg.InputText(key='x')],
                     [sg.Text('Tamanho y:', font=('Bookman Old Style', 11)), sg.InputText(key='y')],
-                    [sg.Button('Enviar', font=('Bookman Old Style', 12))]
+                    [sg.Button('Enviar', font=('Bookman Old Style', 12)), sg.Button('Retornar', font=('Bookman Old Style', 12))]
                 ]
                 self.__window = sg.Window('Tamanho oceano').Layout(layout)
                 
                 
                 while True:
                     event, values = self.__window.read()
-                    if event == sg.WIN_CLOSED :
+                    if event == sg.WIN_CLOSED or event == 'Retornar':
                         self.__window.close()
+                        return None
                         
                     elif event == 'Enviar':
                         x = int(values['x'])

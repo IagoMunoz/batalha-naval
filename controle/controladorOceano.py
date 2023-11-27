@@ -22,6 +22,11 @@ class ControladorOceano():
 
     def cria_oceano(self):
         tamanhos = self.__controlador_sistema.tela_partida.seleciona_jogo()
+        while True:
+            if tamanhos == None:
+                tamanhos = self.__controlador_sistema.tela_partida.seleciona_jogo()
+            else:
+                break
         oceanoaux = Oceano(random.randint(1, 1000000000000), tamanhos, self.cria_matriz_oceano(tamanhos))
         self.__oceanos.append(oceanoaux)
         return oceanoaux
