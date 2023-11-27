@@ -104,21 +104,23 @@ class ControladorPartida():
                 partidas.append(partida.id)
                 
             id_partida = self.__tela_partida.pega_partida(partidas)
-            partida = self.pega_partida_por_id(id_partida)
-            
-            for partidaa in self.partidas():
-                print(partidaa.id)
-                print(partida)
-                if partidaa.id == partida.id:
-                    aux = self.__tela_partida.mostra_partida_sozinha(partida.id, partida.jogador.nome, partida.data_hora, len(partida.rodadas), partida.vencedor, partida.rodadas)
-                    
-            if aux == 0:
-                rodadas = []
-                for rodada in self.__controlador_sistema.controlador_rodada.rodadas:
-                    if rodada in partida.rodadas:
-                        rodadas.append(rodada)
+            if id_partida != None:
+                
+                partida = self.pega_partida_por_id(id_partida)
+                
+                for partidaa in self.partidas():
+                    print(partidaa.id)
+                    print(partida)
+                    if partidaa.id == partida.id:
+                        aux = self.__tela_partida.mostra_partida_sozinha(partida.id, partida.jogador.nome, partida.data_hora, len(partida.rodadas), partida.vencedor, partida.rodadas)
                         
-                self.__controlador_sistema.controlador_rodada.lista_rodadas(rodadas)
+                if aux == 0:
+                    rodadas = []
+                    for rodada in self.__controlador_sistema.controlador_rodada.rodadas:
+                        if rodada in partida.rodadas:
+                            rodadas.append(rodada)
+                            
+                    self.__controlador_sistema.controlador_rodada.lista_rodadas(rodadas)
             
             
 

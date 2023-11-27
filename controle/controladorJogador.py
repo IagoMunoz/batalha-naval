@@ -1,12 +1,14 @@
 from limite.telaJogador import TelaJogador
 from entidade.jogador import Jogador
 from daos.dao_jogador import dao_jogador
+from daos.dao_partida import dao_partida
 
 
 class ControladorJogador():
     def __init__(self, controlador_sistema):
         #self.__jogadores = []
         self.__dao_jogador = dao_jogador()
+        self.__dao_partida = dao_partida()
         self.__tela_jogador = TelaJogador()
         self.__controlador_sistema = controlador_sistema
 
@@ -92,6 +94,11 @@ class ControladorJogador():
             jogador = self.pega_jogador_por_id(id_jogador)
 
             if (jogador is not None):
+                partidas = self.__controlador_sistema.controlador_partida.partidas()
+                for partida in partidas:
+                    if jogador.id == partida.jogador.id:
+                        self.__dao_partida.remove(partida.id)
+                        
                 self.__dao_jogador.remove(jogador.id)
                 self.__tela_jogador.pop_up('Jogador excluído com sucesso')
 
@@ -114,7 +121,7 @@ class ControladorJogador():
             else:
                 for partida in self.__controlador_sistema.controlador_partida.partidas():
                     if partida.jogador == jogador:
-                        partidas.append([partida.id, partida.jogador, partida.data_hora, partida.vencedor])
+                        partidas.append([partida.id, partida.data_hora, partida.vencedor])
                 self.__tela_jogador.mostra_jogador_sozinho_sem_partida(jogador.id, jogador.nome, jogador.data_nascimento, jogador.pontuacao, partidas)
 
             

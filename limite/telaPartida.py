@@ -32,12 +32,12 @@ class TelaPartida():
 
     def mostrar_ordem_posicionamento(self):
         layout = [
-            [sg.Text('Você irá posicionar seus barcos na seguinte ordem:')],
-            [sg.Text('Quatro Botes')],
-            [sg.Text('Três Submarinos')],
-            [sg.Text('Três Fragatas')],
-            [sg.Text('Um porta-aviões')],
-            [sg.Button('OK')]
+            [sg.Text('Você irá posicionar seus barcos na seguinte ordem:', font=('Bookman Old Style', 11))],
+            [sg.Text('Quatro Botes', font=('Bookman Old Style', 11))],
+            [sg.Text('Três Submarinos', font=('Bookman Old Style', 11))],
+            [sg.Text('Três Fragatas', font=('Bookman Old Style', 11))],
+            [sg.Text('Um porta-aviões', font=('Bookman Old Style', 11))],
+            [sg.Button('OK', font=('Bookman Old Style', 11))]
         ]
 
         window = sg.Window('Posicionamento de Barcos', layout)
@@ -137,18 +137,12 @@ class TelaPartida():
                 return 0
         self.__window.close()
             
-    def pega_jogador(self):
-        try:
-            id = int(input('Digite o ID do jogador da partida: '))
-            return id 
-        except ValueError:
-            print('O valor digitado não é inteiro')
     
     def pega_partida(self, partidas):
         layout = [
-            [sg.Text('Selecione uma partida:')],
+            [sg.Text('Selecione uma partida:', font=('Bookman Old Style', 12))],
             [sg.Combo(partidas, key='partida_combo')],
-            [sg.Button('Selecionar partida'), sg.Button('Cancelar')]
+            [sg.Button('Selecionar partida', font=('Bookman Old Style', 11)), sg.Button('Cancelar', font=('Bookman Old Style', 11))]
         ]
 
         self.__window = sg.Window('Seleção de partida').Layout(layout)
@@ -186,8 +180,8 @@ class TelaPartida():
                 return [10,10]
             else:
                 layout = [
-                    [sg.Text('Tamanho x:'), sg.InputText(key='x')],
-                    [sg.Text('Tamanho y:'), sg.InputText(key='y')],
+                    [sg.Text('Tamanho x:', font=('Bookman Old Style', 11)), sg.InputText(key='x')],
+                    [sg.Text('Tamanho y:', font=('Bookman Old Style', 11)), sg.InputText(key='y')],
                     [sg.Button('Enviar', font=('Bookman Old Style', 12))]
                 ]
                 self.__window = sg.Window('Tamanho oceano').Layout(layout)
@@ -203,9 +197,9 @@ class TelaPartida():
                         y = int(values['y'])
                         
                         if x > 21 or y > 48:
-                            sg.popup_error('Tamanho maior do que o possível')
+                            sg.popup_error('Tamanho maior do que o possível', font=('Bookman Old Style', 11))
                         elif x < 10 or y < 10:
-                            sg.popup_error('Tamanho menor do que o possível')
+                            sg.popup_error('Tamanho menor do que o possível', font=('Bookman Old Style', 11))
                         else:
                             self.__window.close()
                             return [x, y]
@@ -216,18 +210,6 @@ class TelaPartida():
                         self.__window.close()
                         return[x,y]
                 
-        '''opcao = self.le_num_inteiro('Selecione a opção: ', [1,2])
-        if opcao==1:
-            return [10,10]
-        if opcao==2:
-           
-        #o y é linha e o x coluna
-        #pra apresentaçao os limites sao 21 e 48
-        #pra os nossos notebooks, por uma questao de teste, sao tipo 11 e 24
-            tamanho_y=int(input("ai que nao sei o que linha: "))
-            tamanho_x=int(input("ai que nao sei o que coluna "))
-            return [tamanho_y, tamanho_x]'''
-
     def adicionar_posicao(self, barco, oceano, barcos):
         sg.theme('darkpurple1')
 
@@ -237,23 +219,23 @@ class TelaPartida():
             def create_layout(matrix, font_size, barco):
                 sg.theme('darkpurple1')
                 layout = [
-                    [sg.Text(f'Escolha a posição para o/a proximo/a {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'Escolha a posição para o/a proximo/a {barco["_BS__nome"]}', font=('Bookman Old Style', 14))],  
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, value in enumerate(row):
-                        if value != '~~':  # Verifica se o valor do botão não é '~~'
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
+                        if value != '~~':  
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Bookman Old Style', 12), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
                         else:
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Bookman Old Style', 12), pad=(1, 1))
                         row_layout.append(button)
                     layout.append(row_layout)
                 return layout
 
             def show_confirmation_dialog(row, col, barco):
                 layout = [
-                    [sg.Text(f'Deseja posicionar o/a {barco["_BS__nome"]} na linha: {row} e coluna: {col}?')],
-                    [sg.Button('Sim'), sg.Button('Cancelar')]
+                    [sg.Text(f'Deseja posicionar o/a {barco["_BS__nome"]} na linha: {row} e coluna: {col}?' , font=('Bookman Old Style', 12))],
+                    [sg.Button('Sim', font=('Bookman Old Style', 12)), sg.Button('Cancelar', font=('Bookman Old Style', 12))]
                 ]
                 window = sg.Window('Confirmação', layout, finalize=True)
                 while True:
@@ -342,43 +324,43 @@ class TelaPartida():
             def create_layout(matrix, font_size, barco, highlighted_position=None, directions_visibility=None):
                 sg.theme('darkpurple1')
                 layout = [
-                    [sg.Text(f'Escolha uma posição inicial para o/a {barco["_BS__nome"]}', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'Escolha uma posição inicial para o/a {barco["_BS__nome"]}', font=('Bookman Old Style', 14))], 
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, cell in enumerate(row):
 
                         if [i, j] == highlighted_position:
-                            button = sg.Button(str(cell), size=(2, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, font=('Helvetica', font_size), button_color=('black', 'yellow'), pad=(2, 1))
+                            button = sg.Button(str(cell), size=(2, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, font=('Bookman Old Style', 12), button_color=('black', 'yellow'), pad=(2, 1))
                         else: 
 
                         
-                            button = sg.Button(str(cell), size=(2, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, font=('Helvetica', font_size), pad=(2, 1))
+                            button = sg.Button(str(cell), size=(2, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, font=('Bookman Old Style', 12), pad=(2, 1))
                         row_layout.append(button)
                     layout.append(row_layout)
 
                 # Adicionando texto para posicionar o barco
-                layout.append([sg.Text(f'Você deseja estender o/a {barco["_BS__nome"]} em que direção?')])
+                layout.append([sg.Text(f'Você deseja estender o/a {barco["_BS__nome"]} em que direção?', font=('Bookman Old Style', 12))])
 
                 # Adicionando botões de direção de acordo com a visibilidade
                 if directions_visibility:
                     direction_buttons = []
                     if directions_visibility.get('Cima', False):
-                        direction_buttons.append(sg.Button('Cima'))
+                        direction_buttons.append(sg.Button('Cima', font=('Bookman Old Style', 10)))
                     if directions_visibility.get('Baixo', False):
-                        direction_buttons.append(sg.Button('Baixo'))
+                        direction_buttons.append(sg.Button('Baixo', font=('Bookman Old Style', 10)))
                     if directions_visibility.get('Esquerda', False):
-                        direction_buttons.append(sg.Button('Esquerda'))
+                        direction_buttons.append(sg.Button('Esquerda', font=('Bookman Old Style', 10)))
                     if directions_visibility.get('Direita', False):
-                        direction_buttons.append(sg.Button('Direita'))
+                        direction_buttons.append(sg.Button('Direita', font=('Bookman Old Style', 10)))
 
                     layout.append(direction_buttons)
                 return layout
             # Função para criar layout da janela de confirmação da direção
             def create_confirmation_layout(direction):
                 layout = [
-                    [sg.Text(f'Deseja estender na direção: {direction}?')],
-                    [sg.Button('Cancelar'), sg.Button('Confirmar')]
+                    [sg.Text(f'Deseja estender na direção: {direction}?', font=('Bookman Old Style', 12))],
+                    [sg.Button('Cancelar', font=('Bookman Old Style', 10)), sg.Button('Confirmar', font=('Bookman Old Style', 10))]
                 ]
                 return layout
 
@@ -603,7 +585,7 @@ class TelaPartida():
             self.play_sound(sound_file_path)
 
         layout = [
-            [sg.Text(mensagem)],
+            [sg.Text(mensagem, font=('Bookman Old Style', 11))],
             [sg.Button('OK')]
         ]
 
@@ -618,15 +600,15 @@ class TelaPartida():
     
     def compos(self):
         layout = [
-            [sg.Text('Os barcos do computador também foram posicionados.')],
-            [sg.Text('Lembre-se: Os oceanos de vocês são diferentes então ele pode ter ')],
-            [sg.Text('posicionado tanto nos mesmos lugares quanto em lugares diferentes do seus.')],
-            [sg.Text('Quanto a batalha:')],
-            [sg.Text('@ siginifica um lugar do oceano que foi acertado, % siginica um bar barco que foi acertado mas nao destruido.')],
-            [sg.Text('Barcos ao serem destruidos sao revelados e suas inciais aparecerão em letra minuscula.')],
-            [sg.Text('Você poderá ver seus barcos em tempo real enquanto o computador atira neles.')],
+            [sg.Text('Os barcos do computador também foram posicionados.', font=('Bookman Old Style', 11))],
+            [sg.Text('Lembre-se: Os oceanos de vocês são diferentes então ele pode ter ', font=('Bookman Old Style', 11))],
+            [sg.Text('posicionado tanto nos mesmos lugares quanto em lugares diferentes do seus.', font=('Bookman Old Style', 11))],
+            [sg.Text('Quanto a batalha:', font=('Bookman Old Style', 12))],
+            [sg.Text('@ siginifica um lugar do oceano que foi acertado, % siginica um bar barco que foi acertado mas nao destruido.', font=('Bookman Old Style', 11))],
+            [sg.Text('Barcos ao serem destruidos sao revelados e suas inciais aparecerão em letra minuscula.', font=('Bookman Old Style', 11))],
+            [sg.Text('Você poderá ver seus barcos em tempo real enquanto o computador atira neles.', font=('Bookman Old Style', 11))],
 
-            [sg.Button('Entendi')]
+            [sg.Button('Entendi', font=('Bookman Old Style', 11))]
         ]
 
       
@@ -645,9 +627,9 @@ class TelaPartida():
     
     def repos(self):
         layout = [
-            [sg.Text('Você selecionou uma posição inválida')],
-            [sg.Text('Por favor, selecione novamente')],
-            [sg.Button('OK')]
+            [sg.Text('Você selecionou uma posição inválida', font=('Bookman Old Style', 11))],
+            [sg.Text('Por favor, selecione novamente', font=('Bookman Old Style', 11))],
+            [sg.Button('OK', font=('Bookman Old Style', 11))]
         ]
 
         window = sg.Window('Mensagem de Erro', layout, finalize=True)

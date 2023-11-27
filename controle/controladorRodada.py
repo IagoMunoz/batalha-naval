@@ -34,7 +34,7 @@ class ControladorRodada():
     def lista_rodadas(self, rodadas):
         aux = []
         for rodada in rodadas:
-            aux.append([rodada.jogada_jog, rodada.jogada_comp, rodada.pontos_jog, rodada.pontos_comp])
+            aux.append([rodada.pontos_jog, rodada.pontos_comp])
         self.__tela_rodada.mostra_rodada(aux)       
 
 
@@ -140,24 +140,7 @@ class ControladorRodada():
         return acertos
         
     def rodada_total(self, acertos_jog, acertos_comp):
-        if self.__controlador_sistema.controlador_partida.aux_comp != []:
-            aux_comp = self.__controlador_sistema.controlador_partida.aux_comp[0]
-        else:
-            aux_comp = self.__controlador_sistema.controlador_partida.aux_comp
-
-        aux_jog = self.__controlador_sistema.controlador_partida.aux_jog[0]
-        if len(aux_comp)==2 and len(aux_jog)==2:
-            rodada = Rodada(self.__controlador_sistema.controlador_partida.aux_jog[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][1], self.__controlador_sistema.controlador_partida.aux_comp[0][1])
-        elif len(aux_comp)==2:
-            rodada = Rodada([self.__controlador_sistema.controlador_partida.aux_jog[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][1]], self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][2], self.__controlador_sistema.controlador_partida.aux_comp[0][1])
-        elif len(aux_jog)==2 and aux_comp==[]:
-            rodada = Rodada(self.__controlador_sistema.controlador_partida.aux_jog[0][0], [self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][1]], self.__controlador_sistema.controlador_partida.aux_jog[0][1], self.__controlador_sistema.controlador_partida.aux_comp[0][2])
-        elif len(aux_jog)==2:
-            rodada = Rodada(self.__controlador_sistema.controlador_partida.aux_jog[0][0], [self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][1]], self.__controlador_sistema.controlador_partida.aux_jog[0][1], self.__controlador_sistema.controlador_partida.aux_comp[0][2])
-        else:
-            rodada = Rodada([self.__controlador_sistema.controlador_partida.aux_jog[0][0], self.__controlador_sistema.controlador_partida.aux_jog[0][1]], [self.__controlador_sistema.controlador_partida.aux_comp[0][0], self.__controlador_sistema.controlador_partida.aux_comp[0][1]], self.__controlador_sistema.controlador_partida.aux_jog[0][2], self.__controlador_sistema.controlador_partida.aux_comp[0][2])
-        rodada.pontos_jog = acertos_jog
-        rodada.pontos_comp = acertos_comp
+        rodada = Rodada(acertos_jog, acertos_comp)
         self.__rodadas.append(rodada)
         
         return rodada

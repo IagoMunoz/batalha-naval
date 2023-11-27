@@ -16,13 +16,13 @@ class TelaRodada():
     def mostra_rodada(self, dados_rodada):
         layout = [
                 [sg.Table(values=dados_rodada,
-                        headings=["Jogada jogador", "Jogada computador", "Pontos jogador", "Pontos computador"],
+                        headings=["Pontos jogador", "Pontos computador"],
                         auto_size_columns=False,
-                        col_widths=[22, 22, 22, 22], 
+                        col_widths=[22, 22], 
                         font=('Bookman Old Style', 15),
                         justification='center',
                         key='-TABLE-')],
-                [sg.Button("Retornar", key="-RETORNAR-")]
+                [sg.Button("Retornar", key="-RETORNAR-", font=('Bookman Old Style', 11))]
             ]
         self.__window = sg.Window("Lista de rodadas", resizable=True).Layout(layout)
         
@@ -43,23 +43,23 @@ class TelaRodada():
 
             def create_layout(matrix, font_size):
                 layout = [
-                    [sg.Text(f'Selecione onde deseja atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'Selecione onde deseja atirar', font=('Bookman Old Style', 14))],  # Texto acima do layout principal
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, value in enumerate(row):
                         if value != '~~':  
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Bookman Old Style', 12), pad=(1, 1), disabled=sg.BUTTON_DISABLED_MEANS_IGNORE)
                         else:
-                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Helvetica', font_size), pad=(1, 1))
+                            button = sg.Button(str(value), size=(2, 1), key=(i, j), font=('Bookman Old Style', 12), pad=(1, 1))
                         row_layout.append(button)
                     layout.append(row_layout)
                 return layout
 
             def show_confirmation_dialog(row, col, barco):
                 layout = [
-                    [sg.Text(f'Deseja atirar na linha:{row} e coluna:{ col }')],
-                    [sg.Button('Sim'), sg.Button('Cancelar')]
+                    [sg.Text(f'Deseja atirar na linha:{row} e coluna:{ col }', font=('Bookman Old Style', 11))],
+                    [sg.Button('Sim', font=('Bookman Old Style', 11)), sg.Button('Cancelar', font=('Bookman Old Style', 11))]
                 ]
                 window = sg.Window('Confirmação', layout, finalize=True)
                 while True:
@@ -142,11 +142,11 @@ class TelaRodada():
 
         def faztela(mostra):
             if mostra == 'mar':
-                sg.popup('Você acertou o mar :(')
+                sg.popup('Você acertou o mar :(', font=('Bookman Old Style', 11))
             elif mostra == 'barco':
-                sg.popup('Você acertou um barco :) mas ainda nao destriu ele :(')
+                sg.popup('Você acertou um barco :) mas ainda nao destruiu ele :(', font=('Bookman Old Style', 11))
             else:
-                sg.popup(f'Voce acertou e destruiu um barco do tipo {mostra} :)')
+                sg.popup(f'Você acertou e destruiu um barco do tipo {mostra} :)', font=('Bookman Old Style', 11))
 
         for ycolunas in range(len(oceano)):
             for xlinha in range(len(oceano[ycolunas])):
@@ -193,10 +193,9 @@ class TelaRodada():
         def faztela(oceano, tiroyx):
 
 
-            # Função para criar a janela com a matriz de botões desabilitados
             def show_matrix(matrix):
                 layout = [
-                    [sg.Text(f'O computador está selecionando onde vai atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'O computador está selecionando onde vai atirar', font=('Bookman Old Style', 14))], 
                 ]
                 for row in matrix:
                     row_layout = []
@@ -209,20 +208,19 @@ class TelaRodada():
                 window.read(timeout=3000)  # Mantém a janela aberta por 2 segundos
                 window.close()
 
-            # Função para exibir o popup com a mensagem
             def show_popup(message):
-                sg.popup(message)
+                sg.popup(message, font=('Bookman Old Style', 11))
 
             def show_matrix2(matrix, highlight_coords):
                 layout = [
-                    [sg.Text(f'O computador irá atirar', font=('Helvetica', 14))],  # Texto acima do layout principal
+                    [sg.Text(f'O computador irá atirar', font=('Bookman Old Style', 14))], 
                 ]
                 for i, row in enumerate(matrix):
                     row_layout = []
                     for j, col in enumerate(row):
                         button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1))
-                        if [i, j] == highlight_coords:  # Destaca as coordenadas fornecidas
-                            button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1), button_color=('white', 'red'))  # Destaca a posição em vermelho
+                        if [i, j] == highlight_coords:  
+                            button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1), button_color=('white', 'red')) 
                         else:
                             button = sg.Button(col, disabled=sg.BUTTON_DISABLED_MEANS_IGNORE, size=(2, 1), pad = (1,1))
                         row_layout.append(button)
@@ -284,11 +282,11 @@ class TelaRodada():
 
         def faztela(mostra):
             if mostra == 'mar':
-                sg.popup('O Computador acertou o mar :)')
+                sg.popup('O Computador acertou o mar :)', font=('Bookman Old Style', 12))
             elif mostra == 'barco':
-                sg.popup('O Computador acertou seu barco :( mas ainda não destriu ele :)')
+                sg.popup('O Computador acertou seu barco :( mas ainda não destruiu ele :)', font=('Bookman Old Style', 12))
             else:
-                sg.popup(f'O Computador destriu seu barco do tipo {mostra} :(')
+                sg.popup(f'O Computador destruiu seu barco do tipo {mostra} :(', font=('Bookman Old Style', 12))
 
         for ycolunas in range(len(oceano)):
             for xlinha in range(len(oceano[ycolunas])):
